@@ -37,6 +37,10 @@ public class ArgumentParser {
 		validateAnnotation(annotation);
 	}
 	
+	public File getPath() {
+		return path;
+	}
+	
 	public String toString(){
 		return "path: " + path.getAbsolutePath() + " Annotation: " + annotation;
 	}

@@ -1,5 +1,7 @@
 package se.redmind.main;
 
+import se.redmind.file.FileFinder;
+
 public class Main {
 
 
@@ -10,8 +12,11 @@ public class Main {
 			System.exit(0);
 		}
 		ArgumentParser arg = new ArgumentParser(args);
+		FileFinder finder = new FileFinder(arg.getPath());
 
 		System.out.println(arg.toString());
+		finder.printList();
+
 	}
 
 }
