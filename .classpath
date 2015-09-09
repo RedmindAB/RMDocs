@@ -12,24 +12,11 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-<<<<<<< HEAD
-=======
-	<classpathentry excluding="**" kind="src" output="target/test-classes" path="src/test/resources">
-		<attributes>
-			<attribute name="maven.pomderived" value="true"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
->>>>>>> ff3b9774fdfe26448b9751fbb3a9ae75e5489df4
 	<classpathentry kind="con" path="org.eclipse.m2e.MAVEN2_CLASSPATH_CONTAINER">
 		<attributes>
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-<<<<<<< HEAD
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-=======
-	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
->>>>>>> ff3b9774fdfe26448b9751fbb3a9ae75e5489df4
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
