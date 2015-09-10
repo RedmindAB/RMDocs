@@ -4,7 +4,10 @@ import se.redmind.file.FileFinder;
 
 public class Main {
 
-
+	/**
+	 * 
+	 * @param args
+	 */
 	public static void main(String[] args) {
 
 		if(args.length < 1){
