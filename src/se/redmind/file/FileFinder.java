@@ -4,11 +4,14 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import se.redmind.unused.JavaFileReaderOz;
+
 public class FileFinder {
 
 	private File path;
 	private List<File> fileList = new ArrayList<File>();
-
+	
+ 
 	public FileFinder(File path) {
 
 		this.path = path;
