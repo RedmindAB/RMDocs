@@ -7,17 +7,17 @@ import java.util.List;
 /**
  * FileFinder --- Walks the given filepath, searches every sub-directory 
  * after .java-files and sets them in a list containing java.io Files
- * @author victor
+ * @author Victor Mattsson
  *
  */
 public class FileFinder {
 
-//	private File path;
 	private List<File> fileList = new ArrayList<File>();
+	private JavaFileReader reader = new JavaFileReader();
 
 	public FileFinder(File path) {
-//		this.path = path;
 		pathWalker(path);
+		reader.readFile(fileList);
 	}
 
 	/**
@@ -50,7 +50,26 @@ public class FileFinder {
 	public void printList(){
 		System.out.println("***.java-Files***");
 		for(File list: fileList){
-			System.out.println(list.getName());
+			System.out.println(list.getName() + " Package: " + formatFilepathToPackage(list));
 		}
+	}
+	
+	/**
+	 * Format the given file to the package structure
+	 * @param file is the file to format
+	 * @return the formated string
+	 */
+	public String formatFilepathToPackage(File file){
+		String formatedString = "";
+		String filepath = file.getPath();
+		String[] stringArray = filepath.split("\\/");
+		for(int i = 0; i < stringArray.length; i++){
+			if(stringArray[i].equals("src")){
+				for(int y = i; y < stringArray.length; y++){
+					formatedString += stringArray[y]+".";
+				}
+			}
+		}
+		return formatedString.replaceAll("."+file.getName()+".", "");
 	}
 }

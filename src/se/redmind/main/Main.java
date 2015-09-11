@@ -4,10 +4,6 @@ import se.redmind.file.FileFinder;
 
 public class Main {
 
-	/**
-	 * 
-	 * @param args
-	 */
 	public static void main(String[] args) {
 
 		if(args.length < 1){
@@ -19,7 +15,6 @@ public class Main {
 
 		System.out.println(arg.toString());
 		finder.printList();
-
 	}
 
 }
