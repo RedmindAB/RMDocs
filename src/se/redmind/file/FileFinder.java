@@ -14,12 +14,6 @@ import java.util.List;
 public class FileFinder {
 
 	private List<File> fileList = new ArrayList<File>();
-	private JavaFileReader reader = new JavaFileReader();
-	
-	public FileFinder(File path) {
-		pathWalker(path);
-		reader.readFile(fileList);
-	}
 
 	/**
 	 * Iterates a list of files based on the given path, If it's a
@@ -72,5 +66,9 @@ public class FileFinder {
 			}
 		}
 		return formatedString.replaceAll("."+file.getName()+".", "");
+	}
+
+	public List<File> getFileList() {
+		return fileList;
 	}
 }

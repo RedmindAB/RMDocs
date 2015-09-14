@@ -2,15 +2,11 @@ package se.redmind.file;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
-
-
 
 /**
  * JavaFileReader --- This class reads and writes the given files and comments to text files.
@@ -18,12 +14,10 @@ import java.util.List;
  *
  */
 
-
 public class JavaFileReader {
 
 	private List<File> annotatedFiles = new ArrayList<>();
-	private BufferedReader br = null;
-	
+
 	public void printList(){
 		System.out.println("***List of java files containing @rm***");
 		for(File f: annotatedFiles){
@@ -33,47 +27,54 @@ public class JavaFileReader {
 	}
 
 	/**
-	 * This method creates a textfile based on the given filename
-	 * and searches for the annotations in the java file and writes them to a textfile 
+	 * This method creates a text file based on the given filename
 	 * @param file The java file to be read. 
 	 */
 	private void printAndWrite(File file){
 
 		System.out.println("\n**Class**\n" + file.getName().replace(".java", ""));
-		try {
-			PrintWriter writer = new PrintWriter("./Resources/lib/"+file.getName().replace(".java", "") + ".txt", "UTF-8");
-
-			try {
-				String currLine;
-				br = new BufferedReader(new FileReader(file));
-
-				while((currLine = br.readLine()) != null){
-					if(currLine.contains("@rm")){
-						System.out.println(currLine.replaceAll("[\\*\\/]", "").trim());
-						writer.println(currLine.replaceAll("[\\*\\/]", "").trim());
-					}
-					if(currLine.contains("@Test")){
-						String newLine = br.readLine();
-						System.out.println(newLine.replaceAll("[\\{]", "").trim() + "\n");
-						writer.println(newLine.replaceAll("[\\{]", "").trim() + "\n");
-					}
-				}
-			} catch (IOException e) {
-				e.printStackTrace();
-			}finally{
-				try{
-					if(br != null)br.close();
-				}catch(IOException e){
-					e.printStackTrace();
-				}
+		String currLine;
+		
+		try (BufferedReader br = new BufferedReader(new FileReader(file));
+			PrintWriter writer = new PrintWriter("./Resources/lib/"+file.getName().replace(".java", "") + ".txt", "UTF-8");){
+			
+			while((currLine = br.readLine()) != null){
+				writeLine(br, writer, currLine);
 			}
-			writer.close();
-		} catch (FileNotFoundException | UnsupportedEncodingException e1) {
+		} catch (IOException e1){
 			e1.printStackTrace();
 		}
-		
-
 	}
+
+	/**
+	 * searches for the annotations in the java file and writes them to a text file 
+	 * @param writer
+	 * @param currLine
+	 * @throws IOException
+	 */
+	private void writeLine(BufferedReader br, PrintWriter writer, String currLine) throws IOException {
+		if(currLine.contains("@rm")){
+			System.out.println(formatLine(currLine));
+			writer.println(formatLine(currLine));
+		}			
+		else if(currLine.contains("@Test")){ 
+			String newLine = br.readLine();
+			System.out.println(formatLine(newLine) + "\n");
+			writer.println(formatLine(newLine) + "\n");
+		}
+	}
+
+	/**
+	 * Formats the line
+	 * @param line
+	 * @return the formated line
+	 */
+	private String formatLine(String line){
+		String formatedString = "";
+		formatedString = line.replaceAll("[\\*\\/\\{]", "").trim();
+		return formatedString;
+	}
+
 	/**
 	 * This method searches for the annotation @rm in the file
 	 * and adds it to a list.
@@ -81,30 +82,21 @@ public class JavaFileReader {
 	 */
 	public void readFile(List<File> fileList){
 
-		for(File f: fileList){
+		for(File file: fileList){
 
-			try {
+			try (BufferedReader br = new BufferedReader(new FileReader(file))){
 				String currLine;
-				br = new BufferedReader(new FileReader(f));
-
+				
 				while((currLine = br.readLine()) != null){
 					if(currLine.contains("@rm")){
-						annotatedFiles.add(f);
-						printAndWrite(f);
+						annotatedFiles.add(file);
+						printAndWrite(file);
 						break;
 					}
 				}
 
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
 			} catch (IOException e) {
 				e.printStackTrace();
-			}finally{
-				try{
-					if(br != null)br.close();
-				}catch(IOException e){
-					e.printStackTrace();
-				}
 			}
 		}
 		printList();

@@ -5,7 +5,7 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
-import se.redmind.main.ArgumentParser;
+import se.redmind.file.ArgumentParser;
 import se.redmind.main.Main;
 
 public class ArgumentParserTest {

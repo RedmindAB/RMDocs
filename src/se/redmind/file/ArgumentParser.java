@@ -1,4 +1,4 @@
-package se.redmind.main;
+package se.redmind.file;
 
 import java.io.File;
 
@@ -12,6 +12,7 @@ public class ArgumentParser {
 
 	private File path;
 	private String annotation;
+	private String[] arguments;
 	private final String FORMAT = " [-p path -a @annotation]";
 	private String err = "Invalid format." + FORMAT;
 	
@@ -22,28 +23,36 @@ public class ArgumentParser {
 	 * @param args A String array containing the command line arguments
 	 */
 	public ArgumentParser(String[] args){
-		for(int i = 0; i < args.length; i++){
-			switch(args[i]){
-			case "-p": 
-				if(args.length > i+1){
-					path = new File(args[i+1]);
-				}else{
-					System.err.println(err);
-					System.exit(1);
-				}
-				break;
-			case "-a": 
-				if(args.length > i+1){
-					annotation = args[i+1];
-				}else{
-					System.err.println(err);
-					System.exit(1);
-				}
-				break;
-			}
+		this.arguments = args;
+	}
+	
+	public void parse(){
+		for(int i = 0; i < arguments.length; i++){
+			argumentSeparator(i);
 		}
 		validatePath(path);
 		validateAnnotation(annotation);
+	}
+
+	private void argumentSeparator(int i) {
+		switch(arguments[i]){
+		case "-p": 
+			if(arguments.length > i+1){
+				path = new File(arguments[i+1]);
+			}else{
+				System.err.println(err);
+				System.exit(1);
+			}
+			break;
+		case "-a": 
+			if(arguments.length > i+1){
+				annotation = arguments[i+1];
+			}else{
+				System.err.println(err);
+				System.exit(1);
+			}
+			break;
+		}
 	}
 	
 	public File getPath() {
