@@ -23,10 +23,14 @@ public class FileFinder {
 	 */
 	public void pathWalker(File file){
 		for(File f: file.listFiles()){
-			if(f.isDirectory()){
-				pathWalker(f);
-			}else if(f.isFile()){
-				addToList(f);
+			try{
+				if(f.isDirectory()){
+					pathWalker(f);
+				}else if(f.isFile()){
+					addToList(f);
+				}
+			}catch(NullPointerException e){
+				throw new NullPointerException("Invalid path: " + f.getAbsolutePath());
 			}
 		}
 	}
@@ -48,7 +52,7 @@ public class FileFinder {
 			System.out.println(list.getName() + " Package: " + formatFilepathToPackage(list));
 		}
 	}
-	
+
 	/**
 	 * Format the given file to the package structure
 	 * @param file is the file to format
