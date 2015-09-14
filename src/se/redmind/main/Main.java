@@ -22,7 +22,6 @@ public class Main {
 		reader.readFile(finder.getFileList());
 
 		
-		
 		System.out.println(arg.toString());
 		finder.printList();
 	}
