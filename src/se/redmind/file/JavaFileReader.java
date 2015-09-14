@@ -5,8 +5,19 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
+
+
+
+/**
+ * JavaFileReader --- This class reads and writes the given files and comments to text files.
+ * @author Victor Mattsson , Özgür Eken
+ *
+ */
+
 
 public class JavaFileReader {
 
@@ -20,37 +31,57 @@ public class JavaFileReader {
 		}
 		System.out.println();
 	}
-	
-	private void printAnnotations(File file){
-		
-		System.out.println("\n**Class**\n" + file.getName());
-		try {
-			String currLine;
-			br = new BufferedReader(new FileReader(file));
 
-			while((currLine = br.readLine()) != null){
-				if(currLine.contains("@rm")){
-					System.out.println(currLine.replaceAll("\\*", "").trim());
+	/**
+	 * This method creates a textfile based on the given filename
+	 * and searches for the annotations in the java file and writes them to a textfile 
+	 * @param file The java file to be read. 
+	 */
+	private void printAndWrite(File file){
+
+		System.out.println("\n**Class**\n" + file.getName().replace(".java", ""));
+		try {
+			PrintWriter writer = new PrintWriter("./Resources/lib/"+file.getName().replace(".java", "") + ".txt", "UTF-8");
+
+			try {
+				String currLine;
+				br = new BufferedReader(new FileReader(file));
+
+				while((currLine = br.readLine()) != null){
+					if(currLine.contains("@rm")){
+						System.out.println(currLine.replaceAll("[\\*\\/]", "").trim());
+						writer.println(currLine.replaceAll("[\\*\\/]", "").trim());
+					}
+					if(currLine.contains("@Test")){
+						String newLine = br.readLine();
+						System.out.println(newLine.replaceAll("[\\{]", "").trim() + "\n");
+						writer.println(newLine.replaceAll("[\\{]", "").trim() + "\n");
+					}
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}finally{
+				try{
+					if(br != null)br.close();
+				}catch(IOException e){
+					e.printStackTrace();
 				}
 			}
-
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}finally{
-			try{
-				if(br != null)br.close();
-			}catch(IOException e){
-				e.printStackTrace();
-			}
+			writer.close();
+		} catch (FileNotFoundException | UnsupportedEncodingException e1) {
+			e1.printStackTrace();
 		}
 		
+
 	}
+	/**
+	 * This method searches for the annotation @rm in the file
+	 * and adds it to a list.
+	 * @param fileList List of files to be read.
+	 */
+	public void readFile(List<File> fileList){
 
-	public void readFile(List<File> file){
-
-		for(File f: file){
+		for(File f: fileList){
 
 			try {
 				String currLine;
@@ -59,7 +90,7 @@ public class JavaFileReader {
 				while((currLine = br.readLine()) != null){
 					if(currLine.contains("@rm")){
 						annotatedFiles.add(f);
-						printAnnotations(f);
+						printAndWrite(f);
 						break;
 					}
 				}

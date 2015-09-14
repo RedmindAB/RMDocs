@@ -1,0 +1,45 @@
+@rmAuthor Yokomito Park-Sun
+@rmDate 2015-09-09
+@rmSummary Skapa ett nytt text document
+@rmDescription Skapa ett nytt text document
+@rmPriority High
+@rmStep [step] lägg till ett text document
+@rmStep [step] skapa en instans av klassen MockClass3.java
+public void newTextDocument()
+
+@rmAuthor Zvedanja Mehic
+@rmDate 2015-09-01
+@rmSummary skapa en metod
+@rmDescription Skapa en klass som innehåller 2 metoder
+@rmPriority Medium
+@rmStep [step] skapa en klass
+@rmStep [step] skapa 2 metoder
+public void newClass()
+
+@rmAuthor Peter Sjögren
+@rmDate 2015-09-01
+@rmSummary skapa ett gränssnitt
+@rmDescription Skapa ett gränsnitt i Swing
+@rmPriority Medium
+@rmStep [step] lägg till JPanel
+@rmStep [step] lägg till frame.add
+public void createNewFrame()
+
+@rmAuthor Ricardo Florenze
+@rmDate 2015-09-01
+@rmSummary skapa en databas
+@rmDescription Skapa en databas i MySQL
+@rmPriority Low
+@rmStep [step] lägg till 4 olika tabeller
+@rmStep [step] koppla databasen till klassen
+public void createDatabase()
+
+@rmAuthor Niklas Ekdal
+@rmDate 2015-09-01
+@rmSummary skapa en HTML sida
+@rmDescription Skapa en HTML sida som har tillgång till databasen
+@rmPriority Medium
+@rmStep [step] lägg till Huvudrubrik
+@rmStep [step] lägg till radiobuttons
+public void createHTML()
+

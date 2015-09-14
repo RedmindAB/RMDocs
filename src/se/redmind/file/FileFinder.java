@@ -15,6 +15,7 @@ public class FileFinder {
 
 	private List<File> fileList = new ArrayList<File>();
 	private JavaFileReader reader = new JavaFileReader();
+	
 	public FileFinder(File path) {
 		pathWalker(path);
 		reader.readFile(fileList);
