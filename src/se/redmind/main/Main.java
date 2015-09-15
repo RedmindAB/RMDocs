@@ -25,7 +25,7 @@ public class Main {
 		reader.readFile(finder.getFileList());
 		
 		for(int i = 0; i < reader.getAnnotatedFiles().size(); i++){
-			writer = new RMFileWriter(RMFileWriter.TEXT);
+			writer = new RMFileWriter(arg.getOutputFormat());
 			writer.printAndWrite(reader.getAnnotatedFiles().get(i));
 		}
 		

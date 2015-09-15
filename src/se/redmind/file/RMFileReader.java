@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,10 +31,10 @@ public class RMFileReader {
 
 			try (BufferedReader br = new BufferedReader(new FileReader(file))){
 				String currLine;
-				
+
 				while((currLine = br.readLine()) != null){
 					if(currLine.contains("@rm")){
-						annotatedFiles.add(file);
+						separateAnnotatedFiles(file, currLine);
 						break;
 					}
 				}
@@ -46,7 +45,27 @@ public class RMFileReader {
 		}
 		printList();
 	}
-	
+
+	/**
+	 * Method that separates the annotated files to a new list and at
+	 * the same time checks if the filename already exists in the list
+	 * @param file
+	 * @param currLine
+	 */
+	private void separateAnnotatedFiles(File file, String currLine) {
+
+		if(annotatedFiles.isEmpty()){
+			annotatedFiles.add(file);
+			return;
+		}
+		for(File annFile: annotatedFiles){
+			if(annFile.getName().equals(file.getName())){
+			}else{
+				annotatedFiles.add(file);
+			}
+		}
+	}
+
 	public void printList(){
 		System.out.println("***List of java files containing @rm***");
 		for(File f: annotatedFiles){

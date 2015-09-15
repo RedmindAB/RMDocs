@@ -14,6 +14,7 @@ public class ArgumentParser {
 	private String annotation;
 	private String fileFormat;
 	private String[] arguments;
+	private String outputFormat;
 	private final String FORMAT = " [-p path -a @annotation -f file-format]";
 	private String err = "Invalid format." + FORMAT;
 	
@@ -31,6 +32,7 @@ public class ArgumentParser {
 		validatePath(path);
 		validateAnnotation(annotation);
 		validateReadFormat(fileFormat);
+		validateOutputFormat(outputFormat);
 	}
 
 	/**
@@ -60,6 +62,14 @@ public class ArgumentParser {
 		case "-f": 
 			if(arguments.length > i+1){
 				fileFormat = arguments[i+1];
+			}else{
+				System.err.println(err);
+				System.exit(1);
+			}
+			break;
+		case "-o": 
+			if(arguments.length > i+1){
+				outputFormat = arguments[i+1];
 			}else{
 				System.err.println(err);
 				System.exit(1);
@@ -113,8 +123,19 @@ public class ArgumentParser {
 	 */
 	private void validateReadFormat(String format){
 		if(format == null){
-			System.err.println("Invalid format: " + format);
+			System.err.println("Invalid read format: " + format);
 			System.exit(1);
 		}
 	}
+	private void validateOutputFormat(String outputFormat) {
+		if(outputFormat == null){
+			System.err.println("Invalid output format: " + outputFormat);
+			System.exit(1);
+		}
+	}
+
+	public String getOutputFormat() {
+		return outputFormat;
+	}
 }
+

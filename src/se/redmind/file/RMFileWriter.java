@@ -14,14 +14,15 @@ import java.io.PrintWriter;
 public class RMFileWriter {
 
 	private String format;
-	public static final String TEXT = "text";
-	public static final String HTML = "html";
-	public static final String JSON = "json";
+	
+//	public static final String TEXT = "text";
+//	public static final String HTML = "html";
+//	public static final String JSON = "json";
 
 	public RMFileWriter(String format){
 		this.format = format;
 	}
-
+	
 	/**
 	 * This method chooses method to write base on what format is given
 	 * @param file The java file to be written. 
@@ -29,28 +30,26 @@ public class RMFileWriter {
 	public void printAndWrite(File file){
 
 		switch(format){
-		case "text": 
+		case ".txt": 
 			writeToText(file);
 			break;
-		case "html": 
+		case ".html": 
 			writeToHTML();
 			break;
-		case "json": 
+		case ".json": 
 			writeToJson();
 			break;
+			default:
+				System.err.println("Invalid output format: " + format);
+				System.exit(1);
 		}
 	}
-
 	private void writeToJson() {
-		// TODO Auto-generated method stub
 
 	}
-
 	private void writeToHTML() {
-		// TODO Auto-generated method stub
 
 	}
-
 	private void writeToText(File file) {
 
 		System.out.println("\n**Class**\n" + file.getName().replace(".java", ""));
@@ -65,7 +64,6 @@ public class RMFileWriter {
 		} catch (IOException e1){
 			e1.printStackTrace();
 		}
-
 	}
 
 	/**
@@ -85,7 +83,6 @@ public class RMFileWriter {
 			writer.println(formatLine(newLine) + "\n");
 		}
 	}
-
 	/**
 	 * Formats the line by replacing special signs and trims white space.
 	 * @param line
