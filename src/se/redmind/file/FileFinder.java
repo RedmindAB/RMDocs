@@ -30,7 +30,8 @@ public class FileFinder {
 					addToList(f);
 				}
 			}catch(NullPointerException e){
-				throw new NullPointerException("Invalid path: " + f.getAbsolutePath());
+				System.err.println("Bad path. Please choose absolute path to project.");
+				System.exit(1);
 			}
 		}
 	}
