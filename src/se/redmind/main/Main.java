@@ -15,11 +15,12 @@ public class Main {
 		}
 		
 		ArgumentParser arg = new ArgumentParser(args);
-		FileFinder finder = new FileFinder();
+		arg.parse();
+		FileFinder finder = new FileFinder(arg.getFileFormat());
 		RMFileReader reader = new RMFileReader();
 		RMFileWriter writer;
 		
-		arg.parse();
+		
 		finder.pathWalker(arg.getPath());
 		reader.readFile(finder.getFileList());
 		

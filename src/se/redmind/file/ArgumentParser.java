@@ -12,14 +12,12 @@ public class ArgumentParser {
 
 	private File path;
 	private String annotation;
+	private String fileFormat;
 	private String[] arguments;
-	private final String FORMAT = " [-p path -a @annotation]";
+	private final String FORMAT = " [-p path -a @annotation -f file-format]";
 	private String err = "Invalid format." + FORMAT;
 	
 	/**
-	 * Checks the in-arguments and search for flags and sets the local variables
-	 * depending on the flag. If the flag combined with the argument is invalid
-	 * an error message is printed and program shuts down
 	 * @param args A String array containing the command line arguments
 	 */
 	public ArgumentParser(String[] args){
@@ -32,8 +30,15 @@ public class ArgumentParser {
 		}
 		validatePath(path);
 		validateAnnotation(annotation);
+		validateReadFormat(fileFormat);
 	}
 
+	/**
+	 * Checks the in-arguments and search for flags and sets the local variables
+	 * depending on the flag. If the flag combined with the argument is invalid
+	 * an error message is printed and program shuts down
+	 * @param i
+	 */
 	private void argumentSeparator(int i) {
 		switch(arguments[i]){
 		case "-p": 
@@ -52,11 +57,23 @@ public class ArgumentParser {
 				System.exit(1);
 			}
 			break;
+		case "-f": 
+			if(arguments.length > i+1){
+				fileFormat = arguments[i+1];
+			}else{
+				System.err.println(err);
+				System.exit(1);
+			}
+			break;
 		}
 	}
 	
 	public File getPath() {
 		return path;
+	}
+	
+	public String getFileFormat() {
+		return this.fileFormat;
 	}
 	
 	public String toString(){
@@ -80,8 +97,23 @@ public class ArgumentParser {
 	 */
 	private void validateAnnotation(String annotation2) {
 		// TODO - validate annotations other than @rm 
+		if(annotation2 == null){ 
+			System.err.println("Invalid annotation: " + annotation2 + ". Add [-a annotation] as argument");
+			System.exit(1);
+		}
 		if(!annotation2.equals("@rm")){
 			System.err.println("Invalid annotation: " + annotation2);
+			System.exit(1);
+		}
+	}
+	
+	/**
+	 * validates the format to be read
+	 * @param format
+	 */
+	private void validateReadFormat(String format){
+		if(format == null){
+			System.err.println("Invalid format: " + format);
 			System.exit(1);
 		}
 	}

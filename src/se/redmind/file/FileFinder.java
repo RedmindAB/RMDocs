@@ -14,6 +14,15 @@ import java.util.List;
 public class FileFinder {
 
 	private List<File> fileList = new ArrayList<File>();
+	private String fileFormat;
+
+	public String getFileFormat() {
+		return fileFormat;
+	}
+
+	public FileFinder(String fileFormat) {
+		this.fileFormat = fileFormat;
+	}
 
 	/**
 	 * Iterates a list of files based on the given path, If it's a
@@ -37,11 +46,11 @@ public class FileFinder {
 	}
 
 	/**
-	 * If the files has the extension .java add it to the list
+	 * If the files has the extension specified by the fileFormat, add it to the list
 	 * @param file the given file to add
 	 */
 	public void addToList(File file) {
-		int i = file.getName().lastIndexOf(".java");
+		int i = file.getName().lastIndexOf(fileFormat);
 		if(i > 0){
 			fileList.add(file);
 		}
