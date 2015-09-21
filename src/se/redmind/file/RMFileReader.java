@@ -25,7 +25,7 @@ public class RMFileReader {
 	 * and adds it to a list.
 	 * @param fileList List of files to be read.
 	 */
-	public void readFile(List<File> fileList){
+	public List<File> readFile(List<File> fileList){
 
 		for(File file: fileList){
 
@@ -43,7 +43,7 @@ public class RMFileReader {
 				e.printStackTrace();
 			}
 		}
-		printList();
+		return getAnnotatedFiles();
 	}
 
 	/**
@@ -60,8 +60,10 @@ public class RMFileReader {
 		}
 		for(File annFile: annotatedFiles){
 			if(annFile.getName().equals(file.getName())){
+				continue;
 			}else{
 				annotatedFiles.add(file);
+				break;
 			}
 		}
 	}
