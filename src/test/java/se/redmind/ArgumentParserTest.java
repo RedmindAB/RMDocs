@@ -14,8 +14,9 @@ public class ArgumentParserTest {
 	
 	@Before
 	public void before(){
-		String[] args = {"-p", "/home/victor", "-a", "@rm"};
+		String[] args = {"-p", "/home/victor/redmind-workspace", "-a", "@rm", "-f", ".java", "-o", ".txt"};
 		arg = new ArgumentParser(args);
+		arg.parse();
 	}
 	
 
@@ -23,7 +24,8 @@ public class ArgumentParserTest {
 	@Test
 	public void testTheReturnedStringOfToStringMethod() {
 	
-		assertEquals("path: /home/victor Annotation: @rm", arg.toString());
+		assertEquals("path: /home/victor/redmind-workspace Annotation: @rm Format to read: "
+				+ ".java Format to write: .txt", arg.toString());
 	}
 	
 

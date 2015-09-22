@@ -87,7 +87,8 @@ public class ArgumentParser {
 	}
 	
 	public String toString(){
-		return "path: " + path.getAbsolutePath() + " Annotation: " + annotation;
+		return "path: " + path.getAbsolutePath() + " Annotation: " + annotation 
+				+ " Format to read: " + fileFormat + " Format to write: " + outputFormat;
 	}
 	
 	/**

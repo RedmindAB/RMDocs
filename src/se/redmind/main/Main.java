@@ -53,26 +53,25 @@ public class Main {
 		/*
 		 * Temporary print outs to see that we get what we want
 		 */
-		System.out.println(proj.getProjectName());
-		for (ClassObject co : proj.getClassList()) {
-			System.out.println(co.getPackName());
-			System.out.println();
-			System.out.println(co.getName());
-			System.out.println();
-			for (Method m : co.getMethodList()) {
-				System.out.println(m.getMethodName());
-				for (String s : m.getRmList()) {
-					System.out.println(s);
-				}
-				System.out.println();
-			}
-		}
+//		System.out.println(proj.getProjectName());
+//		for (ClassObject co : proj.getClassList()) {
+//			System.out.println(co.getPackName());
+//			System.out.println();
+//			System.out.println(co.getName());
+//			System.out.println();
+//			for (Method m : co.getMethodList()) {
+//				System.out.println(m.getMethodName());
+//				for (String s : m.getRmList()) {
+//					System.out.println(s);
+//				}
+//				System.out.println();
+//			}
+//		}
 
 
 		/*
 		 * Section to write the POJOs to specified format
 		 */
-
 		writer = new RMFileWriter(arg.getOutputFormat());
 		writer.printAndWrite(proj);
 

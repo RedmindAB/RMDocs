@@ -5,7 +5,10 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -17,6 +20,7 @@ import java.util.regex.Pattern;
 public class StructureFormater {
 
 	List<ClassObject> coList = new ArrayList<>();
+	List<String> duplicateList;
 
 	/**
 	 * Reads given file and turns it into a StringBuilder
@@ -50,9 +54,6 @@ public class StructureFormater {
 		return strArray;
 	}
 
-	/*
-	 * Metod/klass som tar arrayen med strings och skapar objekt(?), som i JsonWriter 
-	 */
 	/**
 	 * Iterates an array of strings and creates POJOs of the
 	 * project, class and annotations
@@ -99,6 +100,8 @@ public class StructureFormater {
 			if(strArr[i].contains("@Test")){
 				m.setMethodName(formatLine(strArr[i+1]));
 				m.setRmList(rmList);
+				checkForDuplicates(rmList);
+				m.setDuplicateList(duplicateList);
 				y = i;
 				break;
 			}else{
@@ -108,8 +111,44 @@ public class StructureFormater {
 				}
 			}
 		}
+
 		methodList.add(m);
 		return y;
+	}
+
+	private void checkForDuplicates(List<String> rmList) {
+		
+		String duplicateString  = "";
+		List<String> newList = new ArrayList<>();
+		duplicateList = new ArrayList<>();
+		
+		for (String str : rmList) {
+			newList.add(str.substring(0, str.indexOf(":")));
+		}
+		
+		final Set<String> set1 = new HashSet<String>();
+ 
+		for (String str : newList) {
+			if (!set1.add(str)) {
+				duplicateString = str;
+			}
+		}
+		
+		for (String str : rmList) {
+			if(str.startsWith(duplicateString)){
+				duplicateList.add(str);
+			}
+		}
+		
+		for (String string : duplicateList) {
+			for (Iterator<String> iterator = rmList.iterator(); iterator.hasNext();) {
+			    String str = iterator.next();
+			    if (string.equals(str)) {
+			        iterator.remove();
+			    }
+			}
+		}
+
 	}
 
 	/**

@@ -6,6 +6,7 @@ public class Method {
 
 	private String methodName;
 	private List<String> rmList;
+	private List<String> duplicateList;
 
 	public List<String> getRmList() {
 		return rmList;
@@ -23,5 +24,12 @@ public class Method {
 		this.methodName = methodName;
 	}
 
+	public void setDuplicateList(List<String> duplicateList) {
+		this.duplicateList = duplicateList;
+	}
+
+	public List<String> getDuplicateList() {
+		return duplicateList;
+	}
 	
 }

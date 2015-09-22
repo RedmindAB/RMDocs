@@ -5,6 +5,8 @@ import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 
+import com.google.gson.Gson;
+
 import se.redmind.json.JsonWriter;
 import se.redmind.structure.ClassObject;
 import se.redmind.structure.Method;
@@ -42,21 +44,28 @@ public class RMFileWriter {
 			writeToHTML();
 			break;
 		case ".json": 
-			//			writeToJson(file);
+			writeToJson(proj);
 			break;
 		default:
 			System.err.println("Invalid output format: " + format);
 			System.exit(1);
 		}
 	}
-	private void writeToJson(File file) {
-		new JsonWriter(file);
+	private void writeToJson(Project proj) {
+		JsonWriter json = new JsonWriter(proj);
+		String js = json.convertToJson();
+		
+		try (PrintWriter writer = new PrintWriter("./Resources/lib/"+proj.getProjectName() + ".json", "UTF-8");){
+			writer.write(js);
+		} catch (FileNotFoundException | UnsupportedEncodingException e) {
+			
+		}
 	}
 
 	private void writeToHTML() {
 
 	}
-	
+
 	/**
 	 * Uses the generated project structure and prints it to a textfile in 
 	 * a nesting for loop to retrieve all the data
@@ -76,21 +85,24 @@ public class RMFileWriter {
 					for (String s : m.getRmList()) {
 						writer.println(s);
 					}
+					for(String dup: m.getDuplicateList()){
+						writer.println(dup);
+					}
 					writer.println();
 				}
 			}
 		} catch (FileNotFoundException | UnsupportedEncodingException e) {
 		}
 	}
-	
+
 	/**
 	 * Formats the line by replacing special signs and trims white space.
 	 * @param line
 	 * @return the formated line
 	 */
-//	private String formatLine(String line){
-//		String formatedString = "";
-//		formatedString = line.replaceAll("[\\*\\/\\{]", "").trim();
-//		return formatedString;
-//	}
+	//	private String formatLine(String line){
+	//		String formatedString = "";
+	//		formatedString = line.replaceAll("[\\*\\/\\{]", "").trim();
+	//		return formatedString;
+	//	}
 }
