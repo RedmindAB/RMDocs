@@ -1,10 +1,8 @@
 package se.redmind.file;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
-import com.google.gson.Gson;
 import java.util.Date;
 import se.redmind.json.JsonWriter;
 import se.redmind.structure.ClassObject;
@@ -54,7 +52,7 @@ public class RMFileWriter {
 		JsonWriter json = new JsonWriter(proj);
 		String js = json.convertToJson();
 		
-		try (PrintWriter writer = new PrintWriter("./Resources/lib/"+proj.getProjectName() + ".json", "UTF-8");){
+		try (PrintWriter writer = new PrintWriter("./Resources/lib/json/"+appendDateToFile(proj) + ".json", "UTF-8");){
 			writer.write(js);
 		} catch (FileNotFoundException | UnsupportedEncodingException e) {
 			
