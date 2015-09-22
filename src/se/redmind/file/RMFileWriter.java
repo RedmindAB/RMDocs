@@ -3,6 +3,7 @@ package se.redmind.file;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import se.redmind.json.JsonWriter;
 import se.redmind.structure.ClassObject;
@@ -51,11 +52,11 @@ public class RMFileWriter {
 	private void writeToJson(Project proj) {
 		JsonWriter json = new JsonWriter(proj);
 		String js = json.convertToJson();
-		
+
 		try (PrintWriter writer = new PrintWriter("./Resources/lib/json/"+appendDateToFile(proj) + ".json", "UTF-8");){
 			writer.write(js);
 		} catch (FileNotFoundException | UnsupportedEncodingException e) {
-			
+
 		}
 	}
 
@@ -71,8 +72,8 @@ public class RMFileWriter {
 	private void writeToText(Project proj) {
 
 		try (PrintWriter writer = new PrintWriter("./Resources/lib/txt/"+ appendDateToFile(proj)+".txt", "UTF-8");){
-	   
-       
+
+
 			for (ClassObject co : proj.getClassList()) {
 				writer.println(co.getPackName());
 				writer.println();
@@ -93,20 +94,24 @@ public class RMFileWriter {
 		} catch (FileNotFoundException | UnsupportedEncodingException e) {
 		}
 	}
-	
+
 	public String appendDateToFile(Project proj){
-		String fileName = (new Date().toString().replace("CEST","")+" "+proj.getProjectName());
-		
+
+		SimpleDateFormat sd = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
+		String date = sd.format(new Date());
+
+		String fileName = proj.getProjectName() +"-"+ date;
+
 		return fileName;		
 	}
 }
-	/**
-	 * Formats the line by replacing special signs and trims white space.
-	 * @param line
-	 * @return the formated line
-	 */
-	//	private String formatLine(String line){
-	//		String formatedString = "";
-	//		formatedString = line.replaceAll("[\\*\\/\\{]", "").trim();
-	//		return formatedString;
-	//	}
+/**
+ * Formats the line by replacing special signs and trims white space.
+ * @param line
+ * @return the formated line
+ */
+//	private String formatLine(String line){
+//		String formatedString = "";
+//		formatedString = line.replaceAll("[\\*\\/\\{]", "").trim();
+//		return formatedString;
+//	}
