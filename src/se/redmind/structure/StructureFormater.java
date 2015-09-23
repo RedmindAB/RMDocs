@@ -193,13 +193,17 @@ public class StructureFormater {
 	public String getProjectName(File file) {
 		//TODO it currently checks for "src", may be needed to change it if for example it's a C# project
 		String formatedString = "";
-		String filepath = file.getPath();
-		String[] stringArray = filepath.split("\\/"); // BUG! = Create a standard for all platforms.
-		for(int i = 0; i < stringArray.length; i++){
-			if(stringArray[i].equals("src")){
-				formatedString = stringArray[i-1];
+		int nameCnt = file.toPath().getNameCount();
+		int srcIndex = 0;
+		
+		for(int i = 0; i < nameCnt; i++){
+			if(file.toPath().getName(i).toString().equals("src")){
+				srcIndex = i;
 			}
 		}
+		
+		formatedString = file.toPath().getName(srcIndex-1).toString();
+		
 		return formatedString;
 	}
 

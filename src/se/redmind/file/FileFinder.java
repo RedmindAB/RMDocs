@@ -83,6 +83,10 @@ public class FileFinder {
 	}
 
 	public List<File> getFileList() {
+		if(fileList.isEmpty()){
+			System.err.println("No " + fileFormat + " files in project.");
+			System.exit(1);
+		}
 		return fileList;
 	}
 }
