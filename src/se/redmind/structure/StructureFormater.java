@@ -194,7 +194,7 @@ public class StructureFormater {
 		//TODO it currently checks for "src", may be needed to change it if for example it's a C# project
 		String formatedString = "";
 		String filepath = file.getPath();
-		String[] stringArray = filepath.split("\\/");
+		String[] stringArray = filepath.split("\\/"); // BUG! = Create a standard for all platforms.
 		for(int i = 0; i < stringArray.length; i++){
 			if(stringArray[i].equals("src")){
 				formatedString = stringArray[i-1];

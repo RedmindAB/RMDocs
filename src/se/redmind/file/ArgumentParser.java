@@ -101,7 +101,7 @@ public class ArgumentParser {
 			System.exit(1);
 		}
 		if(!path.isDirectory()){
-			System.err.println("Path does not exist: " + path.getAbsolutePath());
+			System.err.println("Path does not exist: " + path);
 			System.exit(1);
 		}
 	}
