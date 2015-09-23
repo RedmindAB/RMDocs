@@ -7,20 +7,21 @@ import se.redmind.file.ArgumentParser;
 import se.redmind.file.FileFinder;
 import se.redmind.file.RMFileReader;
 import se.redmind.file.RMFileWriter;
-import se.redmind.structure.ClassObject;
-import se.redmind.structure.Method;
+import se.redmind.file.ReadConfigProperties;
 import se.redmind.structure.Project;
 import se.redmind.structure.StructureFormater;
 
 public class Main {
 
-	public static void main(String[] args) {
+	public static void main(String[] args){
 
 		if(args.length < 1){
 			System.err.println("Arguments needed: [-p, -a, -f, -o]");
 			System.exit(0);
 		}
 
+		ReadConfigProperties rc = new ReadConfigProperties();
+		rc.getPropValues();
 		List<File> fileList;
 		ArgumentParser arg = new ArgumentParser(args);
 		arg.parse();
@@ -72,9 +73,9 @@ public class Main {
 		/*
 		 * Section to write the POJOs to specified format
 		 */
-		writer = new RMFileWriter(arg.getOutputFormat());
+		writer = new RMFileWriter(arg.getOutputFormat(), rc.getPath());
 		writer.printAndWrite(proj);
-
+		
 	}
 
 }

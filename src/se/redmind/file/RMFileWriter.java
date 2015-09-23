@@ -19,13 +19,15 @@ import se.redmind.structure.Project;
 public class RMFileWriter {
 
 	private String format;
+	private String path;
 
 	//	public static final String TEXT = "text";
 	//	public static final String HTML = "html";
 	//	public static final String JSON = "json";
 
-	public RMFileWriter(String format){
+	public RMFileWriter(String format, String path){
 		this.format = format;
+		this.path = path;
 	}
 
 	/**
@@ -53,7 +55,7 @@ public class RMFileWriter {
 		JsonWriter json = new JsonWriter(proj);
 		String js = json.convertToJson();
 
-		try (PrintWriter writer = new PrintWriter("./Resources/lib/json/"+appendDateToFile(proj) + ".json", "UTF-8");){
+		try (PrintWriter writer = new PrintWriter(path+appendDateToFile(proj) + ".json", "UTF-8");){
 			writer.write(js);
 		} catch (FileNotFoundException | UnsupportedEncodingException e) {
 
@@ -71,7 +73,7 @@ public class RMFileWriter {
 	 */
 	private void writeToText(Project proj) {
 
-		try (PrintWriter writer = new PrintWriter("./Resources/lib/txt/"+ appendDateToFile(proj)+".txt", "UTF-8");){
+		try (PrintWriter writer = new PrintWriter(path + appendDateToFile(proj)+".txt", "UTF-8");){
 
 
 			for (ClassObject co : proj.getClassList()) {
