@@ -15,16 +15,15 @@ public class ArgumentParser {
 	private String fileFormat;
 	private String[] arguments;
 	private String outputFormat;
-	private final String FORMAT = " [-p path -a @annotation -f file-format]";
-	private String err = "Invalid format." + FORMAT;
-	
+	private StringBuilder err = new StringBuilder();
+
 	/**
 	 * @param args A String array containing the command line arguments
 	 */
 	public ArgumentParser(String[] args){
 		this.arguments = args;
 	}
-	
+
 	public void parse(){
 		for(int i = 0; i < arguments.length; i++){
 			argumentSeparator(i);
@@ -33,6 +32,11 @@ public class ArgumentParser {
 		validateAnnotation(annotation);
 		validateReadFormat(fileFormat);
 		validateOutputFormat(outputFormat);
+
+		if(err.length() > 0){
+			System.err.println(err);
+			System.exit(1);
+		}
 	}
 
 	/**
@@ -47,78 +51,70 @@ public class ArgumentParser {
 			if(arguments.length > i+1){
 				path = new File(arguments[i+1]);
 			}else{
-				System.err.println(err);
-				System.exit(1);
+				err.append("No variable for path given\n");
 			}
 			break;
 		case "-a": 
 			if(arguments.length > i+1){
 				annotation = arguments[i+1];
 			}else{
-				System.err.println(err);
-				System.exit(1);
+				err.append("No annotation given\n");
 			}
 			break;
 		case "-f": 
 			if(arguments.length > i+1){
 				fileFormat = arguments[i+1];
 			}else{
-				System.err.println(err);
-				System.exit(1);
+				err.append("No read format given\n");
 			}
 			break;
 		case "-o": 
 			if(arguments.length > i+1){
 				outputFormat = arguments[i+1];
 			}else{
-				System.err.println(err);
-				System.exit(1);
+				err.append("No output format given\n");
 			}
 			break;
 		}
 	}
-	
+
 	public File getPath() {
 		return path;
 	}
-	
+
 	public String getFileFormat() {
 		return this.fileFormat;
 	}
-	
+
 	public String toString(){
 		return "path: " + path.getAbsolutePath() + " Annotation: " + annotation 
 				+ " Format to read: " + fileFormat + " Format to write: " + outputFormat;
 	}
-	
+
 	/**
 	 * Validates the File path
 	 * @param path A File containing the command line argument for the path
 	 */
 	private void validatePath(File path){
 		if(path == null){
-			System.err.println("Please enter a path");
-			System.exit(1);
+			err.append("Please enter a path\n");
 		}
-		if(!path.isDirectory()){
-			System.err.println("Path does not exist: " + path);
-			System.exit(1);
+		else if(!path.isDirectory()){
+			err.append("Path does not exist: " + path +"\n");
 		}
 	}
-	
+
 	/**
 	 * Validates the annotation string
 	 * @param annotation2 A string containing command line argument for annotation
 	 */
 	private void validateAnnotation(String annotation2) {
 		// TODO - validate annotations other than @rm 
-		if(annotation2 == null){ 
-			System.err.println("Invalid annotation: " + annotation2 + ". Add [-a annotation] as argument");
-			System.exit(1);
+		if(annotation2 == null){
+			err.append("Invalid annotation Add [-a annotation] as argument: " + annotation2 + "\n");
 		}
 		if(!annotation2.equals("@rm")){
-			System.err.println("Invalid annotation: " + annotation2);
-			System.exit(1);
+			err.append("Invalid annotation: " + annotation2 + "\n");
 		}
 	}
 	
@@ -128,19 +124,16 @@ public class ArgumentParser {
 	 */
 	private void validateReadFormat(String format){
 		if(format == null){
-			System.err.println("Invalid read format: " + format);
-			System.exit(1);
+			err.append("Invalid read format: " + format + "\n");
 		}
 	}
 	private void validateOutputFormat(String outputFormat) {
 		if(outputFormat == null){
-			System.err.println("Invalid output format: " + outputFormat);
-			System.exit(1);
+			err.append("Invalid output format: " + outputFormat + "\n");
 		}
 	}
-
+	
 	public String getOutputFormat() {
 		return outputFormat;
 	}
 }
-
