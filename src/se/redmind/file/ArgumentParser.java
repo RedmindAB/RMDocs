@@ -17,6 +17,7 @@ public class ArgumentParser {
 	private String outputFormat;
 	private StringBuilder err = new StringBuilder();
 
+
 	/**
 	 * @param args A String array containing the command line arguments
 	 */
@@ -43,7 +44,7 @@ public class ArgumentParser {
 	 * Checks the in-arguments and search for flags and sets the local variables
 	 * depending on the flag. If the flag combined with the argument is invalid
 	 * an error message is printed and program shuts down
-	 * @param i
+	 * @param i current iteration in the array
 	 */
 	private void argumentSeparator(int i) {
 		switch(arguments[i]){
@@ -117,7 +118,7 @@ public class ArgumentParser {
 			err.append("Invalid annotation: " + annotation2 + "\n");
 		}
 	}
-	
+
 	/**
 	 * validates the format to be read
 	 * @param format
@@ -125,14 +126,21 @@ public class ArgumentParser {
 	private void validateReadFormat(String format){
 		if(format == null){
 			err.append("Invalid read format: " + format + "\n");
+		}else{
+			if((!format.equals(".java")) 
+					&& (!format.equals(".js")) 
+					&& (!format.equals(".cs"))){
+				err.append("Invalid read format: " + format);
+			}
 		}
 	}
+
 	private void validateOutputFormat(String outputFormat) {
 		if(outputFormat == null){
 			err.append("Invalid output format: " + outputFormat + "\n");
 		}
 	}
-	
+
 	public String getOutputFormat() {
 		return outputFormat;
 	}
