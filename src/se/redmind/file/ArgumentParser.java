@@ -96,6 +96,10 @@ public class ArgumentParser {
 	 * @param path A File containing the command line argument for the path
 	 */
 	private void validatePath(File path){
+		if(path == null){
+			System.err.println("Please enter a path");
+			System.exit(1);
+		}
 		if(!path.isDirectory()){
 			System.err.println("Path does not exist: " + path.getAbsolutePath());
 			System.exit(1);
