@@ -43,7 +43,7 @@ public class ReadConfigProperties {
 		prop = new Properties();
 		File configFile = new File("./resources/config.properties");
 		try (FileWriter writer = new FileWriter(configFile);){
-			prop.setProperty("path", "/Users/victormattsson/Documents/");
+			prop.setProperty("path", "");
 			prop.store(writer, "RMDocs properties");
 		} catch (IOException e) {
 			e.printStackTrace();
