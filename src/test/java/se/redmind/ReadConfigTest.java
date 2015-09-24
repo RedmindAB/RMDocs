@@ -20,7 +20,7 @@ public class ReadConfigTest {
 	
 	@Test
 	public void assertTheReturnedString(){
-		String expected = "/Users/Oz/Documents/";
+		String expected = "/Users/victormattsson/Documents/";
 		assertEquals(expected, rc.getPropValues());
 	}
 

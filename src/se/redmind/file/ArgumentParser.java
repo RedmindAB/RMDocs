@@ -129,6 +129,7 @@ public class ArgumentParser {
 		}else{
 			if((!format.equals(".java")) 
 					&& (!format.equals(".js")) 
+					&& (!format.equals(".txt")) 
 					&& (!format.equals(".cs"))){
 				err.append("Invalid read format: " + format);
 			}

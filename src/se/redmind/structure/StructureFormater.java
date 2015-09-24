@@ -185,7 +185,7 @@ public class StructureFormater {
 		return formatedString;
 	}
 
-	/**
+	/** 
 	 * Extracts the project name from the file path
 	 * @param file
 	 * @return the extracted and formated name
@@ -201,14 +201,11 @@ public class StructureFormater {
 				srcIndex = i;
 			}
 		}
-		
 		formatedString = file.toPath().getName(srcIndex-1).toString();
-		
 		return formatedString;
 	}
 
 	public List<ClassObject> getClassList() {
 		return coList;
 	}
-
 }
