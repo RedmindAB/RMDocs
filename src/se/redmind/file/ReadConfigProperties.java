@@ -13,17 +13,23 @@ public class ReadConfigProperties {
 	Properties prop;
 
 	public String getPath() {
-		return path;
+		return this.path;
 	}
+	
 	public void setPropFileName(String propFileName) {
 		this.propFileName = propFileName;
 	}
+	
+	public void setPathPropertyValue(String value){
+		prop = new Properties();
+		prop.setProperty("path", value);
+	}
 
-	public String getPropValues(){
+	public String getPropValues() {
 
-		try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);){
+		try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);) {
 			prop = new Properties();
-			
+
 			if (inputStream != null) {
 				prop.load(inputStream);
 			} else {
@@ -31,23 +37,26 @@ public class ReadConfigProperties {
 			}
 
 			path = prop.getProperty("path");
+			if(path.equals("")){
+				path = System.getProperty("user.home");
+			}
 			
 		} catch (IOException e) {
 			return null;
-		} 
+		}
 		return path;
 	}
-	
+
 	public void createConfigFile() {
-		
+
 		prop = new Properties();
 		File configFile = new File("./resources/config.properties");
-		try (FileWriter writer = new FileWriter(configFile);){
+		try (FileWriter writer = new FileWriter(configFile);) {
 			prop.setProperty("path", "");
 			prop.store(writer, "RMDocs properties");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
 	}
+
 }

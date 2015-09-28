@@ -1,6 +1,7 @@
 package test.java.se.redmind;
 
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
 
 import java.io.FileNotFoundException;
 
@@ -12,16 +13,11 @@ public class ReadConfigTest {
 
 	ReadConfigProperties rc = new ReadConfigProperties();
 	
-	@Test(expected = FileNotFoundException.class)	
-	public void ifFileIsNotFoundThrowNewFileNotFoundException() {
-         rc.setPropFileName("conf");
-         rc.getPropValues();
-	}
-	
 	@Test
-	public void assertTheReturnedString(){
-		String expected = "/Users/victormattsson/Documents/";
+	public void assertTheReturnedStringIfEmpty(){
+		String expected = System.getProperty("user.home");
 		assertEquals(expected, rc.getPropValues());
 	}
+	
 
 }

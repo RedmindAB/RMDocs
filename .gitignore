@@ -1,5 +1,5 @@
 .classpath
 .project
 .settings
-/Resources/lib
+config.properties
 /target/
