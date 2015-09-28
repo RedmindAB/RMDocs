@@ -107,13 +107,4 @@ public class RMFileWriter {
 		return fileName;		
 	}
 }
-/**
- * Formats the line by replacing special signs and trims white space.
- * @param line
- * @return the formated line
- */
-//	private String formatLine(String line){
-//		String formatedString = "";
-//		formatedString = line.replaceAll("[\\*\\/\\{]", "").trim();
-//		return formatedString;
-//	}
+

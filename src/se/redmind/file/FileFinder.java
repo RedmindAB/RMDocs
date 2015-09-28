@@ -56,32 +56,6 @@ public class FileFinder {
 		}
 	}
 
-	public void printList(){
-		System.out.println("***.java-Files***");
-		for(File list: fileList){
-			System.out.println(list.getName() + " Package: " + formatFilepathToPackage(list));
-		}
-	}
-
-	/**
-	 * Format the given file to the package structure
-	 * @param file is the file to format
-	 * @return the formated string
-	 */
-	public String formatFilepathToPackage(File file){
-		String formatedString = "";
-		String filepath = file.getPath();
-		String[] stringArray = filepath.split("\\/");
-		for(int i = 0; i < stringArray.length; i++){
-			if(stringArray[i].equals("src")){
-				for(int y = i; y < stringArray.length; y++){
-					formatedString += stringArray[y]+".";
-				}
-			}
-		}
-		return formatedString.replaceAll("."+file.getName()+".", "");
-	}
-
 	public List<File> getFileList() {
 		if(fileList.isEmpty()){
 			System.err.println("No " + fileFormat + " files in project.");
