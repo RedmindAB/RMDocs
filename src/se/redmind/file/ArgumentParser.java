@@ -114,7 +114,7 @@ public class ArgumentParser {
 		if(annotation2 == null){
 			err.append("Invalid annotation Add [-a annotation] as argument: " + annotation2 + "\n");
 		}
-		if(!annotation2.equals("@rm")){
+		else if(!annotation2.equals("@rm")){
 			err.append("Invalid annotation: " + annotation2 + "\n");
 		}
 	}
@@ -129,6 +129,7 @@ public class ArgumentParser {
 		}else{
 			if((!format.equals(".java")) 
 					&& (!format.equals(".js")) 
+					&& (!format.equals(".txt")) 
 					&& (!format.equals(".cs"))){
 				err.append("Invalid read format: " + format);
 			}
