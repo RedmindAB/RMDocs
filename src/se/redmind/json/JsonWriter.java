@@ -22,7 +22,11 @@ public class JsonWriter {
 			throw new NullPointerException("Project is null");
 		}
 		
-		Gson gson = new GsonBuilder().setPrettyPrinting().create();
+		GsonBuilder gBuilder = new GsonBuilder();
+		
+		gBuilder.registerTypeAdapter(Project.class, new ProjectSerializer());
+		
+		Gson gson = gBuilder.setPrettyPrinting().create();
 		
 		System.out.println(gson.toJson(proj));
 		
