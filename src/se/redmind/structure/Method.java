@@ -21,7 +21,7 @@ public class Method {
 	}
 
 	public void setMethodName(String methodName) {
-		this.methodName = methodName;
+		this.methodName = methodName.replace("final", "").replace("public", "").replace("void", "").trim();
 	}
 
 	public void setDuplicateList(List<String> duplicateList) {

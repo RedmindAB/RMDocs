@@ -1,6 +1,8 @@
 package se.redmind.json;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -24,66 +26,67 @@ public class ProjectSerializer implements JsonSerializer<Project>{
 
 		jsonObject.addProperty("Project Name", proj.getProjectName()); // sets the project name
 
-//		JsonElement jsonClasses = context.serialize(proj.getClassList());
-//		jsonObject.add("Classes", jsonClasses);
-		
 		JsonArray ClassItems = new JsonArray(); // new json array that holds class items
-		
+
 		for(ClassObject co: proj.getClassList()){
-			
+
 			JsonObject jsonClass = new JsonObject(); // new json object as a class object
-			
+
 			ClassItems.add(jsonClass); // add class item to class item list
-			
+
 			jsonClass.addProperty("Class Name", co.getName()); // sets name and package name for this class item
 			jsonClass.addProperty("Package Name", co.getPackName());
-			
-			
+
+
 			JsonArray methodItems = new JsonArray(); // new json array for method items
 
 			for (Method method : co.getMethodList()) {
-				
+
 				JsonObject jsonMethod = new JsonObject(); // new json object as a method item
-				
+
 				methodItems.add(jsonMethod); // add method item to method item list
-				
+
 				jsonMethod.addProperty("Method Name", method.getMethodName()); // sets name for this method item
 
-				
 				JsonArray duplicates = new JsonArray();
-				
+
 				for (String dup : method.getDuplicateList()) {
-					
+
 					JsonObject jsonDup = new JsonObject();
+
+					String[] itemArray = splitStringToArray(dup);
+
+					for(int i = 1; i < itemArray.length; i+=2){
+						jsonDup.addProperty(itemArray[i], itemArray[i+1].trim());
+					}
 					duplicates.add(jsonDup);
-
-					String[] itemArray = dup.split(":");
-					
-					jsonDup.addProperty(itemArray[0], itemArray[1].trim());
-					
 				}
-			
-//				JsonObject RMitem = new JsonObject();
-				
+
 				for (String item : method.getRmList()) {	
-					
+
 					String[] itemArray = item.split(":");
-					
+
 					jsonMethod.addProperty(itemArray[0], itemArray[1].trim());
-//					RMItems.add(RMitem);
-					
 				}
 
-				jsonMethod.add("Duplicates", duplicates); // add duplicates list to method item
-				
+				if(duplicates.size() > 0){
+					jsonMethod.add("Multiples", duplicates); // add duplicates list to method item
+				}
+
 			}
 			jsonClass.add("Methods", methodItems);
 		}
-		jsonObject.add("classes", ClassItems);
+		jsonObject.add("Classes", ClassItems);
 
 		return jsonObject;
 	}
 
 
+	public String[] splitStringToArray(String str){
+
+		String[] strArr = str.split("\\[|\\]");
+
+		return strArr;
+	}
 
 }

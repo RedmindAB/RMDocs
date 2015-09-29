@@ -118,7 +118,7 @@ public class StructureFormater {
 
 	private void checkForDuplicates(List<String> rmList) {
 		
-		String duplicateString  = "";
+		String duplicateString  = "noValue";
 		List<String> newList = new ArrayList<>();
 		duplicateList = new ArrayList<>();
 		
