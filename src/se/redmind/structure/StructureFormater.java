@@ -197,7 +197,8 @@ public class StructureFormater {
 		int srcIndex = 0;
 		
 		for(int i = 0; i < nameCnt; i++){
-			if(file.toPath().getName(i).toString().equals("src")){
+			if(file.toPath().getName(i).toString().equals("src") || 
+					file.toPath().getName(i).toString().equals("bin")){
 				srcIndex = i;
 			}
 		}

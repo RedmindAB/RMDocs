@@ -14,7 +14,7 @@ public class ArgumentParser {
 
 	private File path;
 	private String annotation = "@rm";
-	private String fileFormat;
+	private String readFormat = ".java";
 	private String[] arguments;
 	private String outputFormat;
 	private StringBuilder err = new StringBuilder();
@@ -34,7 +34,7 @@ public class ArgumentParser {
 	}
 
 	public String getFileFormat() {
-		return this.fileFormat;
+		return this.readFormat;
 	}
 
 	public StringBuilder getErr() {
@@ -55,7 +55,7 @@ public class ArgumentParser {
 		}
 		validatePath(path);
 		validateAnnotation(annotation);
-		validateReadFormat(fileFormat);
+		validateReadFormat(readFormat);
 		validateOutputFormat(outputFormat);
 
 		if (err.length() > 0) {
@@ -90,7 +90,7 @@ public class ArgumentParser {
 			break;
 		case "-f":
 			if (arguments.length > i + 1) {
-				fileFormat = arguments[i + 1];
+				readFormat = arguments[i + 1];
 			} else {
 				err.append("No read format given\n");
 			}
@@ -106,7 +106,7 @@ public class ArgumentParser {
 	}
 
 	public String toString() {
-		return "path: " + path.getAbsolutePath() + " Annotation: " + annotation + " Format to read: " + fileFormat
+		return "path: " + path.getAbsolutePath() + " Annotation: " + annotation + " Format to read: " + readFormat
 				+ " Format to write: " + outputFormat;
 	}
 
