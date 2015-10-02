@@ -24,7 +24,7 @@ public class ProjectSerializer implements JsonSerializer<Project>{
 
 		JsonObject jsonObject = new JsonObject(); // creates the main json object
 
-		jsonObject.addProperty("Project Name", proj.getProjectName()); // sets the project name
+		jsonObject.addProperty("ProjectName", proj.getProjectName()); // sets the project name
 
 		JsonArray ClassItems = new JsonArray(); // new json array that holds class items
 
@@ -34,8 +34,8 @@ public class ProjectSerializer implements JsonSerializer<Project>{
 
 			ClassItems.add(jsonClass); // add class item to class item list
 
-			jsonClass.addProperty("Class Name", co.getName()); // sets name and package name for this class item
-			jsonClass.addProperty("Package Name", co.getPackName());
+			jsonClass.addProperty("ClassName", co.getName()); // sets name and package name for this class item
+			jsonClass.addProperty("PackageName", co.getPackName());
 
 
 			JsonArray methodItems = new JsonArray(); // new json array for method items
@@ -46,7 +46,7 @@ public class ProjectSerializer implements JsonSerializer<Project>{
 
 				methodItems.add(jsonMethod); // add method item to method item list
 
-				jsonMethod.addProperty("Method Name", method.getMethodName()); // sets name for this method item
+				jsonMethod.addProperty("MethodName", method.getMethodName()); // sets name for this method item
 
 				JsonArray duplicates = new JsonArray();
 

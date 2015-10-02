@@ -34,7 +34,7 @@ public class Main {
 		RMFileWriter writer;
 
 		finder.pathWalker(arg.getPath());
-		fileList = reader.readFile(finder.getFileList());
+		fileList = reader.readFile(finder.getFileList(), arg.getAnnotation());
 
 		/*
 		 * Section to structure the filelist to POJO

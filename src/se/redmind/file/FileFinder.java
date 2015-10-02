@@ -16,12 +16,12 @@ public class FileFinder {
 	private List<File> fileList = new ArrayList<File>();
 	private String fileFormat;
 
-	public String getFileFormat() {
-		return fileFormat;
-	}
-
 	public FileFinder(String fileFormat) {
 		this.fileFormat = fileFormat;
+	}
+	
+	public String getFileFormat() {
+		return fileFormat;
 	}
 
 	/**

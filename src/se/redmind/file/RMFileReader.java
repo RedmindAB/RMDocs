@@ -15,7 +15,7 @@ import java.util.List;
 public class RMFileReader {
 
 	private List<File> annotatedFiles = new ArrayList<>();
-
+	
 	public List<File> getAnnotatedFiles() {
 		return annotatedFiles;
 	}
@@ -25,7 +25,7 @@ public class RMFileReader {
 	 * and adds it to a list.
 	 * @param fileList List of files to be read.
 	 */
-	public List<File> readFile(List<File> fileList){
+	public List<File> readFile(List<File> fileList, String annotation){
 
 		for(File file: fileList){
 

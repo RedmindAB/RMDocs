@@ -17,7 +17,6 @@ public class JsonWriter {
 
 	public String convertToJson(){
 		
-		//This should probably be checked in previous steps but added here for unit-testing purpose
 		if(proj == null){
 			throw new NullPointerException("Project is null");
 		}
@@ -28,8 +27,10 @@ public class JsonWriter {
 		
 		Gson gson = gBuilder.setPrettyPrinting().create();
 		
-		System.out.println(gson.toJson(proj));
+		String json = gson.toJson(proj);
 		
-		return gson.toJson(proj);
+		System.out.println(json);
+		
+		return json;
 	}
 }

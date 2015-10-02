@@ -21,10 +21,6 @@ public class RMFileWriter {
 	private String format;
 	private String path;
 
-	//	public static final String TEXT = "text";
-	//	public static final String HTML = "html";
-	//	public static final String JSON = "json";
-
 	public RMFileWriter(String format, String path){
 		this.format = format;
 		this.path = path;
@@ -41,7 +37,7 @@ public class RMFileWriter {
 			writeToText(proj);
 			break;
 		case ".html": 
-			writeToHTML();
+			writeToHTML(proj);
 			break;
 		case ".json": 
 			writeToJson(proj);
@@ -58,12 +54,21 @@ public class RMFileWriter {
 		try (PrintWriter writer = new PrintWriter(path+appendDateToFile(proj) + ".json", "UTF-8");){
 			writer.write(js);
 		} catch (FileNotFoundException | UnsupportedEncodingException e) {
-
+			e.printStackTrace();
 		}
+		
 	}
 
-	private void writeToHTML() {
+	private void writeToHTML(Project proj) {
 
+		JsonWriter json = new JsonWriter(proj);
+		String js = json.convertToJson();
+
+		try (PrintWriter writer = new PrintWriter("./web/MyProject.json", "UTF-8");){
+			writer.write(js);
+		} catch (FileNotFoundException | UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -74,7 +79,6 @@ public class RMFileWriter {
 	private void writeToText(Project proj) {
 
 		try (PrintWriter writer = new PrintWriter(path + appendDateToFile(proj)+".txt", "UTF-8");){
-
 
 			for (ClassObject co : proj.getClassList()) {
 				writer.println(co.getPackName());
@@ -94,6 +98,7 @@ public class RMFileWriter {
 				}
 			}
 		} catch (FileNotFoundException | UnsupportedEncodingException e) {
+			e.printStackTrace();
 		}
 	}
 

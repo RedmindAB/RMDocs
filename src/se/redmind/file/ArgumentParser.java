@@ -13,13 +13,13 @@ import java.util.Arrays;
 public class ArgumentParser {
 
 	private File path;
-	private String annotation;
+	private String annotation = "@rm";
 	private String fileFormat;
 	private String[] arguments;
 	private String outputFormat;
 	private StringBuilder err = new StringBuilder();
 	private final String[] validReadFormats = { ".java", ".txt", ".cs", ".js" };
-	private final String[] validOutputFormats = { ".json", ".txt" };
+	private final String[] validOutputFormats = { ".json", ".txt", ".html" };
 
 	public String getValidReadFormats() {
 		return Arrays.toString(validReadFormats);
@@ -163,5 +163,9 @@ public class ArgumentParser {
 
 	public String getOutputFormat() {
 		return outputFormat;
+	}
+
+	public String getAnnotation() {
+		return annotation;
 	}
 }

@@ -15,11 +15,11 @@ public class ReadConfigProperties {
 	public String getPath() {
 		return this.path;
 	}
-	
+
 	public void setPropFileName(String propFileName) {
 		this.propFileName = propFileName;
 	}
-	
+
 	public void setPathPropertyValue(String value){
 		prop = new Properties();
 		prop.setProperty("path", value);
@@ -40,7 +40,7 @@ public class ReadConfigProperties {
 			if(path.equals("")){
 				path = System.getProperty("user.home");
 			}
-			
+
 		} catch (IOException e) {
 			return null;
 		}
