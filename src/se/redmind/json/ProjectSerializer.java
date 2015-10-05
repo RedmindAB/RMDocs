@@ -42,7 +42,8 @@ public class ProjectSerializer implements JsonSerializer<Project>{
 					}
 				}
 				if(method.getRmList() != null){
-					for (String item : method.getRmList()) {	
+					for (String item : method.getRmList()) {
+						if(item.equals("")) continue;
 						String[] itemArray = item.split(":");
 						jsonMethod.addProperty(itemArray[0], itemArray[1].trim());
 					}

@@ -49,6 +49,7 @@ public class StringCustomizer {
 			newString = mat.group(1);
 			secondString = element.replace(newString, "");
 			thirdString = secondString.replaceAll("[\\*\\/]", "");
+			if(thirdString.equals("")) thirdString = " ";
 			finalString = newString + ": " + thirdString.replace("@rm", "").trim();
 		}
 		return finalString;

@@ -103,18 +103,11 @@ public class StructureFormater {
 
 	public boolean containsClassName(String str){
 		
-		if(str.contains("public class")){
-			return true;
-		}
-		else if(str.contains("public abstract")){
-			return true;
-		}
-		else if(str.contains("public final")){
-			return true;
-		}
-		else if(str.contains("private class")){
-			return true;
-		}
+		if(str.contains("public class")) return true;
+		else if(str.contains("public abstract")) return true;
+		else if(str.contains("public final")) return true;
+		else if(str.contains("private class")) return true;
+		
 		return false;
 	}
 	
@@ -133,22 +126,47 @@ public class StructureFormater {
 		for(int i = y; i < strArr.length; i++){
 			//TODO look at another option or modify this option to make sure that next line is a method and nothing else
 			if(strArr[i].contains("@Test")){
-				m.setMethodName(StringCustomizer.formatMethodLine(strArr[i+1]));
+				int x;
+				for(x = i; x < strArr.length; x++){
+					if(isAMethod(strArr[x])){
+						m.setMethodName(StringCustomizer.formatMethodLine(strArr[x]));
+						break;
+					}
+					lineContainsAnnotation(strArr[x], rmList);
+				}
+				
 				m.setRmList(rmList);
 				checkForDuplicates(rmList);
 				m.setDuplicateList(duplicateList);
-				y = i;
+				y = x;
 				break;
 			}else{
-				if(strArr[i].contains("@rm")){
-					String extracted = StringCustomizer.extractAnnotationData(strArr[i]);
-					rmList.add(extracted);
-				}
+				lineContainsAnnotation(strArr[i], rmList);
 			}
 		}
 
 		methodList.add(m);
 		return y;
+	}
+
+	private void lineContainsAnnotation(String str, List<String> rmList) {
+		if(str.contains("@rm")){
+			String extracted = StringCustomizer.extractAnnotationData(str);
+			rmList.add(extracted);
+		}
+	}
+
+	public boolean isAMethod(String str) {
+		
+		if(str.contains("public void")) return true;
+		else if(str.contains("private void")) return true;
+		else if(str.contains("public final void")) return true;
+		else if(str.contains("private final void")) return true;
+		else if(str.contains("public static void")) return true;
+		else if(str.contains("private static void")) return true;
+		else if(str.contains("public static final void")) return true;
+		else if(str.contains("private static final void")) return true;
+		return false;
 	}
 
 	private void checkForDuplicates(List<String> rmList) {
@@ -158,7 +176,11 @@ public class StructureFormater {
 		duplicateList = new ArrayList<>();
 
 		for (String str : rmList) {
+			try{
 			newList.add(str.substring(0, str.indexOf(":")));
+			}catch(StringIndexOutOfBoundsException e){
+				newList.add("null");
+			}
 		}
 
 		final Set<String> set1 = new HashSet<String>();
