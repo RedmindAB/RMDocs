@@ -50,7 +50,7 @@ public class Main {
 			}
 			sb = formater.readFileToStringBuilder(file);
 			strArray = formater.toArray(sb);
-			formater.readArray(strArray);
+			formater.readArray(strArray, arg.getAnnotation());
 		}
 
 		proj.setClassList(formater.getClassList());

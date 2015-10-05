@@ -12,6 +12,10 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.hamcrest.core.StringContains;
+
+import se.redmind.util.StringCustomizer;
+
 /**
  * Class that structures the input to a readable format
  * @author victor
@@ -59,22 +63,21 @@ public class StructureFormater {
 	 * project, class and annotations
 	 * @param strArr
 	 */
-	public void readArray(String[] strArr){
+	public void readArray(String[] strArr, String anno){
 
 		ClassObject co = new ClassObject();
 		List<Method> methodList = new ArrayList<>();
 
 		for (int y = 0; y < strArr.length; y++) {
 
-			if(strArr[y].contains("public class")){
-				co.setName(strArr[y].replace("public class", "").replace("{", "").trim());
+			if(containsClassName(strArr[y])){
+				co.setName(StringCustomizer.extractClassName(strArr[y]));
+			}
 				
+			else if(containsPackageName(strArr[y])){
+				co.setPackName(StringCustomizer.extractPackageName(strArr[y]));
 			}
-			else if(strArr[y].contains("package")){
-				String packName = strArr[y].replaceFirst("package", "").replace(";", "").trim();
-				co.setPackName(packName);
-			}
-			else if(strArr[y].contains("@rm")){
+			else if(containsAnnotation(strArr[y], anno)){
 
 				y = createObject(strArr, methodList, y);
 			}
@@ -84,6 +87,37 @@ public class StructureFormater {
 		coList.add(co);
 	}
 
+	public boolean containsAnnotation(String str, String annotation){
+		if(str.contains(annotation)){
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean containsPackageName(String str){
+		if(str.contains("package")){
+			return true;
+		}
+		return false;
+	}
+
+	public boolean containsClassName(String str){
+		
+		if(str.contains("public class")){
+			return true;
+		}
+		else if(str.contains("public abstract")){
+			return true;
+		}
+		else if(str.contains("public final")){
+			return true;
+		}
+		else if(str.contains("private class")){
+			return true;
+		}
+		return false;
+	}
+	
 	/**
 	 * method that creates a new Method object for each method with annotations
 	 * @param strArr
@@ -99,7 +133,7 @@ public class StructureFormater {
 		for(int i = y; i < strArr.length; i++){
 			//TODO look at another option or modify this option to make sure that next line is a method and nothing else
 			if(strArr[i].contains("@Test")){
-				m.setMethodName(formatLine(strArr[i+1]));
+				m.setMethodName(StringCustomizer.formatMethodLine(strArr[i+1]));
 				m.setRmList(rmList);
 				checkForDuplicates(rmList);
 				m.setDuplicateList(duplicateList);
@@ -107,7 +141,7 @@ public class StructureFormater {
 				break;
 			}else{
 				if(strArr[i].contains("@rm")){
-					String extracted = extractData(strArr[i]);
+					String extracted = StringCustomizer.extractAnnotationData(strArr[i]);
 					rmList.add(extracted);
 				}
 			}
@@ -118,72 +152,38 @@ public class StructureFormater {
 	}
 
 	private void checkForDuplicates(List<String> rmList) {
-		
+
 		String duplicateString  = "noValue";
 		List<String> newList = new ArrayList<>();
 		duplicateList = new ArrayList<>();
-		
+
 		for (String str : rmList) {
 			newList.add(str.substring(0, str.indexOf(":")));
 		}
-		
+
 		final Set<String> set1 = new HashSet<String>();
- 
+
 		for (String str : newList) {
 			if (!set1.add(str)) {
 				duplicateString = str;
 			}
 		}
-		
+
 		for (String str : rmList) {
 			if(str.startsWith(duplicateString)){
 				duplicateList.add(str);
 			}
 		}
-		
+
 		for (String string : duplicateList) {
 			for (Iterator<String> iterator = rmList.iterator(); iterator.hasNext();) {
-			    String str = iterator.next();
-			    if (string.equals(str)) {
-			        iterator.remove();
-			    }
+				String str = iterator.next();
+				if (string.equals(str)) {
+					iterator.remove();
+				}
 			}
 		}
 
-	}
-
-	/**
-	 * Extract and format only the data we want for our objects
-	 * @param element
-	 * @return the extracted and formated data
-	 */
-	private String extractData(String element){
-
-		Pattern pat = Pattern.compile("\\@rm(.*?)\\s");
-		Matcher mat = pat.matcher(element);
-		String newString = "";
-		String secondString = "";
-		String thirdString = "";
-		String finalString = "";
-
-		while (mat.find()) {
-			newString = mat.group(1);
-			secondString = element.replace(newString, "");
-			thirdString = secondString.replaceAll("[\\*\\/]", "");
-			finalString = newString + ": " + thirdString.replace("@rm", "").trim();
-		}
-		return finalString;
-	}
-
-	/**
-	 * Formats the line by replacing special signs and trims white space.
-	 * @param line
-	 * @return the formated line
-	 */
-	private String formatLine(String line){
-		String formatedString = "";
-		formatedString = line.replaceAll("[\\/*\\*\\/\\{\\()]", "").trim();
-		return formatedString;
 	}
 
 	/** 
@@ -196,7 +196,7 @@ public class StructureFormater {
 		String formatedString = "";
 		int nameCnt = file.toPath().getNameCount();
 		int srcIndex = 0;
-		
+
 		for(int i = 0; i < nameCnt; i++){
 			if(file.toPath().getName(i).toString().equals("src") || 
 					file.toPath().getName(i).toString().equals("bin")){
@@ -210,4 +210,6 @@ public class StructureFormater {
 	public List<ClassObject> getClassList() {
 		return coList;
 	}
+
+
 }
