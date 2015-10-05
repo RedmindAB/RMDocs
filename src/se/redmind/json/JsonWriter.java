@@ -2,9 +2,6 @@ package se.redmind.json;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-
-import se.redmind.structure.ClassObject;
-import se.redmind.structure.Method;
 import se.redmind.structure.Project;
 
 public class JsonWriter {

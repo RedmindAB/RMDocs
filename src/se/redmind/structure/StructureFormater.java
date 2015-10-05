@@ -68,6 +68,7 @@ public class StructureFormater {
 
 			if(strArr[y].contains("public class")){
 				co.setName(strArr[y].replace("public class", "").replace("{", "").trim());
+				
 			}
 			else if(strArr[y].contains("package")){
 				String packName = strArr[y].replaceFirst("package", "").replace(";", "").trim();
