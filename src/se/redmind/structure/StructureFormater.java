@@ -97,7 +97,7 @@ public class StructureFormater {
 		List<String> rmList = new ArrayList<>();
 
 		for(int i = y; i < strArr.length; i++){
-
+			//TODO look at another option or modify this option to make sure that next line is a method and nothing else
 			if(strArr[i].contains("@Test")){
 				m.setMethodName(formatLine(strArr[i+1]));
 				m.setRmList(rmList);

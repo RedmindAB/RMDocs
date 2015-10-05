@@ -29,7 +29,7 @@ public class ArgumentParserTest {
 	@Test
 	public void assertThatTheReturnedFileFormatIsCorrect() {
 		arg.parse();
-		assertEquals(".java", arg.getFileFormat());
+		assertEquals(".java", arg.getReadFormat());
 	}
 
 	@Test

@@ -10,7 +10,6 @@ import se.redmind.structure.ClassObject;
 import se.redmind.structure.Method;
 import se.redmind.structure.Project;
 
-
 /**
  * Writes a specific file to the given format that is declared
  * when the class is instantiated
@@ -51,12 +50,7 @@ public class RMFileWriter {
 		JsonWriter json = new JsonWriter(proj);
 		String js = json.convertToJson();
 
-		try (PrintWriter writer = new PrintWriter(path+appendDateToFile(proj) + ".json", "UTF-8");){
-			writer.write(js);
-		} catch (FileNotFoundException | UnsupportedEncodingException e) {
-			e.printStackTrace();
-		}
-		
+		write(js, path+appendDateToFile(proj) + ".json");
 	}
 
 	private void writeToHTML(Project proj) {
@@ -64,8 +58,12 @@ public class RMFileWriter {
 		JsonWriter json = new JsonWriter(proj);
 		String js = json.convertToJson();
 
-		try (PrintWriter writer = new PrintWriter("./web/MyProject.json", "UTF-8");){
-			writer.write(js);
+		write(js, "./web/MyProject.json");
+	}
+
+	private void write(String json, String pathAndFile) {
+		try (PrintWriter writer = new PrintWriter(pathAndFile, "UTF-8");){
+			writer.write(json);
 		} catch (FileNotFoundException | UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}

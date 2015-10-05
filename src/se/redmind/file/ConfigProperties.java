@@ -6,11 +6,17 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-public class ReadConfigProperties {
+/**
+ * ConfigProperties --- Handles the config.properties file that sets initial properties
+ * 
+ * @author Victor Mattsson, Özgur Eken
+ *
+ */
+public class ConfigProperties {
 
-	String path = "";
-	String propFileName = "config.properties";
-	Properties prop;
+	private String path = "";
+	private String propFileName = "config.properties";
+	private Properties prop;
 
 	public String getPath() {
 		return this.path;
@@ -20,7 +26,7 @@ public class ReadConfigProperties {
 		this.propFileName = propFileName;
 	}
 
-	public void setPathPropertyValue(String value){
+	public void setPathPropertyValue(String value) {
 		prop = new Properties();
 		prop.setProperty("path", value);
 	}
@@ -37,7 +43,8 @@ public class ReadConfigProperties {
 			}
 
 			path = prop.getProperty("path");
-			if(path.equals("")){
+			if (path.equals("")) {
+				prop.setProperty("path", setHomePath());
 				path = System.getProperty("user.home");
 			}
 
@@ -52,10 +59,17 @@ public class ReadConfigProperties {
 		prop = new Properties();
 		File configFile = new File("./resources/config.properties");
 		try (FileWriter writer = new FileWriter(configFile);) {
-			prop.setProperty("path", "");
+			prop.setProperty("path", setHomePath());
 			prop.store(writer, "RMDocs properties");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
+
+
+	public String setHomePath() {
+		return System.getProperty("user.home") + File.separator;
+	}
+
+
 }
