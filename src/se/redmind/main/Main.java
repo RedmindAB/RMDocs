@@ -7,7 +7,7 @@ import se.redmind.file.ArgumentParser;
 import se.redmind.file.FileFinder;
 import se.redmind.file.RMFileReader;
 import se.redmind.file.RMFileWriter;
-import se.redmind.file.ReadConfigProperties;
+import se.redmind.file.ConfigProperties;
 import se.redmind.structure.Project;
 import se.redmind.structure.StructureFormater;
 
@@ -16,11 +16,11 @@ public class Main {
 	public static void main(String[] args){
 
 		if(args.length < 1){
-			System.err.println("Arguments needed: [-p, -a, -f, -o]");
+			System.err.println("Arguments needed: [-p, -o]");
 			System.exit(0);
 		}
 
-		ReadConfigProperties rc = new ReadConfigProperties();
+		ConfigProperties rc = new ConfigProperties();
 		String propValue = rc.getPropValues();
 		if(propValue == null){
 			rc.createConfigFile();
@@ -29,7 +29,7 @@ public class Main {
 		List<File> fileList;
 		ArgumentParser arg = new ArgumentParser(args);
 		arg.parse();
-		FileFinder finder = new FileFinder(arg.getFileFormat());
+		FileFinder finder = new FileFinder(arg.getReadFormat());
 		RMFileReader reader = new RMFileReader();
 		RMFileWriter writer;
 

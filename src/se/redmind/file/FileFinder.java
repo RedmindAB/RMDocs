@@ -4,10 +4,10 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-
 /**
- * FileFinder --- Walks the given filepath, searches every sub-directory 
- * after .java-files and sets them in a list containing java.io Files
+ * FileFinder --- Walks the given filepath, searches every sub-directory after
+ * .java-files and sets them in a list containing java.io Files
+ * 
  * @author Victor Mattsson
  *
  */
@@ -19,26 +19,28 @@ public class FileFinder {
 	public FileFinder(String fileFormat) {
 		this.fileFormat = fileFormat;
 	}
-	
+
 	public String getFileFormat() {
 		return fileFormat;
 	}
 
 	/**
-	 * Iterates a list of files based on the given path, If it's a
-	 * directory it calls itself with that directory, else if it's a file
-	 * it adds it to a list
-	 * @param file is the given path to walk
+	 * Iterates a list of files based on the given path, If it's a directory it
+	 * calls itself with that directory, else if it's a file it adds it to a
+	 * list
+	 * 
+	 * @param file
+	 *            is the given path to walk
 	 */
-	public void pathWalker(File file){
-		for(File f: file.listFiles()){
-			try{
-				if(f.isDirectory()){
+	public void pathWalker(File file) {
+		for (File f : file.listFiles()) {
+			try {
+				if (f.isDirectory()) {
 					pathWalker(f);
-				}else if(f.isFile()){
+				} else if (f.isFile()) {
 					addToList(f);
 				}
-			}catch(NullPointerException e){
+			} catch (NullPointerException e) {
 				System.err.println("Bad path. Please choose absolute path to project.");
 				System.exit(1);
 			}
@@ -46,18 +48,21 @@ public class FileFinder {
 	}
 
 	/**
-	 * If the files has the extension specified by the fileFormat, add it to the list
-	 * @param file the given file to add
+	 * If the files has the extension specified by the fileFormat, add it to the
+	 * list
+	 * 
+	 * @param file
+	 *            the given file to add
 	 */
 	public void addToList(File file) {
 		int i = file.getName().lastIndexOf(fileFormat);
-		if(i > 0){
+		if (i > 0) {
 			fileList.add(file);
 		}
 	}
 
 	public List<File> getFileList() {
-		if(fileList.isEmpty()){
+		if (fileList.isEmpty()) {
 			System.err.println("No " + fileFormat + " files in project.");
 			System.exit(1);
 		}

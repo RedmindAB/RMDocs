@@ -7,11 +7,11 @@ import java.io.FileNotFoundException;
 
 import org.junit.Test;
 
-import se.redmind.file.ReadConfigProperties;
+import se.redmind.file.ConfigProperties;
 
 public class ReadConfigTest {
 
-	ReadConfigProperties rc = new ReadConfigProperties();
+	ConfigProperties rc = new ConfigProperties();
 	
 	@Test
 	public void assertTheReturnedStringIfEmpty(){

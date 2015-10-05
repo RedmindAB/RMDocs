@@ -33,7 +33,7 @@ public class ArgumentParser {
 		return path;
 	}
 
-	public String getFileFormat() {
+	public String getReadFormat() {
 		return this.readFormat;
 	}
 
@@ -51,7 +51,7 @@ public class ArgumentParser {
 
 	public void parse() {
 		for (int i = 0; i < arguments.length; i++) {
-			argumentSeparator(i);
+			separateArguments(i);
 		}
 		validatePath(path);
 		validateAnnotation(annotation);
@@ -72,7 +72,7 @@ public class ArgumentParser {
 	 * @param i
 	 *            current iteration in the array
 	 */
-	private void argumentSeparator(int i) {
+	private void separateArguments(int i) {
 		switch (arguments[i]) {
 		case "-p":
 			if (arguments.length > i + 1) {
@@ -105,11 +105,6 @@ public class ArgumentParser {
 		}
 	}
 
-	public String toString() {
-		return "path: " + path.getAbsolutePath() + " Annotation: " + annotation + " Format to read: " + readFormat
-				+ " Format to write: " + outputFormat;
-	}
-
 	/**
 	 * Validates the File path
 	 * 
@@ -127,16 +122,16 @@ public class ArgumentParser {
 	/**
 	 * Validates the annotation string
 	 * 
-	 * @param annotation2
+	 * @param anno
 	 *            A string containing command line argument for annotation
 	 */
 
-	public void validateAnnotation(String annotation2) {
+	public void validateAnnotation(String anno) {
 		// TODO - validate annotations other than @rm
-		if (annotation2 == null) {
-			err.append("Invalid annotation: " + annotation2 + ", add \"-a annotation\" as argument." + "\n");
-		} else if (!annotation2.equals("@rm")) {
-			err.append("Invalid annotation: " + annotation2 + "\n");
+		if (anno == null) {
+			err.append("Invalid annotation: " + anno + ", add \"-a annotation\" as argument." + "\n");
+		} else if (!anno.equals("@rm")) {
+			err.append("Invalid annotation: " + anno + "\n");
 		}
 	}
 
@@ -157,7 +152,8 @@ public class ArgumentParser {
 		if (outputFormat == null) {
 			err.append("Invalid output format: " + outputFormat + "\n");
 		} else if (!Arrays.asList(validOutputFormats).contains(outputFormat)) {
-			err.append("Invalid output format: [" + outputFormat + "]. Valid formats: " + getValidOutputFormats() + "\n");
+			err.append(
+					"Invalid output format: [" + outputFormat + "]. Valid formats: " + getValidOutputFormats() + "\n");
 		}
 	}
 
