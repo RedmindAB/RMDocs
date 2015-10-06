@@ -1,5 +1,6 @@
 package se.redmind.file;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
@@ -50,7 +51,10 @@ public class RMFileWriter {
 		JsonWriter json = new JsonWriter(proj);
 		String js = json.convertToJson();
 
-		write(js, path+appendDateToFile(proj) + ".json");
+		File txtDir = new File(path + "json");
+		txtDir.mkdirs();
+
+		write(js, new File(txtDir, appendDateToFile(proj) + ".json"));
 	}
 
 	private void writeToHTML(Project proj) {
@@ -58,10 +62,10 @@ public class RMFileWriter {
 		JsonWriter json = new JsonWriter(proj);
 		String js = json.convertToJson();
 
-		write(js, "./web/MyProject.json");
+		write(js, new File("./web/MyProject.json"));
 	}
 
-	private void write(String json, String pathAndFile) {
+	private void write(String json, File pathAndFile) {
 		try (PrintWriter writer = new PrintWriter(pathAndFile, "UTF-8");){
 			writer.write(json);
 		} catch (FileNotFoundException | UnsupportedEncodingException e) {
@@ -76,7 +80,10 @@ public class RMFileWriter {
 	 */
 	private void writeToText(Project proj) {
 
-		try (PrintWriter writer = new PrintWriter(path + appendDateToFile(proj)+".txt", "UTF-8");){
+		File txtDir = new File(path + "txt");
+		txtDir.mkdirs();
+
+		try (PrintWriter writer = new PrintWriter(new File(txtDir, appendDateToFile(proj) + ".txt"), "UTF-8");){
 
 			for (ClassObject co : proj.getClassList()) {
 				writer.println(co.getPackName());
