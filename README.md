@@ -1,6 +1,6 @@
 # RMDocs
 
-Step 1: Clone the project to your prefered directory with the given link: https://github.com/RedmindAB/RMDocs.git
+Step 1: Clone the project to your preferred directory with the given link: https://github.com/RedmindAB/RMDocs.git
 
 Step 2: Import the project to an IDE as a Maven project.
 
