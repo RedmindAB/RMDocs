@@ -8,7 +8,7 @@ import java.util.Properties;
 
 /**
  * ConfigProperties --- Handles the config.properties file that sets initial properties
- * 
+ *
  * @author Victor Mattsson, Özgur Eken
  *
  */

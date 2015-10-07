@@ -6,6 +6,7 @@ import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
 import se.redmind.json.JsonWriter;
 import se.redmind.structure.ClassObject;
 import se.redmind.structure.Method;
@@ -14,113 +15,116 @@ import se.redmind.structure.Project;
 /**
  * Writes a specific file to the given format that is declared
  * when the class is instantiated
+ *
  * @author Victor Mattsson
  */
-public class RMFileWriter implements Runnable{
+public class RMFileWriter implements Runnable {
 
-	private String format;
-	private String path;
-	private Project proj;
+    private String format;
+    private String path;
+    private Project proj;
 
-	public RMFileWriter(String format, String path, Project proj){
-		this.format = format;
-		this.path = path;
-		this.proj = proj;
-	}
+    public RMFileWriter(String format, String path, Project proj) {
+        this.format = format;
+        this.path = path;
+        this.proj = proj;
+    }
 
-	/**
-	 * This method chooses method to write base on what format is given
-	 */
-	public void printAndWrite(){
+    /**
+     * This method chooses method to write base on what format is given
+     */
+    public void printAndWrite() {
 
-		switch(format){
-		case ".txt": 
-			writeToText(proj);
-			break;
-		case ".html": 
-			writeToHTML(proj);
-			break;
-		case ".json": 
-			writeToJson(proj);
-			break;
-		default:
-			System.err.println("Invalid output format: " + format);
-			System.exit(1);
-		}
-	}
-	private void writeToJson(Project proj) {
-		JsonWriter json = new JsonWriter(proj);
-		String js = json.convertToJson();
+        switch (format) {
+            case ".txt":
+                writeToText(proj);
+                break;
+            case ".html":
+                writeToHTML(proj);
+                break;
+            case ".json":
+                writeToJson(proj);
+                break;
+            default:
+                System.err.println("Invalid output format: " + format);
+                System.exit(1);
+        }
+    }
 
-		File txtDir = new File(path + "json");
-		txtDir.mkdirs();
+    private void writeToJson(Project proj) {
+        JsonWriter json = new JsonWriter(proj);
+        String js = json.convertToJson();
 
-		write(js, new File(txtDir, appendDateToFile(proj) + ".json"));
-	}
+        File txtDir = new File(path + "json");
+        txtDir.mkdirs();
 
-	private void writeToHTML(Project proj) {
+        write(js, new File(txtDir, appendDateToFile(proj) + ".json"));
+    }
 
-		JsonWriter json = new JsonWriter(proj);
-		String js = json.convertToJson();
+    private void writeToHTML(Project proj) {
 
-		write(js, new File("./web/MyProject.json"));
-	}
+        JsonWriter json = new JsonWriter(proj);
+        String js = json.convertToJson();
 
-	private void write(String json, File pathAndFile) {
-		try (PrintWriter writer = new PrintWriter(pathAndFile, "UTF-8");){
-			writer.write(json);
-		} catch (FileNotFoundException | UnsupportedEncodingException e) {
-			e.printStackTrace();
-		}
-	}
+        write(js, new File("./web/MyProject.json"));
+    }
 
-	/**
-	 * Uses the generated project structure and prints it to a text file in
-	 * a nesting for loop to retrieve all the data
-	 * @param proj
-	 */
-	private void writeToText(Project proj) {
+    private void write(String json, File pathAndFile) {
+        try (PrintWriter writer = new PrintWriter(pathAndFile, "UTF-8");) {
+            writer.write(json);
+        } catch (FileNotFoundException | UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+    }
 
-		File txtDir = new File(path + "txt");
-		txtDir.mkdirs();
+    /**
+     * Uses the generated project structure and prints it to a text file in
+     * a nesting for loop to retrieve all the data
+     *
+     * @param proj
+     */
+    private void writeToText(Project proj) {
 
-		try (PrintWriter writer = new PrintWriter(new File(txtDir, appendDateToFile(proj) + ".txt"), "UTF-8");){
+        File txtDir = new File(path + "txt");
+        txtDir.mkdirs();
 
-			for (ClassObject co : proj.getClassList()) {
-				writer.println(co.getPackName());
-				writer.println();
-				writer.println(co.getName());
-				writer.println();
+        try (PrintWriter writer = new PrintWriter(new File(txtDir, appendDateToFile(proj) + ".txt"), "UTF-8");) {
 
-				for (Method m : co.getMethodList()) {
-					writer.println("Method: " + m.getMethodName());
-					for (String s : m.getRmList()) {
-						writer.println(s);
-					}
-					for(String dup: m.getDuplicateList()){
-						writer.println(dup);
-					}
-					writer.println();
-				}
-			}
-		} catch (FileNotFoundException | UnsupportedEncodingException e) {
-			e.printStackTrace();
-		}
-	}
+            for (ClassObject co : proj.getClassList()) {
+                writer.println(co.getPackName());
+                writer.println();
+                writer.println(co.getName());
+                writer.println();
 
-	public String appendDateToFile(Project proj){
+                for (Method m : co.getMethodList()) {
+                    writer.println("Method: " + m.getMethodName());
+                    for (String s : m.getRmList()) {
+                        writer.println(s);
+                    }
+                    for (String dup : m.getDuplicateList()) {
+                        writer.println(dup);
+                    }
+                    writer.println();
+                }
+            }
+        } catch (FileNotFoundException | UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+    }
 
-		SimpleDateFormat sd = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
-		String date = sd.format(new Date());
+    public String appendDateToFile(Project proj) {
 
-		String fileName = proj.getProjectName() +"-"+ date;
+        SimpleDateFormat sd = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
+        String date = sd.format(new Date());
 
-		return fileName;		
-	}
+        String fileName = proj.getProjectName() + "-" + date;
 
-	@Override
-	public void run() {
-		printAndWrite();
-	}
+        return fileName;
+    }
+
+    @Override
+    public void run() {
+        printAndWrite();
+    }
 }
 

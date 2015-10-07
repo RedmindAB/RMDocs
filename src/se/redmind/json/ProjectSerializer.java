@@ -31,16 +31,23 @@ public class ProjectSerializer implements JsonSerializer<Project>{
 				jsonMethod.addProperty("MethodName", method.getMethodName()); // sets name for this method item
 				JsonArray duplicates = new JsonArray();
 
-				if(method.getDuplicateList() != null){
-					for (String dup : method.getDuplicateList()) {
-						JsonObject jsonDup = new JsonObject();
-						String[] itemArray = splitStringToArray(dup);
-						for(int i = 1; i < itemArray.length; i+=2){
-							jsonDup.addProperty(itemArray[i], itemArray[i+1].trim());
+					if(method.getDuplicateList() != null){
+						for (String dup : method.getDuplicateList()) {
+							JsonObject jsonDup = new JsonObject();
+							String[] itemArray = splitStringToArray(dup);
+							for(int i = 1; i < itemArray.length; i+=2){
+									String key = itemArray[i];
+									String value = "";
+									try{
+										value = itemArray[i+1].trim();
+									}catch(ArrayIndexOutOfBoundsException e){
+										value = "";
+									}
+								jsonDup.addProperty(key, value);
+							}
+							duplicates.add(jsonDup);
 						}
-						duplicates.add(jsonDup);
 					}
-				}
 				if(method.getRmList() != null){
 					for (String item : method.getRmList()) {
 						if(item.equals("")) continue;
