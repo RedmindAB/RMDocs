@@ -25,10 +25,10 @@ public class StringCustomizer {
 	 * @param line
 	 * @return the formated line
 	 */
-	public static String formatMethodLine(String line){
-		String formatedString = "";
-		formatedString = line.replaceAll("[\\/*\\*\\/\\{\\()]", "").trim();
-		return formatedString;
+	public static String extractMethodName(String line){
+		String formatedString = line.split("\\(")[0];
+		String[] strArr = formatedString.split("\\s");
+		return strArr[strArr.length-1];
 	}
 	
 	/**
@@ -40,9 +40,9 @@ public class StringCustomizer {
 
 		Pattern pat = Pattern.compile("\\@rm(.*?)\\s");
 		Matcher mat = pat.matcher(element);
-		String newString = "";
-		String secondString = "";
-		String thirdString = "";
+		String newString;
+		String secondString;
+		String thirdString;
 		String finalString = "";
 
 		while (mat.find()) {
@@ -54,4 +54,5 @@ public class StringCustomizer {
 		}
 		return finalString;
 	}
-}
+
+	}

@@ -72,12 +72,4 @@ public class RMFileReader {
 			}
 		}
 	}
-
-	public void printList() {
-		System.out.println("***List of java files containing @rm***");
-		for (File f : annotatedFiles) {
-			System.out.println(f.getName());
-		}
-		System.out.println();
-	}
 }

@@ -30,7 +30,6 @@ public class RMFileWriter implements Runnable{
 
 	/**
 	 * This method chooses method to write base on what format is given
-	 * @param file The java file to be written. 
 	 */
 	public void printAndWrite(){
 
@@ -76,7 +75,7 @@ public class RMFileWriter implements Runnable{
 	}
 
 	/**
-	 * Uses the generated project structure and prints it to a textfile in 
+	 * Uses the generated project structure and prints it to a text file in
 	 * a nesting for loop to retrieve all the data
 	 * @param proj
 	 */

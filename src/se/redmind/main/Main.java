@@ -31,7 +31,6 @@ public class Main {
 		arg.parse();
 		FileFinder finder = new FileFinder(arg.getReadFormat());
 		RMFileReader reader = new RMFileReader();
-		RMFileWriter writer;
 
 		finder.pathWalker(arg.getPath());
 		fileList = reader.readFile(finder.getFileList(), arg.getAnnotation());

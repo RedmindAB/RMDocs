@@ -19,14 +19,9 @@ public class JsonWriter {
 		}
 		
 		GsonBuilder gBuilder = new GsonBuilder();
-		
 		gBuilder.registerTypeAdapter(Project.class, new ProjectSerializer());
-		
 		Gson gson = gBuilder.setPrettyPrinting().create();
-		
 		String json = gson.toJson(proj);
-		
-		System.out.println(json);
 		
 		return json;
 	}

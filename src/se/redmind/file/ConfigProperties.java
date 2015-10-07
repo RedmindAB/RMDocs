@@ -33,7 +33,7 @@ public class ConfigProperties {
 
 	public String getPropValues() {
 
-		try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);) {
+		try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream(propFileName)) {
 			prop = new Properties();
 
 			if (inputStream != null) {

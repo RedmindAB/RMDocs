@@ -26,7 +26,7 @@ public class StringCustomizerTest {
 	
 	@Test
 	public void assertThatReturnedMethodLineIsCorrect(){
-		assertEquals("public void hahaMethodName", StringCustomizer.formatMethodLine("public void hahaMethodName(){/*"));
+		assertEquals("public void hahaMethodName", StringCustomizer.extractMethodName("public void hahaMethodName(){/*"));
 	}
 	
 	@Test

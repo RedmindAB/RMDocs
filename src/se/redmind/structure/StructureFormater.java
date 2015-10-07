@@ -9,10 +9,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import org.hamcrest.core.StringContains;
 
 import se.redmind.util.StringCustomizer;
 
@@ -129,7 +125,7 @@ public class StructureFormater {
 				int x;
 				for(x = i; x < strArr.length; x++){
 					if(isAMethod(strArr[x])){
-						m.setMethodName(StringCustomizer.formatMethodLine(strArr[x]));
+						m.setMethodName(StringCustomizer.extractMethodName(strArr[x]));
 						break;
 					}
 					lineContainsAnnotation(strArr[x], rmList);
