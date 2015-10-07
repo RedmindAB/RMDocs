@@ -10,8 +10,7 @@ Step 4: Export the project as a runnable JAR file.
 
 Step 5: Run the JAR from the Terminal/CMD with the needed arguments.
 
-        Mandatory arguments: -p (path), -o (output)
+example: java -jar ProjectName.jar -p /Users/username/Documents/TestProject/ -o .json
         
-        example: java -jar ProjectName.jar -p /Users/username/Documents/TestProject/ -o .json
-        
-        Other arguments: -f (read format), -a (annotation)
+Mandatory arguments: -p (path), -o (output)
+Other arguments: -f (read format), -a (annotation)
