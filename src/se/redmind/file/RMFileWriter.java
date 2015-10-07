@@ -16,21 +16,23 @@ import se.redmind.structure.Project;
  * when the class is instantiated
  * @author Victor Mattsson
  */
-public class RMFileWriter {
+public class RMFileWriter implements Runnable{
 
 	private String format;
 	private String path;
+	private Project proj;
 
-	public RMFileWriter(String format, String path){
+	public RMFileWriter(String format, String path, Project proj){
 		this.format = format;
 		this.path = path;
+		this.proj = proj;
 	}
 
 	/**
 	 * This method chooses method to write base on what format is given
 	 * @param file The java file to be written. 
 	 */
-	public void printAndWrite(Project proj){
+	public void printAndWrite(){
 
 		switch(format){
 		case ".txt": 
@@ -115,6 +117,11 @@ public class RMFileWriter {
 		String fileName = proj.getProjectName() +"-"+ date;
 
 		return fileName;		
+	}
+
+	@Override
+	public void run() {
+		printAndWrite();
 	}
 }
 

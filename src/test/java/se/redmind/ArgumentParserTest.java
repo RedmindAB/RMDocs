@@ -3,6 +3,8 @@ package test.java.se.redmind;
 import static org.junit.Assert.*;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -18,13 +20,6 @@ public class ArgumentParserTest {
 		String[] args = { "-p", "/Users/victormattsson/Documents", "-a", "@rm", "-f", ".java", "-o", ".txt" };
 		arg = new ArgumentParser(args);
 	}
-
-//	@Test
-//	public void testTheReturnedStringOfToStringMethod() {
-//		arg.parse();
-//		assertEquals("path: /Users/victormattsson/Documents Annotation: @rm Format to read: "
-//				+ ".java Format to write: .txt", arg.toString());
-//	}
 
 	@Test
 	public void assertThatTheReturnedFileFormatIsCorrect() {
@@ -74,15 +69,17 @@ public class ArgumentParserTest {
 
 	@Test
 	public void assertCorrectErrorMessageIfOutputFormatIsNull() {
-		String str = null;
-		arg.validateOutputFormat(str);
-		assertEquals("Invalid output format: " + str + "\n", arg.getErr().toString());
+		List<String> list = new ArrayList<>();
+		arg.validateOutputFormats(list);
+		assertEquals("No output formats given.", arg.getErr().toString());
 	}
 
 	@Test
 	public void assertCorrectErrorMessageIfOutputFormatIsInvalid() {
-		String str = ".klasse";
-		arg.validateOutputFormat(str);
+		List<String> list = new ArrayList<>();
+		list.add(".klasse");
+		
+		arg.validateOutputFormats(list);
 		assertEquals("Invalid output format: [.klasse]. Valid formats: "+ arg.getValidOutputFormats() +"\n", arg.getErr().toString());
 	}
 

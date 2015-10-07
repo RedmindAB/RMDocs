@@ -1,7 +1,9 @@
 package se.redmind.file;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * ArgumentParser --- Sets the given in-arguments to local variables validates
@@ -16,8 +18,8 @@ public class ArgumentParser {
 	private String annotation = "@rm";
 	private String readFormat = ".java";
 	private String[] arguments;
-	private String outputFormat;
 	private StringBuilder err = new StringBuilder();
+	private List<String> outputFormats = new ArrayList<>();
 	private final String[] validReadFormats = { ".java", ".txt", ".cs", ".js" };
 	private final String[] validOutputFormats = { ".json", ".txt", ".html" };
 
@@ -56,7 +58,7 @@ public class ArgumentParser {
 		validatePath(path);
 		validateAnnotation(annotation);
 		validateReadFormat(readFormat);
-		validateOutputFormat(outputFormat);
+		validateOutputFormats(outputFormats);
 
 		if (err.length() > 0) {
 			System.err.println(err);
@@ -97,7 +99,9 @@ public class ArgumentParser {
 			break;
 		case "-o":
 			if (arguments.length > i + 1) {
-				outputFormat = arguments[i + 1];
+				if(!outputFormats.contains(arguments[i+1])){
+					outputFormats.add(arguments[i+1]);
+				}
 			} else {
 				err.append("No output format given\n");
 			}
@@ -148,17 +152,22 @@ public class ArgumentParser {
 		}
 	}
 
-	public void validateOutputFormat(String outputFormat) {
-		if (outputFormat == null) {
-			err.append("Invalid output format: " + outputFormat + "\n");
-		} else if (!Arrays.asList(validOutputFormats).contains(outputFormat)) {
-			err.append(
-					"Invalid output format: [" + outputFormat + "]. Valid formats: " + getValidOutputFormats() + "\n");
+	public void validateOutputFormats(List<String> outputFormats) {
+		if(outputFormats.size() <= 0){
+			err.append("No output formats given.");
+		}
+		for (String format : outputFormats) {
+			if (format == null) {
+				err.append("Invalid output format: " + format + "\n");
+			} else if (!Arrays.asList(validOutputFormats).contains(format)) {
+				err.append(
+						"Invalid output format: [" + format + "]. Valid formats: " + getValidOutputFormats() + "\n");
+			}
 		}
 	}
 
-	public String getOutputFormat() {
-		return outputFormat;
+	public List<String> getOutputFormats() {
+		return outputFormats;
 	}
 
 	public String getAnnotation() {

@@ -58,9 +58,9 @@ public class Main {
 		/*
 		 * Section to write the POJOs to specified format
 		 */
-		writer = new RMFileWriter(arg.getOutputFormat(), rc.getPath());
-		writer.printAndWrite(proj);
-		
+		for (String format : arg.getOutputFormats()) {
+			new Thread(new RMFileWriter(format, rc.getPath(), proj)).start();
+		}
 	}
 
 }
