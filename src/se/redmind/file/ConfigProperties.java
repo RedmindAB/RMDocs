@@ -45,7 +45,7 @@ public class ConfigProperties {
 			path = prop.getProperty("path");
 			if (path.equals("")) {
 				prop.setProperty("path", setHomePath());
-				path = System.getProperty("user.home");
+				path = System.getProperty("user.dir");
 			}
 
 		} catch (IOException e) {
@@ -68,7 +68,7 @@ public class ConfigProperties {
 
 
 	public String setHomePath() {
-		return System.getProperty("user.home") + File.separator;
+		return System.getProperty("user.dir") + File.separator;
 	}
 
 
