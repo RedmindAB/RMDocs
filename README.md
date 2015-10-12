@@ -4,7 +4,7 @@ Step 1: Clone the project to your preferred directory with the given link: https
 
 Step 2: Import the project to an IDE as a Maven project.
 
-Step 3: The default path for the output formats will be the Home-directoy. If you wish to change the directory, go to the resources folder and create a file named 'config.properties' and add following: path=/path/
+Step 3: The default path for the output formats will be the working directory of the app. If you wish to change the directory, go to the resources folder and create a file named 'config.properties' and add following: path=/path/
 
 Step 4: Export the project as a runnable JAR file.
 
