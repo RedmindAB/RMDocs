@@ -14,13 +14,21 @@ import se.redmind.util.StringCustomizer;
 
 /**
  * Class that structures the input to a readable format
- * @author victor
+ * @author Victor Mattsson
  *
  */
 public class StructureFormater {
 
-	List<ClassObject> coList = new ArrayList<>();
-	List<String> duplicateList;
+	private List<ClassObject> coList = new ArrayList<>();
+	private List<String> duplicateList;
+	private List<String> unCommentedMethods = new ArrayList<>();
+
+
+	private String annotation;
+
+	public StructureFormater(String anno){
+		annotation = anno;
+	}
 
 	/**
 	 * Reads given file and turns it into a StringBuilder
@@ -59,28 +67,53 @@ public class StructureFormater {
 	 * project, class and annotations
 	 * @param strArr
 	 */
-	public void readArray(String[] strArr, String anno){
+	public void readArray(String[] strArr){
 
 		ClassObject co = new ClassObject();
 		List<Method> methodList = new ArrayList<>();
 
 		for (int y = 0; y < strArr.length; y++) {
 
-			if(containsClassName(strArr[y])){
-				co.setName(StringCustomizer.extractClassName(strArr[y]));
-			}
+			//If a test method does not have any comments, add it to a separate list
+			if(isAMethod(strArr[y])){
 				
-			else if(containsPackageName(strArr[y])){
-				co.setPackName(StringCustomizer.extractPackageName(strArr[y]));
+				if(isTestMethod(strArr, y)){
+					String method = StringCustomizer.extractMethodName(strArr[y]);
+					String str = co.getPackName() + " -> " + co.getName() + " -> " + method;
+
+					unCommentedMethods.add(str);
+				}
 			}
-			else if(containsAnnotation(strArr[y], anno)){
+			//If line contains an annotation
+			else if(containsAnnotation(strArr[y], annotation)){
 
 				y = createObject(strArr, methodList, y);
+				continue;
+			}
+			//If line contains a class name
+			else if(containsClassName(strArr[y])){
+				co.setName(StringCustomizer.extractClassName(strArr[y]));
+				continue;
+			}	
+			//If line contains a package name
+			else if(containsPackageName(strArr[y])){
+				co.setPackName(StringCustomizer.extractPackageName(strArr[y]));
+				continue;
 			}
 		}
-
 		co.setMethodList(methodList);
 		coList.add(co);
+	}
+
+	private boolean isTestMethod(String[] strArr, int y) {
+		boolean isTestMethod = false;
+		for(int x = y; x > 0; x--){
+			if(strArr[x].contains("@Test")){
+				isTestMethod = true;
+				break;
+			}
+		}
+		return isTestMethod;
 	}
 
 	public boolean containsAnnotation(String str, String annotation){
@@ -89,7 +122,7 @@ public class StructureFormater {
 		}
 		return false;
 	}
-	
+
 	public boolean containsPackageName(String str){
 		if(str.contains("package")){
 			return true;
@@ -98,15 +131,15 @@ public class StructureFormater {
 	}
 
 	public boolean containsClassName(String str){
-		
+
 		if(str.contains("public class")) return true;
-		else if(str.contains("public abstract")) return true;
-		else if(str.contains("public final")) return true;
+		else if(str.contains("public abstract class")) return true;
+		else if(str.contains("public final class")) return true;
 		else if(str.contains("private class")) return true;
-		
+
 		return false;
 	}
-	
+
 	/**
 	 * method that creates a new Method object for each method with annotations
 	 * @param strArr
@@ -127,17 +160,18 @@ public class StructureFormater {
 					if(isAMethod(strArr[x])){
 						m.setMethodName(StringCustomizer.extractMethodName(strArr[x]));
 						break;
+					}else if(containsAnnotation(strArr[x], annotation)){
+						addAnnotationToList(strArr[x], rmList);
 					}
-					lineContainsAnnotation(strArr[x], rmList);
 				}
-				
+
 				m.setRmList(rmList);
 				checkForDuplicates(rmList);
 				m.setDuplicateList(duplicateList);
 				y = x;
 				break;
-			}else{
-				lineContainsAnnotation(strArr[i], rmList);
+			}else if(containsAnnotation(strArr[i], annotation)){
+				addAnnotationToList(strArr[i], rmList);
 			}
 		}
 
@@ -145,15 +179,13 @@ public class StructureFormater {
 		return y;
 	}
 
-	private void lineContainsAnnotation(String str, List<String> rmList) {
-		if(str.contains("@rm")){
-			String extracted = StringCustomizer.extractAnnotationData(str);
-			rmList.add(extracted);
-		}
+	private void addAnnotationToList(String str, List<String> rmList) {
+		String extracted = StringCustomizer.extractAnnotationData(str);
+		rmList.add(extracted);
 	}
 
 	public boolean isAMethod(String str) {
-		
+
 		if(str.contains("public void")) return true;
 		else if(str.contains("private void")) return true;
 		else if(str.contains("public final void")) return true;
@@ -173,7 +205,7 @@ public class StructureFormater {
 
 		for (String str : rmList) {
 			try{
-			newList.add(str.substring(0, str.indexOf(":")));
+				newList.add(str.substring(0, str.indexOf(":")));
 			}catch(StringIndexOutOfBoundsException e){
 				newList.add("null");
 			}
@@ -201,7 +233,6 @@ public class StructureFormater {
 				}
 			}
 		}
-
 	}
 
 	/** 
@@ -227,6 +258,14 @@ public class StructureFormater {
 
 	public List<ClassObject> getClassList() {
 		return coList;
+	}
+
+	public List<String> getUnCommentedMethods() {
+		return unCommentedMethods;
+	}
+
+	public void setUnCommentedMethods(List<String> unCommentedMethods) {
+		this.unCommentedMethods = unCommentedMethods;
 	}
 
 

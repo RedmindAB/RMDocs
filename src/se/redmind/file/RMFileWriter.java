@@ -6,6 +6,7 @@ import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import se.redmind.json.JsonWriter;
 import se.redmind.structure.ClassObject;
@@ -30,7 +31,12 @@ public class RMFileWriter implements Runnable {
         this.proj = proj;
     }
 
-    /**
+    public RMFileWriter(String path, Project proj) {
+        this.path = path;
+        this.proj = proj;
+	}
+
+	/**
      * This method chooses method to write base on what format is given
      */
     public void printAndWrite() {
@@ -117,14 +123,25 @@ public class RMFileWriter implements Runnable {
         SimpleDateFormat sd = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
         String date = sd.format(new Date());
 
-        String fileName = proj.getProjectName() + "-" + date;
-
-        return fileName;
+        return proj.getProjectName() + "-" + date;
     }
 
     @Override
     public void run() {
         printAndWrite();
     }
+
+	public void writeReport(List<String> list) {
+		
+        try (PrintWriter writer = new PrintWriter(new File(path, appendDateToFile(proj) + "-report.txt"), "UTF-8");) {
+
+        	writer.println("--Methods with no comments--");
+            for (String method : list) {
+                writer.println(method);
+            }
+        } catch (FileNotFoundException | UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+	}
 }
 

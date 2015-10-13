@@ -8,7 +8,7 @@ import se.redmind.structure.StructureFormater;
 
 public class StructureFormaterTest {
 
-	StructureFormater sf = new StructureFormater();
+	StructureFormater sf = new StructureFormater("@rm");
 	
 	@Test
 	public void ifLineIsAMethodReturnTrue(){

@@ -82,5 +82,5 @@ public class ArgumentParserTest {
 		arg.validateOutputFormats(list);
 		assertEquals("Invalid output format: [.klasse]. Valid formats: "+ arg.getValidOutputFormats() +"\n", arg.getErr().toString());
 	}
-
+	
 }

@@ -20,10 +20,10 @@ public class Main {
 			System.exit(0);
 		}
 
-		ConfigProperties rc = new ConfigProperties();
-		String propValue = rc.getPropValues();
+		ConfigProperties conf = new ConfigProperties();
+		String propValue = conf.getPropValues();
 		if(propValue == null){
-			rc.createConfigFile();
+			conf.createConfigFile();
 		}
 		
 		List<File> fileList;
@@ -38,7 +38,7 @@ public class Main {
 		/*
 		 * Section to structure the filelist to POJO
 		 */
-		StructureFormater formater = new StructureFormater();
+		StructureFormater formater = new StructureFormater(arg.getAnnotation());
 		String [] strArray;
 		StringBuilder sb;
 		Project proj = new Project();
@@ -49,17 +49,20 @@ public class Main {
 			}
 			sb = formater.readFileToStringBuilder(file);
 			strArray = formater.toArray(sb);
-			formater.readArray(strArray, arg.getAnnotation());
+			formater.readArray(strArray);
 		}
 
 		proj.setClassList(formater.getClassList());
+		proj.setUnCommentedMethods(formater.getUnCommentedMethods());
 
 		/*
 		 * Section to write the POJOs to specified format
 		 */
 		for (String format : arg.getOutputFormats()) {
-			new Thread(new RMFileWriter(format, rc.getPath(), proj)).start();
+			new Thread(new RMFileWriter(format, conf.getPath(), proj)).start();
 		}
+		
+		new RMFileWriter(conf.getPath(), proj).writeReport(proj.getUnCommentedMethods());
 	}
 
 }
