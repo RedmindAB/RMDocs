@@ -5,12 +5,11 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Set;
-import java.util.TreeMap;
 
 import se.redmind.util.StringCustomizer;
 
@@ -23,7 +22,7 @@ public class StructureFormater {
 
 	private List<ClassObject> coList = new ArrayList<>();
 	private List<String> duplicateList;
-	private TreeMap<String, List<String>> duplicateMap;
+	private LinkedHashMap<String, List<String>> duplicateMap;
 	private List<String> unCommentedMethods = new ArrayList<>();
 	private boolean duplicates = true;
 
@@ -154,7 +153,7 @@ public class StructureFormater {
 
 		Method m = new Method();
 		List<String> rmList = new ArrayList<>();
-		duplicateMap = new TreeMap<>();
+		duplicateMap = new LinkedHashMap<>();
 
 		for(int i = y; i < strArr.length; i++){
 			//TODO look at another option or modify this option to make sure that next line is a method and nothing else
@@ -226,6 +225,7 @@ public class StructureFormater {
 		for (String str : newList) {
 			if (!set1.add(str)) {
 				duplicateString = str;
+				duplicates = true;
 				break;
 			}
 		}

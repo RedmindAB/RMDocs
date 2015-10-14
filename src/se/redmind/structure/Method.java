@@ -1,19 +1,19 @@
 package se.redmind.structure;
 
+import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.TreeMap;
 
 public class Method {
 
 	private String methodName;
 	private List<String> rmList;
-	private TreeMap<String, List<String>> duplicateMap;
+	private LinkedHashMap<String, List<String>> duplicateMap;
 
-	public TreeMap<String, List<String>> getDuplicateMap() {
+	public LinkedHashMap<String, List<String>> getDuplicateMap() {
 		return duplicateMap;
 	}
 
-	public void setDuplicateMap(TreeMap<String, List<String>> duplicateMap) {
+	public void setDuplicateMap(LinkedHashMap<String, List<String>> duplicateMap) {
 		this.duplicateMap = duplicateMap;
 	}
 
