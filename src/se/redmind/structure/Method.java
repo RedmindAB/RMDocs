@@ -1,12 +1,21 @@
 package se.redmind.structure;
 
 import java.util.List;
+import java.util.TreeMap;
 
 public class Method {
 
 	private String methodName;
 	private List<String> rmList;
-	private List<String> duplicateList;
+	private TreeMap<String, List<String>> duplicateMap;
+
+	public TreeMap<String, List<String>> getDuplicateMap() {
+		return duplicateMap;
+	}
+
+	public void setDuplicateMap(TreeMap<String, List<String>> duplicateMap) {
+		this.duplicateMap = duplicateMap;
+	}
 
 	public List<String> getRmList() {
 		return rmList;
@@ -24,12 +33,4 @@ public class Method {
 		this.methodName = methodName;
 	}
 
-	public void setDuplicateList(List<String> duplicateList) {
-		this.duplicateList = duplicateList;
-	}
-
-	public List<String> getDuplicateList() {
-		return duplicateList;
-	}
-	
 }
