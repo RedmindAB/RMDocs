@@ -17,22 +17,17 @@ public class ConfigProperties {
 	private String path = "";
 	private String propFileName = "config.properties";
 	private Properties prop;
+	
+	public ConfigProperties() {
+		initConfig();
+	}
 
 	public String getPath() {
 		return this.path;
 	}
-
-	public void setPropFileName(String propFileName) {
-		this.propFileName = propFileName;
-	}
-
-	public void setPathPropertyValue(String value) {
-		prop = new Properties();
-		prop.setProperty("path", value);
-	}
-
-	public String getPropValues() {
-
+	
+	private void initConfig(){
+		
 		try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream(propFileName)) {
 			prop = new Properties();
 
@@ -41,17 +36,16 @@ public class ConfigProperties {
 			} else {
 				createConfigFile();
 			}
-
+			
 			path = prop.getProperty("path");
 			if (path.equals("")) {
 				prop.setProperty("path", setHomePath());
 				path = System.getProperty("user.dir");
 			}
 
-		} catch (IOException e) {
-			return null;
-		}
-		return path;
+		}catch(IOException e) {
+			createConfigFile();
+		}	
 	}
 
 	public void createConfigFile() {

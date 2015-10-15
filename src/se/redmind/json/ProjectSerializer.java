@@ -64,9 +64,6 @@ public class ProjectSerializer implements JsonSerializer<Project>{
 						jsonMethod.add(entry.getKey(), dupArray);
 					}
 				}
-//				if(duplicates.size() > 0){
-//					jsonMethod.add("Multiples", duplicates); // add duplicates list to method item
-//				}
 			}
 			jsonClass.add("Methods", methodItems);
 		}

@@ -132,5 +132,10 @@
 			<artifactId>mockito-core</artifactId>
 			<version>2.0.31-beta</version>
 		</dependency>
+		<dependency>
+			<groupId>net.sourceforge.jexcelapi</groupId>
+			<artifactId>jxl</artifactId>
+			<version>2.6.12</version>
+		</dependency>
 	</dependencies>
 </project>
