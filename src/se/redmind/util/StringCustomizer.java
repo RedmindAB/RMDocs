@@ -1,7 +1,11 @@
 package se.redmind.util;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import se.redmind.structure.Project;
 
 public class StringCustomizer {
 
@@ -54,5 +58,13 @@ public class StringCustomizer {
 		}
 		return finalString;
 	}
+	
+    public static String appendDateToFile(Project proj) {
+
+        SimpleDateFormat sd = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
+        String date = sd.format(new Date());
+
+        return proj.getProjectName() + "-" + date;
+    }
 
 	}

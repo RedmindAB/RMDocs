@@ -16,7 +16,7 @@ public class ReadConfigTest {
 	@Test
 	public void assertTheReturnedStringIfEmpty(){
 		String expected = System.getProperty("user.home");
-		assertEquals(expected, rc.getPropValues());
+		assertEquals(expected, rc.getPath());
 	}
 	
 
