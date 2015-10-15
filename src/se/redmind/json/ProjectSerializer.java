@@ -1,7 +1,8 @@
 package se.redmind.json;
 
 import java.lang.reflect.Type;
-import java.util.Arrays;
+import java.util.List;
+import java.util.Map.Entry;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -33,25 +34,8 @@ public class ProjectSerializer implements JsonSerializer<Project>{
 				JsonObject jsonMethod = new JsonObject(); // new json object as a method item
 				methodItems.add(jsonMethod); // add method item to method item list
 				jsonMethod.addProperty("MethodName", method.getMethodName()); // sets name for this method item
-				JsonArray duplicates = new JsonArray();
 
-				if(method.getDuplicateList() != null){
-					for (String dup : method.getDuplicateList()) {
-						JsonObject jsonDup = new JsonObject();
-						String[] itemArray = splitStringToArray(dup);
-						for(int i = 1; i < itemArray.length; i+=2){
-							String key = itemArray[i];
-							String value = "";
-							try{
-								value = itemArray[i+1].trim();
-							}catch(ArrayIndexOutOfBoundsException e){
-								value = "";
-							}
-							jsonDup.addProperty(key, value);
-						}
-						duplicates.add(jsonDup);
-					}
-				}
+
 				if(method.getRmList() != null){
 					for (String item : method.getRmList()) {
 						if(item.equals("")) continue;
@@ -59,8 +43,29 @@ public class ProjectSerializer implements JsonSerializer<Project>{
 						jsonMethod.addProperty(itemArray[0], itemArray[1].trim());
 					}
 				}
-				if(duplicates.size() > 0){
-					jsonMethod.add("Multiples", duplicates); // add duplicates list to method item
+				
+				if(!method.getDuplicateMap().isEmpty()){
+					
+					for (Entry<String, List<String>> entry : method.getDuplicateMap().entrySet()){
+						JsonArray dupArray = new JsonArray();
+						for (String dup : entry.getValue()) {
+							JsonObject jsonDup = new JsonObject();
+							String[] itemArray = splitStringToArray(dup);
+
+							for(int i = 1; i < itemArray.length; i+=2){
+								String key = itemArray[i];
+								String value = "";
+								try{
+									value = itemArray[i+1].trim();
+								}catch(ArrayIndexOutOfBoundsException e){
+									value = "";
+								}
+								jsonDup.addProperty(key, value);
+							}
+							dupArray.add(jsonDup);
+						}
+						jsonMethod.add(entry.getKey(), dupArray);
+					}
 				}
 			}
 			jsonClass.add("Methods", methodItems);

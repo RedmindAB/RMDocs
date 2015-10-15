@@ -2,13 +2,22 @@ package test.java.se.redmind;
 
 import static org.junit.Assert.*;
 
+import org.junit.Before;
 import org.junit.Test;
 
+import se.redmind.file.ArgumentParser;
 import se.redmind.structure.StructureFormater;
 
 public class StructureFormaterTest {
 
 	StructureFormater sf = new StructureFormater("@rm");
+	ArgumentParser arg;
+	
+	@Before
+	public void before() {
+		String[] args = { "-p", "./src/test/java/se/redmind/Testfile.java", "-o", ".json" };
+		arg = new ArgumentParser(args);
+	}
 	
 	@Test
 	public void ifLineIsAMethodReturnTrue(){
@@ -24,5 +33,10 @@ public class StructureFormaterTest {
 	public void ifLineIsAMethodReturnTrueasdasd(){
 		assertTrue(sf.isAMethod("public void"));
 
+	}
+	
+	@Test
+	public void handleMultipleFields(){
+		arg.parse();
 	}
 }

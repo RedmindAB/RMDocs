@@ -8,6 +8,8 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import org.apache.commons.io.FileUtils;
 
@@ -84,8 +86,10 @@ public class RMFileWriter implements Runnable {
                     for (String s : m.getRmList()) {
                         writer.println(s.replaceAll(":", ",").trim());
                     }
-                    for (String dup : m.getDuplicateList()) {
-                        writer.println(dup);
+                    for (Entry<String, List<String>> entry : m.getDuplicateMap().entrySet()){
+                        for (String dup : entry.getValue()) {
+							writer.println(dup);
+						}
                     }
                     writer.println();
                 }
@@ -147,9 +151,12 @@ public class RMFileWriter implements Runnable {
                     for (String s : m.getRmList()) {
                         writer.println(s);
                     }
-                    for (String dup : m.getDuplicateList()) {
-                        writer.println(dup);
+                    for (Entry<String, List<String>> entry : m.getDuplicateMap().entrySet()){
+                        for (String dup : entry.getValue()) {
+							writer.println(dup);
+						}
                     }
+                    
                     writer.println();
                 }
             }

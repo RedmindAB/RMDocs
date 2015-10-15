@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Set;
 
@@ -21,8 +22,9 @@ public class StructureFormater {
 
 	private List<ClassObject> coList = new ArrayList<>();
 	private List<String> duplicateList;
+	private LinkedHashMap<String, List<String>> duplicateMap;
 	private List<String> unCommentedMethods = new ArrayList<>();
-
+	private boolean duplicates = true;
 
 	private String annotation;
 
@@ -151,6 +153,7 @@ public class StructureFormater {
 
 		Method m = new Method();
 		List<String> rmList = new ArrayList<>();
+		duplicateMap = new LinkedHashMap<>();
 
 		for(int i = y; i < strArr.length; i++){
 			//TODO look at another option or modify this option to make sure that next line is a method and nothing else
@@ -166,8 +169,12 @@ public class StructureFormater {
 				}
 
 				m.setRmList(rmList);
-				checkForDuplicates(rmList);
-				m.setDuplicateList(duplicateList);
+				
+				do{
+					checkForDuplicates(rmList);
+				}while(duplicates);
+				
+				m.setDuplicateMap(duplicateMap);
 				y = x;
 				break;
 			}else if(containsAnnotation(strArr[i], annotation)){
@@ -203,6 +210,7 @@ public class StructureFormater {
 		List<String> newList = new ArrayList<>();
 		duplicateList = new ArrayList<>();
 
+		//iterates the rmList and adds the "key" to the new list
 		for (String str : rmList) {
 			try{
 				newList.add(str.substring(0, str.indexOf(":")));
@@ -211,19 +219,29 @@ public class StructureFormater {
 			}
 		}
 
+		//Find the duplicate string in the new list and set it to duplicateString
 		final Set<String> set1 = new HashSet<String>();
 
 		for (String str : newList) {
 			if (!set1.add(str)) {
 				duplicateString = str;
+				duplicates = true;
+				break;
 			}
 		}
-
+		
+		if(duplicateString.equals("noValue")){
+			duplicates = false;
+			return;
+		}
+		
+		//if rmList contains the duplicate string, add the item in duplicateList
 		for (String str : rmList) {
 			if(str.startsWith(duplicateString)){
 				duplicateList.add(str);
 			}
 		}
+		duplicateMap.put(duplicateString, duplicateList);
 
 		for (String string : duplicateList) {
 			for (Iterator<String> iterator = rmList.iterator(); iterator.hasNext();) {
