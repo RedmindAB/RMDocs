@@ -5,10 +5,14 @@ import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.io.FileUtils;
+
 import se.redmind.json.JsonWriter;
+import se.redmind.json.ProjectSerializer;
 import se.redmind.structure.ClassObject;
 import se.redmind.structure.Method;
 import se.redmind.structure.Project;
@@ -51,13 +55,48 @@ public class RMFileWriter implements Runnable {
             case ".json":
                 writeToJson(proj);
                 break;
+            case ".csv":
+                writeToCSV(proj);
+                break;
             default:
                 System.err.println("Invalid output format: " + format);
                 System.exit(1);
         }
     }
 
-    private void writeToJson(Project proj) {
+
+	private void writeToCSV(Project proj) {
+      
+		File txtDir = new File(path + "csv");
+        txtDir.mkdirs();
+
+        try (PrintWriter writer = new PrintWriter(new File(txtDir, appendDateToFile(proj) + ".csv"), "UTF-8");) {
+
+            for (ClassObject co : proj.getClassList()) {
+                writer.println(co.getPackName());
+                writer.println();
+                writer.println(co.getName());
+                writer.println();
+
+                for (Method m : co.getMethodList()) {
+                    writer.println("Method," + m.getMethodName());
+                   
+                    for (String s : m.getRmList()) {
+                        writer.println(s.replaceAll(":", ",").trim());
+                    }
+                    for (String dup : m.getDuplicateList()) {
+                        writer.println(dup);
+                    }
+                    writer.println();
+                }
+            }
+        } catch (FileNotFoundException | UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+		
+	}
+
+	private void writeToJson(Project proj) {
         JsonWriter json = new JsonWriter(proj);
         String js = json.convertToJson();
 
@@ -65,8 +104,9 @@ public class RMFileWriter implements Runnable {
         txtDir.mkdirs();
 
         write(js, new File(txtDir, appendDateToFile(proj) + ".json"));
+        
     }
-
+  
     private void writeToHTML(Project proj) {
 
         JsonWriter json = new JsonWriter(proj);

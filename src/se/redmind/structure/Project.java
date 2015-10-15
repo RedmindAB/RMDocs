@@ -2,12 +2,14 @@ package se.redmind.structure;
 
 import java.util.List;
 
+
+
 public class Project {
-	
+
 	private String projectName;
 	private List<ClassObject> classList;
 	private List<String> unCommentedMethods;
-	
+
 	public List<String> getUnCommentedMethods() {
 		return unCommentedMethods;
 	}
@@ -27,13 +29,12 @@ public class Project {
 	public Project(){
 		projectName = "";
 	}
-	
+
 	public String getProjectName() {
 		return projectName;
 	}
 	public void setProjectName(String projectName) {
 		this.projectName = projectName;
 	}
-
 
 }
