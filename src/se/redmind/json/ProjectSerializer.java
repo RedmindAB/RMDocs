@@ -43,24 +43,29 @@ public class ProjectSerializer implements JsonSerializer<Project>{
 						jsonMethod.addProperty(itemArray[0], itemArray[1].trim());
 					}
 				}
-				
+
 				if(!method.getDuplicateMap().isEmpty()){
-					
+
 					for (Entry<String, List<String>> entry : method.getDuplicateMap().entrySet()){
 						JsonArray dupArray = new JsonArray();
 						for (String dup : entry.getValue()) {
 							JsonObject jsonDup = new JsonObject();
 							String[] itemArray = splitStringToArray(dup);
 
-							for(int i = 1; i < itemArray.length; i+=2){
-								String key = itemArray[i];
-								String value = "";
-								try{
-									value = itemArray[i+1].trim();
-								}catch(ArrayIndexOutOfBoundsException e){
-									value = "";
+							if(itemArray.length == 1){
+								String[] arr = dup.split(":");
+								jsonDup.addProperty("key", arr[1]);
+							}else{
+								for(int i = 1; i < itemArray.length; i+=2){
+									String key = itemArray[i];
+									String value;
+									try{
+										value = itemArray[i+1].trim();
+									}catch(ArrayIndexOutOfBoundsException e){
+										value = "";
+									}
+									jsonDup.addProperty(key, value);
 								}
-								jsonDup.addProperty(key, value);
 							}
 							dupArray.add(jsonDup);
 						}
