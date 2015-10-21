@@ -21,7 +21,7 @@ public class ArgumentParser {
 	private StringBuilder err = new StringBuilder();
 	private List<String> outputFormats = new ArrayList<>();
 	private final String[] validReadFormats = { ".java", ".txt", ".cs", ".js" };
-	private final String[] validOutputFormats = { ".json", ".txt", ".html", ".xls"};
+	private final String[] validOutputFormats = { ".json", ".txt", ".html", ".xls", ".con"};
 
 	public String getValidReadFormats() {
 		return Arrays.toString(validReadFormats);

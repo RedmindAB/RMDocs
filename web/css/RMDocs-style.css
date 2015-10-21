@@ -3,10 +3,55 @@ html{
 }
 
 body{
-	background-color: #D4D9DD;
+	background-color: #D4D9DD !important;
+	font:12px/1.5 'Arial' !important;
 	position:relative;
 	height:100%;
 	min-height:100%;
+}
+
+.list-group{
+        margin-left: 20px;
+}
+
+.list-group-item{
+    background-color: rgb(105, 184, 165);
+}
+
+.list-group-subitem{
+    background-color: rgb(120, 184, 250);
+    height: 30px;
+}
+
+#sidebar.affix-top{
+    position: static;
+    margin-top:30px;
+    width:228px;
+}
+
+#sidebar.affix {
+    position: fixed;
+    top:70px;
+    width:228px;
+  }
+
+a:hover, a:focus{
+    text-decoration: none !important;
+    color: #999;
+}
+
+#sidebar{
+    word-wrap: break-word;
+}
+.back-to-top{
+    position: absolute;
+    bottom: 10px;
+    text-decoration: none;
+    padding: 4px 10px;
+    margin-top: 10px;
+    margin-left: 10px;
+    font-size: 12px;
+    color: #999;
 }
 
 .container-fluid{
@@ -37,4 +82,53 @@ body{
 	right: 0px;
 	width: auto;
 	height: 100px;
+}
+
+.table {
+    margin-bottom: 0 !important;
+    margin-top: 20px !important;
+    //margin: auto;
+    //width: 700px !important;
+    margin-left: 50px;
+    margin-right: 50px;
+    width: calc(100% - 100px) !important;
+    table-layout: fixed;
+}
+
+.inner-table{
+    margin: auto;
+    width: 600px !important;
+    margin-top: 3px !important;
+    margin-bottom: 0 !important;
+}
+
+th{
+    background-color: #E1F8FF;
+}
+
+.inner-table-head th{
+    background-color: #EEEEFF;
+}
+
+.method-class{
+    padding-top: 50px;
+}
+
+#main-container h3{
+    padding-left: 50px;
+}
+
+.rm-logo{
+    float: right;
+    padding: 10px;
+}
+
+#scroll-div{
+    overflow-y: scroll;
+    overflow-x: hidden;
+    height: 600px;
+}
+
+#proj-name{
+    padding-left: 50px;
 }

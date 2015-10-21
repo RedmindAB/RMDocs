@@ -67,4 +67,9 @@ public class StringCustomizer {
         return proj.getProjectName() + "-" + date;
     }
 
+	public static String[] splitStringToArray(String str){
+		String[] strArr = str.split("\\[|\\]");
+		return strArr;
+	}
+
 	}

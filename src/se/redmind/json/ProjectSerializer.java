@@ -14,6 +14,7 @@ import com.google.gson.JsonSerializer;
 import se.redmind.structure.ClassObject;
 import se.redmind.structure.Method;
 import se.redmind.structure.Project;
+import se.redmind.util.StringCustomizer;
 
 public class ProjectSerializer implements JsonSerializer<Project>{
 
@@ -50,7 +51,7 @@ public class ProjectSerializer implements JsonSerializer<Project>{
 						JsonArray dupArray = new JsonArray();
 						for (String dup : entry.getValue()) {
 							JsonObject jsonDup = new JsonObject();
-							String[] itemArray = splitStringToArray(dup);
+							String[] itemArray = StringCustomizer.splitStringToArray(dup);
 
 							if(itemArray.length == 1){
 								String[] arr = dup.split(":");
@@ -79,10 +80,4 @@ public class ProjectSerializer implements JsonSerializer<Project>{
 		jsonObject.add("Classes", ClassItems);
 		return jsonObject;
 	}
-
-	public String[] splitStringToArray(String str){
-		String[] strArr = str.split("\\[|\\]");
-		return strArr;
-	}
-
 }
