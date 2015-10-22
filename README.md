@@ -14,4 +14,4 @@ Step 5: Run the JAR from the Terminal/CMD with the needed arguments.
         
 Mandatory arguments: -p (path), -o (output)
         
-Other arguments: -f (read format), -a (annotation)
+Optional arguments: -f (read format), -a (annotation)
