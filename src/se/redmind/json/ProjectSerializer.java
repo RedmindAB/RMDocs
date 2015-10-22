@@ -38,12 +38,8 @@ public class ProjectSerializer implements JsonSerializer<Project>{
 
 
 				if(method.getRmList() != null){
-					for (String item : method.getRmList()) {
-						if(item.equals("")) continue;
-						String[] itemArray = item.split(":");
-						jsonMethod.addProperty(itemArray[0], itemArray[1].trim());
-					}
-				}
+                    addPropertyToMethod(method, jsonMethod);
+                }
 
 				if(!method.getDuplicateMap().isEmpty()){
 
@@ -80,4 +76,12 @@ public class ProjectSerializer implements JsonSerializer<Project>{
 		jsonObject.add("Classes", ClassItems);
 		return jsonObject;
 	}
+
+    private void addPropertyToMethod(Method method, JsonObject jsonMethod) {
+        for (String item : method.getRmList()) {
+            if(item.equals("")) continue;
+            String[] itemArray = item.split(":");
+            jsonMethod.addProperty(itemArray[0], itemArray[1].trim());
+        }
+    }
 }

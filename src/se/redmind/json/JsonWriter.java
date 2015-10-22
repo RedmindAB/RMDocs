@@ -17,7 +17,11 @@ public class JsonWriter {
 		if(proj == null){
 			throw new NullPointerException("Project is null");
 		}
-		
+
+		if(proj.getClassList() == null){
+			return "";
+		}
+
 		GsonBuilder gBuilder = new GsonBuilder();
 		gBuilder.registerTypeAdapter(Project.class, new ProjectSerializer());
 		Gson gson = gBuilder.setPrettyPrinting().create();

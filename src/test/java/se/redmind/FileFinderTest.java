@@ -3,10 +3,14 @@ package test.java.se.redmind;
 import static org.junit.Assert.*;
 
 import java.io.File;
+import java.io.IOException;
+
+import static org.mockito.Mockito.*;
 
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.contrib.java.lang.system.ExpectedSystemExit;
+import org.junit.rules.TemporaryFolder;
 
 import se.redmind.file.FileFinder;
 
@@ -14,6 +18,9 @@ public class FileFinderTest {
 
 	@Rule
     public final ExpectedSystemExit exit = ExpectedSystemExit.none();
+	@Rule
+	public TemporaryFolder testFolder = new TemporaryFolder();
+
 	FileFinder ff = new FileFinder(".java");
 
 	@Test
@@ -30,4 +37,17 @@ public class FileFinderTest {
 		exit.expectSystemExitWithStatus(1);
 		ff.getFileList();
 	}
+
+	@Test
+	public void testThatFileFormatIsCorrect(){
+		assertEquals(".java", ff.getFileFormat());
+	}
+
+//	@Test
+//	public void assertRecursiveMethodCallsIfFileIsADir() throws IOException {
+//		File tempFile = testFolder.newFile("file.txt");
+//		File tempFolder = testFolder.newFolder("folder");
+//		ff.pathWalker(tempFolder);
+//		System.out.println(tempFile.getAbsolutePath());
+//	}
 }

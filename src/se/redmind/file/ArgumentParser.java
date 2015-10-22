@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * ArgumentParser --- Sets the given in-arguments to local variables validates
  * and gives error messages if arguments are invalid
- * 
+ *
  * @author Victor Mattsson
  *
  */
@@ -35,12 +35,14 @@ public class ArgumentParser {
 		return path;
 	}
 
+    public void setPath(File path) { this.path = path; }
+
 	public String getReadFormat() {
 		return this.readFormat;
 	}
 
-	public StringBuilder getErr() {
-		return err;
+	public String getErr() {
+		return err.toString();
 	}
 
 	/**
@@ -60,17 +62,14 @@ public class ArgumentParser {
 		validateReadFormat(readFormat);
 		validateOutputFormats(outputFormats);
 
-		if (err.length() > 0) {
-			System.err.println(err);
-			System.exit(1);
-		}
+        checkForErrors();
 	}
 
 	/**
 	 * Checks the in-arguments and search for flags and sets the local variables
 	 * depending on the flag. If the flag combined with the argument is invalid
 	 * an error message is printed and program shuts down
-	 * 
+	 *
 	 * @param i
 	 *            current iteration in the array
 	 */
@@ -111,7 +110,7 @@ public class ArgumentParser {
 
 	/**
 	 * Validates the File path
-	 * 
+	 *
 	 * @param path
 	 *            A File containing the command line argument for the path
 	 */
@@ -119,13 +118,13 @@ public class ArgumentParser {
 		if (path == null) {
 			err.append("Please enter a path\n");
 		} else if (!path.isDirectory()) {
-			err.append("Path does not exist: " + path + "\n");
+			err.append("Path does not exist: ").append(path).append("\n");
 		}
 	}
 
 	/**
 	 * Validates the annotation string
-	 * 
+	 *
 	 * @param anno
 	 *            A string containing command line argument for annotation
 	 */
@@ -133,37 +132,41 @@ public class ArgumentParser {
 	public void validateAnnotation(String anno) {
 		// TODO - validate annotations other than @rm
 		if (anno == null) {
-			err.append("Invalid annotation: " + anno + ", add \"-a annotation\" as argument." + "\n");
+			err.append("Invalid annotation: " + "null" + ", add \"-a annotation\" as argument." + "\n");
 		} else if (!anno.equals("@rm")) {
-			err.append("Invalid annotation: " + anno + "\n");
+			err.append("Invalid annotation: ").append(anno).append("\n");
 		}
 	}
 
 	/**
 	 * validates the format to be read
-	 * 
+	 *
 	 * @param format
 	 */
 	public void validateReadFormat(String format) {
 		if (format == null) {
-			err.append("Invalid read format: " + format + "\n");
+			err.append("Invalid read format: ").append("null").append("\n");
 		} else if (!Arrays.asList(validReadFormats).contains(format)) {
-			err.append("Invalid read format: [" + format + "]. Valid formats: " + getValidReadFormats() + "\n");
+			err.append("Invalid read format: [").append(format).append("]. Valid formats: ").append(getValidReadFormats()).append("\n");
 		}
 	}
 
 	public void validateOutputFormats(List<String> outputFormats) {
-		if(outputFormats.size() <= 0){
+		if(outputFormats.isEmpty()){
 			err.append("No output formats given.");
 		}
 		for (String format : outputFormats) {
-			if (format == null) {
-				err.append("Invalid output format: " + format + "\n");
-			} else if (!Arrays.asList(validOutputFormats).contains(format)) {
-				err.append(
-						"Invalid output format: [" + format + "]. Valid formats: " + getValidOutputFormats() + "\n");
+
+			if (!Arrays.asList(validOutputFormats).contains(format)) {
+				err.append("Invalid output format: [").append(format).append("]. Valid formats: ").append(getValidOutputFormats()).append("\n");
 			}
 		}
+	}
+	public void checkForErrors() {
+        if (err.length() > 0) {
+            System.err.println(err);
+            System.exit(1);
+        }
 	}
 
 	public List<String> getOutFormats() {

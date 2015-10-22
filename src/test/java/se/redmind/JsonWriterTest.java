@@ -24,16 +24,10 @@ public class JsonWriterTest {
 	}
 	
 	@Test
-	public void ifProjectIsEmptyJsonIsEmpty(){
+	public void ifClassListIsNullReturnEmptyString(){
 		jw = new JsonWriter(proj);
-		assertEquals("{\n  \"projectName\": \"\"\n}", jw.convertToJson());
+		assertEquals("", jw.convertToJson());
 	}
-	
-	@Test
-	public void checkIfProjectNameIsCorrect(){
-		proj.setProjectName("MittProjekt");
-		jw = new JsonWriter(proj);
-		assertEquals("{\n  \"projectName\": \"MittProjekt\"\n}", jw.convertToJson());
-	}
+
 
 }
