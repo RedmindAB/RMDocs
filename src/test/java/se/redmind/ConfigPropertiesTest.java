@@ -9,7 +9,7 @@ import org.junit.Test;
 
 import se.redmind.file.ConfigProperties;
 
-public class ReadConfigTest {
+public class ConfigPropertiesTest {
 
 	ConfigProperties rc = new ConfigProperties();
 	
