@@ -1,8 +1,9 @@
-package test.java.se.redmind;
+package se.redmind;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 
 import org.junit.Test;
@@ -15,9 +16,8 @@ public class ConfigPropertiesTest {
 	
 	@Test
 	public void assertTheReturnedStringIfEmpty(){
-		String expected = System.getProperty("user.home");
+		String expected = System.getProperty("user.dir") + File.separator;
 		assertEquals(expected, rc.getPath());
 	}
 	
-
 }

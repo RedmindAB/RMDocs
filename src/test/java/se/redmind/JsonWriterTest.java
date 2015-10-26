@@ -1,4 +1,4 @@
-package test.java.se.redmind;
+package se.redmind;
 
 import static org.junit.Assert.*;
 
@@ -6,7 +6,11 @@ import org.junit.Before;
 import org.junit.Test;
 
 import se.redmind.json.JsonWriter;
+import se.redmind.structure.ClassObject;
 import se.redmind.structure.Project;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class JsonWriterTest {
 
@@ -18,9 +22,9 @@ public class JsonWriterTest {
 		jw = new JsonWriter(null);
 	}
 	
-	@Test(expected = NullPointerException.class)
-	public void ifprojectIsNullThrowNullPointerException() {
-		jw.convertToJson();
+	@Test
+	public void ifprojectIsNullReturnCorrectString() {
+        assertEquals("Project is null", jw.convertToJson());
 	}
 	
 	@Test
@@ -28,6 +32,17 @@ public class JsonWriterTest {
 		jw = new JsonWriter(proj);
 		assertEquals("", jw.convertToJson());
 	}
+
+    @Test
+    public void returnedValueIsAString(){
+        List<ClassObject> list = new ArrayList<>();
+        list.add(new ClassObject());
+
+        jw = new JsonWriter(proj);
+        proj.setProjectName("Project");
+        proj.setClassList(list);
+        assertEquals(String.class, jw.convertToJson().getClass());
+    }
 
 
 }

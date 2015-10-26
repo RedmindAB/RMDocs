@@ -13,7 +13,7 @@ $(function () {
 
 function getJSONObject(){
 
-	$.getJSON("http://127.0.0.1:8000/MyProject.json", function(result){
+	$.getJSON("/MyProject.json", function(result){
 
 		$("#proj-name").text(result.ProjectName);
 

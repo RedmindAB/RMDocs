@@ -15,10 +15,11 @@ import java.util.Properties;
 public class ConfigProperties {
 
 	private String path = "";
-	private String propFileName = "config.properties";
+	private String propFileName;
 	private Properties prop;
 	
 	public ConfigProperties() {
+        propFileName = "config.properties";
 		initConfig();
 	}
 
@@ -28,7 +29,7 @@ public class ConfigProperties {
 	
 	private void initConfig(){
 		
-		try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream(propFileName)) {
+		try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);) {
 			prop = new Properties();
 
 			if (inputStream != null) {
@@ -36,9 +37,10 @@ public class ConfigProperties {
 			} else {
 				createConfigFile();
 			}
-			
-			path = prop.getProperty("path");
-			if (path.equals("")) {
+
+            setPathFromProperty();
+
+            if (path.equals("")) {
 				prop.setProperty("path", setHomePath());
 				path = System.getProperty("user.dir");
 			}
@@ -48,7 +50,11 @@ public class ConfigProperties {
 		}	
 	}
 
-	public void createConfigFile() {
+    public void setPathFromProperty() {
+        path = prop.getProperty("path");
+    }
+
+    public void createConfigFile() {
 
 		prop = new Properties();
 		File configFile = new File("./resources/config.properties");

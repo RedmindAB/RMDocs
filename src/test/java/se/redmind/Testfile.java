@@ -1,4 +1,4 @@
-package test.java.se.redmind;
+package se.redmind;
 
 import org.junit.After;
 import org.junit.Before;

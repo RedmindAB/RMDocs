@@ -15,7 +15,7 @@ public class JsonWriter {
 	public String convertToJson(){
 		
 		if(proj == null){
-			throw new NullPointerException("Project is null");
+			return "Project is null";
 		}
 
 		if(proj.getClassList() == null){

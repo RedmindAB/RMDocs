@@ -1,4 +1,4 @@
-package test.java.se.redmind;
+package se.redmind;
 
 import static org.junit.Assert.*;
 
@@ -16,16 +16,6 @@ public class RMFileWriterTest {
 
 	Project proj = new Project();
 	RMFileWriter rm;
-
-//	@Test
-//	public void test_returnFileName() {
-//		rm = new RMFileWriter(" ", "/Users/Oz/Documents/");
-//		proj.setProjectName("hej");
-//		SimpleDateFormat sd = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
-//		String date = sd.format(new Date());
-//		String expected = "hej" +"-"+ date;
-//		assertEquals(expected, rm.appendDateToFile(proj));
-//	}
 
 	@Test
 	public void testIfMethodreturnsFormatToText(){

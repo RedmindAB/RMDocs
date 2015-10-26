@@ -1,4 +1,4 @@
-package test.java.se.redmind;
+package se.redmind;
 
 import static org.junit.Assert.*;
 
@@ -7,36 +7,42 @@ import org.junit.Test;
 
 import se.redmind.file.ArgumentParser;
 import se.redmind.structure.StructureFormater;
+import se.redmind.util.Conditions;
+
+import java.io.File;
+import java.net.URISyntaxException;
 
 public class StructureFormaterTest {
 
 	StructureFormater sf = new StructureFormater("@rm");
 	ArgumentParser arg;
-	
+    File file = new File(System.getProperty("user.dir") + "/src/test/java/se/redmind/TestFile.java");
+    StringBuilder sb = new StringBuilder();
+
 	@Before
-	public void before() {
-		String[] args = { "-p", "./src/test/java/se/redmind/Testfile.java", "-o", ".json" };
+	public void before() throws URISyntaxException {
+		String[] args = { "-p", "/RMDocs/src/test/java/se/redmind/Testfile.java", "-o", ".json" };
 		arg = new ArgumentParser(args);
 	}
 	
-	@Test
-	public void ifLineIsAMethodReturnTrue(){
-		assertTrue(sf.isAMethod("public void ahuhasudh(){"));
-		assertTrue(sf.isAMethod("public static void kekeke() {"));
-		assertTrue(sf.isAMethod("private void"));
-		assertTrue(sf.isAMethod("private static void"));
-		assertTrue(sf.isAMethod("public static final void"));
-		assertTrue(sf.isAMethod("private static final void"));
-	}
-	
-	@Test
-	public void ifLineIsAMethodReturnTrueasdasd(){
-		assertTrue(sf.isAMethod("public void"));
+    @Test
+    public void ifLineIsNotAMethodReturnFalse(){
+        assertFalse(Conditions.isAMethod("public inte en metod(){"));
+    }
 
-	}
-	
 	@Test
-	public void handleMultipleFields(){
-		arg.parse();
-	}
+	public void returnedObjectIsAStringBuilder(){
+        assertEquals(StringBuilder.class, sf.readFileToStringBuilder(file).getClass());
+    }
+
+    @Test
+    public void returnedObjectIsAStringArray(){
+        assertEquals(String[].class, sf.toArray(sb).getClass());
+    }
+
+    @Test
+    public void testIsATestMethod(){
+//        assertTrue();
+    }
+
 }

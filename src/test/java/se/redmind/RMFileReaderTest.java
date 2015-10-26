@@ -1,10 +1,15 @@
-package test.java.se.redmind;
+package se.redmind;
 
-import junit.framework.TestCase;
+import org.junit.*;
 
 /**
  * Created by victormattsson on 2015-10-23.
  */
-public class RMFileReaderTest extends TestCase {
+public class RMFileReaderTest{
+
+    @Test
+    public void test(){
+
+    }
 
 }

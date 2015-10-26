@@ -25,7 +25,7 @@ public class FormaterInit {
 			}
 			sb = formater.readFileToStringBuilder(file);
 			strArray = formater.toArray(sb);
-			formater.readArray(strArray);
+			formater.buildClassObjectFromArray(strArray);
 		}
 		return formater;
 	}

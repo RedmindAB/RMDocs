@@ -40,7 +40,7 @@ public class StringCustomizer {
 	 * @param element
 	 * @return the extracted and formated data
 	 */
-	public static String extractAnnotationData(String element){
+	public static String extractAnnotationData(String element, String annotation){
 
 		Pattern pat = Pattern.compile("\\@rm(.*?)\\s");
 		Matcher mat = pat.matcher(element);
@@ -54,7 +54,7 @@ public class StringCustomizer {
 			secondString = element.replace(newString, "");
 			thirdString = secondString.replaceAll("[\\*\\/]", "");
 			if(thirdString.equals("")) thirdString = " ";
-			finalString = newString + ": " + thirdString.replace("@rm", "").trim();
+			finalString = newString + ": " + thirdString.replace(annotation, "").trim();
 		}
 		return finalString;
 	}

@@ -1,4 +1,4 @@
-package test.java.se.redmind;
+package se.redmind;
 
 import static org.junit.Assert.*;
 

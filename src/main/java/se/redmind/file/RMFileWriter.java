@@ -12,6 +12,7 @@ import se.redmind.structure.ClassObject;
 import se.redmind.structure.Method;
 import se.redmind.structure.Project;
 import se.redmind.util.StringCustomizer;
+import se.redmind.web.SparkServer;
 
 /**
  * Writes a specific file to the given format that is declared when the class is
@@ -140,6 +141,8 @@ public class RMFileWriter implements Runnable {
         String js = json.convertToJson();
 
         write(js, new File("./web/MyProject.json"));
+
+        SparkServer.start();
     }
 
     private void write(String json, File pathAndFile) {
