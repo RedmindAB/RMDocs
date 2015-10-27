@@ -34,18 +34,20 @@ public class Main {
         fileList = reader.readAndSeparateFiles(finder.getFileList(), arg.getAnnotation());
 
         // Section to structure the file list to POJO
-        StructureFormatter formatter = new StructureFormatter(arg.getAnnotation());
+        StructureFormatter formatter = new StructureFormatter(arg.getAnnotation(), arg.getSearchString());
         Project project = new Project();
         formatter = new FormatterInit(project, formatter, fileList).format();
         project.setClassObjects(formatter.getClassList());
         project.setUnCommentedMethods(formatter.getUnCommentedMethods());
+        project.setSearchAnnotation(formatter.getSearchAnnotation());
 
         // Section to write the POJOs to specified format
         for (String format : arg.getOutFormats()) {
             new Thread(new RMFileWriter(format, properties.getPath(), project)).start();
         }
 
-        new RMFileWriter(properties.getPath(), project).writeReport(project.getUnCommentedMethods());
+        new RMFileWriter(properties.getPath(), project).writeReport(project.getUnCommentedMethods(), project.getSearchAnnotation());
+       
     }
 
 }

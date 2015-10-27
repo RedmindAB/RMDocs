@@ -8,8 +8,17 @@ public class Project {
     private String projectName;
     private List<ClassObject> classObjects;
     private List<String> unCommentedMethods;
+    private List<String> searchAnnotation;
 
-    public List<String> getUnCommentedMethods() {
+    public List<String> getSearchAnnotation() {
+		return searchAnnotation;
+	}
+
+	public void setSearchAnnotation(List<String> searchAnnotation) {
+		this.searchAnnotation = searchAnnotation;
+	}
+
+	public List<String> getUnCommentedMethods() {
         return unCommentedMethods;
     }
 

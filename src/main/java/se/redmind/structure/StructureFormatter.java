@@ -21,227 +21,256 @@ import se.redmind.util.StringCustomizer;
  */
 public class StructureFormatter {
 
-    private List<ClassObject> classObjects = new ArrayList<>();
-    private List<String> duplicateList;
-    private LinkedHashMap<String, List<String>> duplicateMap;
-    private List<String> unCommentedMethods = new ArrayList<>();
-    private boolean duplicates = true;
+	private List<ClassObject> classObjects = new ArrayList<>();
+	private List<String> duplicateList;
+	private LinkedHashMap<String, List<String>> duplicateMap;
+	private List<String> searchAnnotation = new ArrayList<>();
 
-    private String annotation;
+	private List<String> unCommentedMethods = new ArrayList<>();
+	private boolean duplicates = true;
+	private String searchString;
 
-    public StructureFormatter(String anno) {
-        annotation = anno;
-    }
+	private String annotation;
 
-    /**
-     * Reads given file and turns it into a StringBuilder
-     *
-     * @param file
-     * @return the StringBuilder object
-     */
-    public StringBuilder readFileToStringBuilder(File file) {
+	public StructureFormatter(String anno) {
+		annotation = anno;
+	}
 
-        StringBuilder stringBuilder = new StringBuilder();
-        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file))) {
-            String currLine;
+	public StructureFormatter(String anno, String searchString) {
+		annotation = anno;
+		this.searchString = searchString;
+		searchAnnotation.add(searchString);
+	}
 
-            while ((currLine = bufferedReader.readLine()) != null) {
-                stringBuilder.append(currLine).append("\n");
-            }
+	/**
+	 * Reads given file and turns it into a StringBuilder
+	 *
+	 * @param file
+	 * @return the StringBuilder object
+	 */
+	public StringBuilder readFileToStringBuilder(File file) {
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return stringBuilder;
-    }
+		StringBuilder stringBuilder = new StringBuilder();
+		try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file))) {
+			String currLine;
 
-    /**
-     * Converts a StringBuilder object to an array of Strings
-     *
-     * @param stringBuilder the StringBuilder to convert
-     * @return the String array
-     */
-    public String[] toArray(StringBuilder stringBuilder) {
+			while ((currLine = bufferedReader.readLine()) != null) {
+				stringBuilder.append(currLine).append("\n");
+			}
 
-        return stringBuilder.toString().split("\\n");
-    }
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return stringBuilder;
+	}
 
-    /**
-     * Iterates an array of strings and creates POJOs of the project, class and
-     * annotations
-     *
-     * @param classStringArray
-     */
-    public void buildClassObjectFromArray(String[] classStringArray) {
+	/**
+	 * Converts a StringBuilder object to an array of Strings
+	 *
+	 * @param stringBuilder the StringBuilder to convert
+	 * @return the String array
+	 */
+	public String[] toArray(StringBuilder stringBuilder) {
 
-        ClassObject classObject = new ClassObject();
-        List<Method> methodList = new ArrayList<>();
+		return stringBuilder.toString().split("\\n");
+	}
 
-        for (int y = 0; y < classStringArray.length; y++) {
+	/**
+	 * Iterates an array of strings and creates POJOs of the project, class and
+	 * annotations
+	 *
+	 * @param classStringArray
+	 */
+	public void buildClassObjectFromArray(String[] classStringArray) {
 
-            // If a test method does not have any comments, add it to a separate list
-            if (Conditions.isAMethod(classStringArray[y])) {
+		ClassObject classObject = new ClassObject();
+		List<Method> methodList = new ArrayList<>();
 
-                if (Conditions.isATestMethod(classStringArray, y)) {
-                    String method = StringCustomizer.extractMethodName(classStringArray[y]);
-                    String methodString = classObject.getPackageName() + " -> " + classObject.getName() + " -> " + method;
+		for (int y = 0; y < classStringArray.length; y++) {
 
-                    unCommentedMethods.add(methodString);
-                }
-            }
-            // If line contains an annotation
-            else if (Conditions.containsAnnotation(classStringArray[y], annotation)) {
-                y = createObject(classStringArray, methodList, y);
-                continue;
-            }
-            // If line contains a class name
-            else if (Conditions.containsClassName(classStringArray[y])) {
-                classObject.setName(StringCustomizer.extractClassName(classStringArray[y]));
-                continue;
-            }
-            // If line contains a package name
-            else if (Conditions.containsPackageName(classStringArray[y])) {
-                classObject.setPackageName(StringCustomizer.extractPackageName(classStringArray[y]));
-                continue;
-            }
-        }
-        classObject.setMethodList(methodList);
-        classObjects.add(classObject);
-    }
+			// If a test method does not have any comments, add it to a separate list
+			if (Conditions.isAMethod(classStringArray[y])) {
 
-    /**
-     * method that creates a new Method object for each method with annotations
-     *
-     * @param classStringArray
-     * @param methodList
-     * @param iteration
-     * @return current iteration
-     */
-    private int createObject(String[] classStringArray, List<Method> methodList, int iteration) {
+				if (Conditions.isATestMethod(classStringArray, y)) {
+					String method = StringCustomizer.extractMethodName(classStringArray[y]);
+					String methodString = classObject.getPackageName() + " -> " + classObject.getName() + " -> " + method;
 
-        Method method = new Method();
-        List<String> comments = new ArrayList<>();
-        duplicateMap = new LinkedHashMap<>();
+					unCommentedMethods.add(methodString);
+				}
+			}
+			// If line contains an annotation
+			else if (Conditions.containsAnnotation(classStringArray[y], annotation)) {
+				y = createObject(classStringArray, methodList, y);
+				continue;
+			}
+			// If line contains a class name
+			else if (Conditions.containsClassName(classStringArray[y])) {
+				classObject.setName(StringCustomizer.extractClassName(classStringArray[y]));
+				continue;
+			}
+			// If line contains a package name
+			else if (Conditions.containsPackageName(classStringArray[y])) {
+				classObject.setPackageName(StringCustomizer.extractPackageName(classStringArray[y]));
+				continue;
+			}
+		}
+		classObject.setMethodList(methodList);
+		classObjects.add(classObject);
+	}
 
-        for (int i = iteration; i < classStringArray.length; i++) {
-            // TODO look at another option or modify this option to make sure
-            // that next line is a method and nothing else
-            if (classStringArray[i].contains("@Test")) {
-                int x;
-                for (x = i; x < classStringArray.length; x++) {
-                    if (Conditions.isAMethod(classStringArray[x])) {
-                        method.setMethodName(StringCustomizer.extractMethodName(classStringArray[x]));
-                        break;
-                    } else if (Conditions.containsAnnotation(classStringArray[x], annotation)) {
-                        addAnnotationToList(classStringArray[x], comments);
-                    }
-                }
+	/**
+	 * method that creates a new Method object for each method with annotations
+	 *
+	 * @param classStringArray
+	 * @param methodList
+	 * @param iteration
+	 * @return current iteration
+	 */
+	private int createObject(String[] classStringArray, List<Method> methodList, int iteration) {
 
-                method.setCommentList(comments);
+		Method method = new Method();
+		List<String> comments = new ArrayList<>();
+		duplicateMap = new LinkedHashMap<>();
 
-                do {
-                    checkForDuplicates(comments);
-                } while (duplicates);
+		for (int i = iteration; i < classStringArray.length; i++) {
+			// TODO look at another option or modify this option to make sure
+			// that next line is a method and nothing else
+			if (classStringArray[i].contains("@Test")) {
+				int x;
+				for (x = i; x < classStringArray.length; x++) {
+					if (Conditions.isAMethod(classStringArray[x])) {
+						method.setMethodName(StringCustomizer.extractMethodName(classStringArray[x]));
+						break;
+					} else if (Conditions.containsAnnotation(classStringArray[x], annotation)) {
+						addAnnotationToList(classStringArray[x], comments);
+					}
+				}
 
-                method.setDuplicateMap(duplicateMap);
-                iteration = x;
-                break;
-            } else if (Conditions.containsAnnotation(classStringArray[i], annotation)) {
-                addAnnotationToList(classStringArray[i], comments);
-            }
-        }
+				method.setCommentList(comments);
 
-        methodList.add(method);
-        return iteration;
-    }
+				do {
+					checkForDuplicates(comments);
+				} while (duplicates);
 
-    private void addAnnotationToList(String comment, List<String> comments) {
-        String extracted = StringCustomizer.extractAnnotationData(comment, annotation);
-        comments.add(extracted);
-    }
+				checkForMissingComments(comments , method);
 
-    private void checkForDuplicates(List<String> comments) {
+				method.setDuplicateMap(duplicateMap);
+				iteration = x;
+				break;
+			} else if (Conditions.containsAnnotation(classStringArray[i], annotation)) {
+				addAnnotationToList(classStringArray[i], comments);
+			}
+		}
 
-        String duplicateString = "noValue";
-        List<String> newCommentList = new ArrayList<>();
-        duplicateList = new ArrayList<>();
+		methodList.add(method);
+		return iteration;
+	}
 
-        // iterates the rmList and adds the "key" to the new list
-        for (String str : comments) {
-            try {
-                newCommentList.add(str.substring(0, str.indexOf(":")));
-            } catch (StringIndexOutOfBoundsException e) {
-                newCommentList.add("null");
-            }
-        }
 
-        // Find the duplicate string in the new list and set it to duplicateString
-        final Set<String> hashSet = new HashSet<String>();
+	private void checkForMissingComments(List<String> comments, Method method) {
+		boolean missing = true;
+		for (String comment : comments) {
+			if(comment.startsWith(searchString)){
+				missing = false;
+			}
+		}
+		if(missing) searchAnnotation.add(method.getMethodName());
+	}
 
-        for (String str : newCommentList) {
-            if (!hashSet.add(str)) {
-                duplicateString = str;
-                duplicates = true;
-                break;
-            }
-        }
+	private void addAnnotationToList(String comment, List<String> comments) {
+		String extracted = StringCustomizer.extractAnnotationData(comment, annotation);
+		comments.add(extracted);
+	}
 
-        if (duplicateString.equals("noValue")) {
-            duplicates = false;
-            return;
-        }
+	private void checkForDuplicates(List<String> comments) {
 
-        // if rmList contains the duplicate string, add the item in duplicateList
-        for (String str : comments) {
-            if (str.startsWith(duplicateString)) {
-                duplicateList.add(str);
-            }
-        }
-        duplicateMap.put(duplicateString, duplicateList);
+		String duplicateString = "noValue";
+		List<String> newCommentList = new ArrayList<>();
+		duplicateList = new ArrayList<>();
 
-        for (String string : duplicateList) {
-            for (Iterator<String> iterator = comments.iterator(); iterator.hasNext(); ) {
-                String str = iterator.next();
-                if (string.equals(str)) {
-                    iterator.remove();
-                }
-            }
-        }
-    }
+		// iterates the rmList and adds the "key" to the new list
+		for (String str : comments) {
+			try {
+				newCommentList.add(str.substring(0, str.indexOf(":")));
+			} catch (StringIndexOutOfBoundsException e) {
+				newCommentList.add("null");
+			}
+		}
 
-    /**
-     * Extracts the project name from the file path
-     *
-     * @param file
-     * @return the extracted and formated name
-     */
-    public String getProjectName(File file) {
-        // TODO it currently checks for "src", may be needed to change it if for
-        // example it's a C# project
-        String formattedString = "";
-        int nameCount = file.toPath().getNameCount();
-        int srcIndex = 0;
+		// Find the duplicate string in the new list and set it to duplicateString
+		final Set<String> hashSet = new HashSet<String>();
 
-        for (int i = 0; i < nameCount; i++) {
-            if (file.toPath().getName(i).toString().equals("src")
-                    || file.toPath().getName(i).toString().equals("bin")) {
-                srcIndex = i;
-            }
-        }
-        formattedString = file.toPath().getName(srcIndex - 1).toString();
-        return formattedString;
-    }
+		for (String str : newCommentList) {
+			if (!hashSet.add(str)) {
+				duplicateString = str;
+				duplicates = true;
+				break;
+			}
+		}
 
-    public List<ClassObject> getClassList() {
-        return classObjects;
-    }
+		if (duplicateString.equals("noValue")) {
+			duplicates = false;
+			return;
+		}
 
-    public List<String> getUnCommentedMethods() {
-        return unCommentedMethods;
-    }
+		// if rmList contains the duplicate string, add the item in duplicateList
+		for (String str : comments) {
+			if (str.startsWith(duplicateString)) {
+				duplicateList.add(str);
+			}
+		}
+		duplicateMap.put(duplicateString, duplicateList);
 
-    public void setUnCommentedMethods(List<String> unCommentedMethods) {
-        this.unCommentedMethods = unCommentedMethods;
-    }
+		for (String string : duplicateList) {
+			for (Iterator<String> iterator = comments.iterator(); iterator.hasNext(); ) {
+				String str = iterator.next();
+				if (string.equals(str)) {
+					iterator.remove();
+				}
+			}
+		}
+	}
+
+	/**
+	 * Extracts the project name from the file path
+	 *
+	 * @param file
+	 * @return the extracted and formated name
+	 */
+	public String getProjectName(File file) {
+		// TODO it currently checks for "src", may be needed to change it if for
+		// example it's a C# project
+		String formattedString = "";
+		int nameCount = file.toPath().getNameCount();
+		int srcIndex = 0;
+
+		for (int i = 0; i < nameCount; i++) {
+			if (file.toPath().getName(i).toString().equals("src")
+					|| file.toPath().getName(i).toString().equals("bin")) {
+				srcIndex = i;
+			}
+		}
+		formattedString = file.toPath().getName(srcIndex - 1).toString();
+		return formattedString;
+	}
+
+	public List<ClassObject> getClassList() {
+		return classObjects;
+	}
+
+	public List<String> getUnCommentedMethods() {
+		return unCommentedMethods;
+	}
+
+	public void setUnCommentedMethods(List<String> unCommentedMethods) {
+		this.unCommentedMethods = unCommentedMethods;
+	}
+	public List<String> getSearchAnnotation() {
+		return searchAnnotation;
+	}
+
+	public void setSearchAnnotation(List<String> searchAnnotation) {
+		this.searchAnnotation = searchAnnotation;
+	}
 
 }

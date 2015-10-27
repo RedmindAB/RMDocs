@@ -16,12 +16,21 @@ public class ArgumentParser {
     private File path;
     private String annotation = "@rm";
     private String readFormat = ".java";
+    private String searchString = "";
     private String[] arguments;
     private StringBuilder errorMessage = new StringBuilder();
     private List<String> outputFormats = new ArrayList<>();
     private final String[] validReadFormats = {".java", ".txt", ".cs", ".js"};
     private final String[] validOutputFormats = {".json", ".txt", ".html", ".xls", ".con"};
 
+    public String getSearchString() {
+		return searchString;
+	}
+
+	public void setSearchString(String searchString) {
+		this.searchString = searchString;
+	}
+	
     public String getValidReadFormats() {
         return Arrays.toString(validReadFormats);
     }
@@ -103,11 +112,18 @@ public class ArgumentParser {
                 } else {
                     errorMessage.append("No output format given\n");
                 }
+            case "-s":
+            	if(arguments.length > i + 1){
+            		searchString = arguments[i + 1];
+            	  } else {
+                      errorMessage.append("No search string given\n");
+            	}
                 break;
         }
     }
 
-    /**
+
+	/**
      * Validates the File path
      *
      * @param path A File containing the command line argument for the path
@@ -128,7 +144,7 @@ public class ArgumentParser {
 
     public void validateAnnotation(String annotation) {
         // TODO - validate annotations other than @rm
-        if (annotation == null) {
+        if (annotation == null){
             errorMessage.append("Invalid annotation: " + "null" + ", add \"-a annotation\" as argument." + "\n");
         } else if (!annotation.equals("@rm")) {
             errorMessage.append("Invalid annotation: ").append(annotation).append("\n");
