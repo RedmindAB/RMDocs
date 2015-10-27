@@ -15,7 +15,7 @@ function getJSONObject(){
 
 	$.getJSON("/MyProject.json", function(result){
 
-		$("#proj-name").text(result.ProjectName);
+		$("#project-name").text(result.ProjectName);
 
 		iterateClasses(result);
 	});

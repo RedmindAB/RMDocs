@@ -21,7 +21,7 @@ import se.redmind.util.StringCustomizer;
  */
 public class StructureFormatter {
 
-    private List<ClassObject> coList = new ArrayList<>();
+    private List<ClassObject> classObjects = new ArrayList<>();
     private List<String> duplicateList;
     private LinkedHashMap<String, List<String>> duplicateMap;
     private List<String> unCommentedMethods = new ArrayList<>();
@@ -41,148 +41,145 @@ public class StructureFormatter {
      */
     public StringBuilder readFileToStringBuilder(File file) {
 
-        StringBuilder sb = new StringBuilder();
-        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+        StringBuilder stringBuilder = new StringBuilder();
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file))) {
             String currLine;
 
-            while ((currLine = br.readLine()) != null) {
-
-                sb.append(currLine + "\n");
+            while ((currLine = bufferedReader.readLine()) != null) {
+                stringBuilder.append(currLine).append("\n");
             }
+
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return sb;
+        return stringBuilder;
     }
 
     /**
      * Converts a StringBuilder object to an array of Strings
      *
-     * @param sb the StringBuilder to convert
+     * @param stringBuilder the StringBuilder to convert
      * @return the String array
      */
-    public String[] toArray(StringBuilder sb) {
+    public String[] toArray(StringBuilder stringBuilder) {
 
-        String[] strArray = sb.toString().split("\\n");
-        return strArray;
+        return stringBuilder.toString().split("\\n");
     }
 
     /**
      * Iterates an array of strings and creates POJOs of the project, class and
      * annotations
      *
-     * @param strArr
+     * @param classStringArray
      */
-    public void buildClassObjectFromArray(String[] strArr) {
+    public void buildClassObjectFromArray(String[] classStringArray) {
 
-        ClassObject co = new ClassObject();
+        ClassObject classObject = new ClassObject();
         List<Method> methodList = new ArrayList<>();
 
-        for (int y = 0; y < strArr.length; y++) {
+        for (int y = 0; y < classStringArray.length; y++) {
 
-            // If a test method does not have any comments, add it to a separate
-            // list
-            if (Conditions.isAMethod(strArr[y])) {
+            // If a test method does not have any comments, add it to a separate list
+            if (Conditions.isAMethod(classStringArray[y])) {
 
-                if (Conditions.isATestMethod(strArr, y)) {
-                    String method = StringCustomizer.extractMethodName(strArr[y]);
-                    String str = co.getPackName() + " -> " + co.getName() + " -> " + method;
+                if (Conditions.isATestMethod(classStringArray, y)) {
+                    String method = StringCustomizer.extractMethodName(classStringArray[y]);
+                    String methodString = classObject.getPackageName() + " -> " + classObject.getName() + " -> " + method;
 
-                    unCommentedMethods.add(str);
+                    unCommentedMethods.add(methodString);
                 }
             }
             // If line contains an annotation
-            else if (Conditions.containsAnnotation(strArr[y], annotation)) {
-                y = createObject(strArr, methodList, y);
+            else if (Conditions.containsAnnotation(classStringArray[y], annotation)) {
+                y = createObject(classStringArray, methodList, y);
                 continue;
             }
             // If line contains a class name
-            else if (Conditions.containsClassName(strArr[y])) {
-                co.setName(StringCustomizer.extractClassName(strArr[y]));
+            else if (Conditions.containsClassName(classStringArray[y])) {
+                classObject.setName(StringCustomizer.extractClassName(classStringArray[y]));
                 continue;
             }
             // If line contains a package name
-            else if (Conditions.containsPackageName(strArr[y])) {
-                co.setPackName(StringCustomizer.extractPackageName(strArr[y]));
+            else if (Conditions.containsPackageName(classStringArray[y])) {
+                classObject.setPackageName(StringCustomizer.extractPackageName(classStringArray[y]));
                 continue;
             }
         }
-        co.setMethodList(methodList);
-        coList.add(co);
+        classObject.setMethodList(methodList);
+        classObjects.add(classObject);
     }
 
     /**
      * method that creates a new Method object for each method with annotations
      *
-     * @param strArr
+     * @param classStringArray
      * @param methodList
-     * @param y
-     * @return
+     * @param iteration
+     * @return current iteration
      */
-    private int createObject(String[] strArr, List<Method> methodList, int y) {
+    private int createObject(String[] classStringArray, List<Method> methodList, int iteration) {
 
-        Method m = new Method();
-        List<String> rmList = new ArrayList<>();
+        Method method = new Method();
+        List<String> comments = new ArrayList<>();
         duplicateMap = new LinkedHashMap<>();
 
-        for (int i = y; i < strArr.length; i++) {
+        for (int i = iteration; i < classStringArray.length; i++) {
             // TODO look at another option or modify this option to make sure
             // that next line is a method and nothing else
-            if (strArr[i].contains("@Test")) {
+            if (classStringArray[i].contains("@Test")) {
                 int x;
-                for (x = i; x < strArr.length; x++) {
-                    if (Conditions.isAMethod(strArr[x])) {
-                        m.setMethodName(StringCustomizer.extractMethodName(strArr[x]));
+                for (x = i; x < classStringArray.length; x++) {
+                    if (Conditions.isAMethod(classStringArray[x])) {
+                        method.setMethodName(StringCustomizer.extractMethodName(classStringArray[x]));
                         break;
-                    } else if (Conditions.containsAnnotation(strArr[x], annotation)) {
-                        addAnnotationToList(strArr[x], rmList);
+                    } else if (Conditions.containsAnnotation(classStringArray[x], annotation)) {
+                        addAnnotationToList(classStringArray[x], comments);
                     }
                 }
 
-                m.setRmList(rmList);
+                method.setCommentList(comments);
 
                 do {
-                    checkForDuplicates(rmList);
+                    checkForDuplicates(comments);
                 } while (duplicates);
 
-                m.setDuplicateMap(duplicateMap);
-                y = x;
+                method.setDuplicateMap(duplicateMap);
+                iteration = x;
                 break;
-            } else if (Conditions.containsAnnotation(strArr[i], annotation)) {
-                addAnnotationToList(strArr[i], rmList);
+            } else if (Conditions.containsAnnotation(classStringArray[i], annotation)) {
+                addAnnotationToList(classStringArray[i], comments);
             }
         }
 
-        methodList.add(m);
-        return y;
+        methodList.add(method);
+        return iteration;
     }
 
-    private void addAnnotationToList(String str, List<String> rmList) {
-        String extracted = StringCustomizer.extractAnnotationData(str, annotation);
-        rmList.add(extracted);
+    private void addAnnotationToList(String comment, List<String> comments) {
+        String extracted = StringCustomizer.extractAnnotationData(comment, annotation);
+        comments.add(extracted);
     }
 
-    private void checkForDuplicates(List<String> rmList) {
+    private void checkForDuplicates(List<String> comments) {
 
         String duplicateString = "noValue";
-        List<String> newList = new ArrayList<>();
+        List<String> newCommentList = new ArrayList<>();
         duplicateList = new ArrayList<>();
 
         // iterates the rmList and adds the "key" to the new list
-        for (String str : rmList) {
+        for (String str : comments) {
             try {
-                newList.add(str.substring(0, str.indexOf(":")));
+                newCommentList.add(str.substring(0, str.indexOf(":")));
             } catch (StringIndexOutOfBoundsException e) {
-                newList.add("null");
+                newCommentList.add("null");
             }
         }
 
-        // Find the duplicate string in the new list and set it to
-        // duplicateString
-        final Set<String> set1 = new HashSet<String>();
+        // Find the duplicate string in the new list and set it to duplicateString
+        final Set<String> hashSet = new HashSet<String>();
 
-        for (String str : newList) {
-            if (!set1.add(str)) {
+        for (String str : newCommentList) {
+            if (!hashSet.add(str)) {
                 duplicateString = str;
                 duplicates = true;
                 break;
@@ -194,9 +191,8 @@ public class StructureFormatter {
             return;
         }
 
-        // if rmList contains the duplicate string, add the item in
-        // duplicateList
-        for (String str : rmList) {
+        // if rmList contains the duplicate string, add the item in duplicateList
+        for (String str : comments) {
             if (str.startsWith(duplicateString)) {
                 duplicateList.add(str);
             }
@@ -204,7 +200,7 @@ public class StructureFormatter {
         duplicateMap.put(duplicateString, duplicateList);
 
         for (String string : duplicateList) {
-            for (Iterator<String> iterator = rmList.iterator(); iterator.hasNext(); ) {
+            for (Iterator<String> iterator = comments.iterator(); iterator.hasNext(); ) {
                 String str = iterator.next();
                 if (string.equals(str)) {
                     iterator.remove();
@@ -222,22 +218,22 @@ public class StructureFormatter {
     public String getProjectName(File file) {
         // TODO it currently checks for "src", may be needed to change it if for
         // example it's a C# project
-        String formatedString = "";
-        int nameCnt = file.toPath().getNameCount();
+        String formattedString = "";
+        int nameCount = file.toPath().getNameCount();
         int srcIndex = 0;
 
-        for (int i = 0; i < nameCnt; i++) {
+        for (int i = 0; i < nameCount; i++) {
             if (file.toPath().getName(i).toString().equals("src")
                     || file.toPath().getName(i).toString().equals("bin")) {
                 srcIndex = i;
             }
         }
-        formatedString = file.toPath().getName(srcIndex - 1).toString();
-        return formatedString;
+        formattedString = file.toPath().getName(srcIndex - 1).toString();
+        return formattedString;
     }
 
     public List<ClassObject> getClassList() {
-        return coList;
+        return classObjects;
     }
 
     public List<String> getUnCommentedMethods() {

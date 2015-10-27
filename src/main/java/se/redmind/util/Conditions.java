@@ -5,9 +5,9 @@ package se.redmind.util;
  */
 public class Conditions {
 
-    public static boolean isATestMethod(String[] strArr, int y) {
-        for (int x = y; x > 0; x--) {
-            if (strArr[x].contains("@Test")) {
+    public static boolean isATestMethod(String[] lineArray, int iteration) {
+        for (int x = iteration; x > 0; x--) {
+            if (lineArray[x].contains("@Test")) {
                 return true;
             }
         }
@@ -15,50 +15,50 @@ public class Conditions {
     }
 
 
-    public static boolean containsAnnotation(String str, String annotation) {
-        if (str.contains(annotation)) {
+    public static boolean containsAnnotation(String line, String annotation) {
+        if (line.contains(annotation)) {
             return true;
         }
         return false;
     }
 
-    public static boolean containsPackageName(String str) {
-        if (str.contains("package")) {
+    public static boolean containsPackageName(String line) {
+        if (line.contains("package")) {
             return true;
         }
         return false;
     }
 
-    public static boolean isAMethod(String str) {
+    public static boolean isAMethod(String line) {
 
-        if (str.contains("public void"))
+        if (line.contains("public void"))
             return true;
-        else if (str.contains("private void"))
+        else if (line.contains("private void"))
             return true;
-        else if (str.contains("public final void"))
+        else if (line.contains("public final void"))
             return true;
-        else if (str.contains("private final void"))
+        else if (line.contains("private final void"))
             return true;
-        else if (str.contains("public static void"))
+        else if (line.contains("public static void"))
             return true;
-        else if (str.contains("private static void"))
+        else if (line.contains("private static void"))
             return true;
-        else if (str.contains("public static final void"))
+        else if (line.contains("public static final void"))
             return true;
-        else if (str.contains("private static final void"))
+        else if (line.contains("private static final void"))
             return true;
         return false;
     }
 
-    public static boolean containsClassName(String str) {
+    public static boolean containsClassName(String line) {
 
-        if (str.contains("public class"))
+        if (line.contains("public class"))
             return true;
-        else if (str.contains("public abstract class"))
+        else if (line.contains("public abstract class"))
             return true;
-        else if (str.contains("public final class"))
+        else if (line.contains("public final class"))
             return true;
-        else if (str.contains("private class"))
+        else if (line.contains("private class"))
             return true;
 
         return false;

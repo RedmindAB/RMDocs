@@ -9,56 +9,58 @@ import se.redmind.structure.Project;
 
 public class StringCustomizer {
 
-	public static String extractClassName(String str) {
+    public static String extractClassName(String line) {
 
-		int begin = str.indexOf("class")+6;
-		String className = str.substring(begin, str.indexOf("{"));
-		if(className.contains(" ")){
-			className = className.substring(0, className.indexOf(" "));
-		}
-		return className;
-	}
-	
-	public static String extractPackageName(String str){
-		
-		return str.replaceFirst("package", "").replace(";", "").trim();
-	}
-	
-	/**
-	 * Formats the line by replacing special signs and trims white space.
-	 * @param line
-	 * @return the formated line
-	 */
-	public static String extractMethodName(String line){
-		String formatedString = line.split("\\(")[0];
-		String[] strArr = formatedString.split("\\s");
-		return strArr[strArr.length-1];
-	}
-	
-	/**
-	 * Extract and format only the data we want for our objects
-	 * @param element
-	 * @return the extracted and formated data
-	 */
-	public static String extractAnnotationData(String element, String annotation){
+        int begin = line.indexOf("class") + 6;
+        String className = line.substring(begin, line.indexOf("{"));
+        if (className.contains(" ")) {
+            className = className.substring(0, className.indexOf(" "));
+        }
+        return className;
+    }
 
-		Pattern pat = Pattern.compile("\\@rm(.*?)\\s");
-		Matcher mat = pat.matcher(element);
-		String newString;
-		String secondString;
-		String thirdString;
-		String finalString = "";
+    public static String extractPackageName(String line) {
 
-		while (mat.find()) {
-			newString = mat.group(1);
-			secondString = element.replace(newString, "");
-			thirdString = secondString.replaceAll("[\\*\\/]", "");
-			if(thirdString.equals("")) thirdString = " ";
-			finalString = newString + ": " + thirdString.replace(annotation, "").trim();
-		}
-		return finalString;
-	}
-	
+        return line.replaceFirst("package", "").replace(";", "").trim();
+    }
+
+    /**
+     * Formats the line by replacing special signs and trims white space.
+     *
+     * @param line
+     * @return the formated line
+     */
+    public static String extractMethodName(String line) {
+        String formatedString = line.split("\\(")[0];
+        String[] strArr = formatedString.split("\\s");
+        return strArr[strArr.length - 1];
+    }
+
+    /**
+     * Extract and format only the data we want for our objects
+     *
+     * @param element
+     * @return the extracted and formatted data
+     */
+    public static String extractAnnotationData(String element, String annotation) {
+
+        Pattern pat = Pattern.compile("@rm(.*?)\\s");
+        Matcher mat = pat.matcher(element);
+        String newString;
+        String secondString;
+        String thirdString;
+        String finalString = "";
+
+        while (mat.find()) {
+            newString = mat.group(1);
+            secondString = element.replace(newString, "");
+            thirdString = secondString.replaceAll("[\\*\\/]", "");
+            if (thirdString.equals("")) thirdString = " ";
+            finalString = newString + ": " + thirdString.replace(annotation, "").trim();
+        }
+        return finalString;
+    }
+
     public static String appendDateToFile(Project proj) {
 
         SimpleDateFormat sd = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
@@ -67,9 +69,8 @@ public class StringCustomizer {
         return proj.getProjectName() + "-" + date;
     }
 
-	public static String[] splitStringToArray(String str){
-		String[] strArr = str.split("\\[|\\]");
-		return strArr;
-	}
+    public static String[] splitStringToArray(String str) {
+        return str.split("\\[|\\]");
+    }
 
-	}
+}

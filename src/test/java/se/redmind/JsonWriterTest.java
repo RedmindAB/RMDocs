@@ -40,7 +40,7 @@ public class JsonWriterTest {
 
         jw = new JsonWriter(proj);
         proj.setProjectName("Project");
-        proj.setClassList(list);
+        proj.setClassObjects(list);
         assertEquals(String.class, jw.convertToJson().getClass());
     }
 

@@ -3,9 +3,6 @@ package se.redmind;
 import static org.junit.Assert.*;
 
 import java.io.File;
-import java.io.IOException;
-
-import static org.mockito.Mockito.*;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -25,15 +22,15 @@ public class FileFinderTest {
 
 	@Test
 	public void validateSizeOfListWhenItemAddedIsCorrect(){
-		ff.addToList(new File("hejhej.java"));
+		ff.addFileToList(new File("hejhej.java"));
 		assertEquals(1, ff.getFileList().size());
-		ff.addToList(new File("hojhoj.java"));
+		ff.addFileToList(new File("hojhoj.java"));
 		assertEquals(2, ff.getFileList().size());
 	}
 	
 	@Test
 	public void validateThatSystemExitsIfListIsEmpty(){
-		ff.addToList(new File("hejhej.js"));
+		ff.addFileToList(new File("hejhej.js"));
 		exit.expectSystemExitWithStatus(1);
 		ff.getFileList();
 	}

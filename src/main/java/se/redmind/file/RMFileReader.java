@@ -28,7 +28,7 @@ public class RMFileReader {
      *
      * @param fileList List of files to be read.
      */
-    public List<File> readFile(List<File> fileList, String annotation) {
+    public List<File> readAndSeparateFiles(List<File> fileList, String annotation) {
 
         for (File file : fileList) {
 

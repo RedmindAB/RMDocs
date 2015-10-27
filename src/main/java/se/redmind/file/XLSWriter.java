@@ -14,18 +14,18 @@ import se.redmind.util.StringCustomizer;
 
 public class XLSWriter {
 
-    private Project proj;
+    private Project project;
     private String path;
 
-    public XLSWriter(String path, Project proj) {
-        this.proj = proj;
+    public XLSWriter(String path, Project project) {
+        this.project = project;
         this.path = path;
     }
 
     public void write() {
 
-        File xlsDir = new File(path + "xls");
-        xlsDir.mkdirs();
+        File xlsDirectory = new File(path + "xls");
+        xlsDirectory.mkdirs();
 
         WritableCellFormat methodNameFormat = new WritableCellFormat(
                 new WritableFont(WritableFont.ARIAL, 10, WritableFont.BOLD));
@@ -36,15 +36,15 @@ public class XLSWriter {
 
         WritableWorkbook workbook;
         try {
-            workbook = Workbook.createWorkbook(new File(xlsDir, StringCustomizer.appendDateToFile(proj) + ".xls"));
+            workbook = Workbook.createWorkbook(new File(xlsDirectory, StringCustomizer.appendDateToFile(project) + ".xls"));
 
-            WritableSheet sheet = workbook.createSheet(proj.getProjectName(), 0);
+            WritableSheet sheet = workbook.createSheet(project.getProjectName(), 0);
 
             int i = 0;
 
-            for (ClassObject co : proj.getClassList()) {
+            for (ClassObject co : project.getClassObjects()) {
 
-                String packName = co.getPackName();
+                String packName = co.getPackageName();
                 String className = co.getName();
 
                 sheet.addCell(new Label(0, i, packName, packNameFormat));
@@ -59,7 +59,7 @@ public class XLSWriter {
 
                     sheet.addCell(new Label(0, y, m.getMethodName(), methodNameFormat));
                     y++;
-                    for (String s : m.getRmList()) {
+                    for (String s : m.getCommentList()) {
                         String[] arr = s.split(":");
                         sheet.addCell(new Label(0, y, arr[0]));
                         sheet.addCell(new Label(1, y, arr[1]));

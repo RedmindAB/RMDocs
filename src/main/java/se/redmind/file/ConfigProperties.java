@@ -10,66 +10,65 @@ import java.util.Properties;
  * ConfigProperties --- Handles the config.properties file that sets initial properties
  *
  * @author Victor Mattsson, Özgur Eken
- *
  */
 public class ConfigProperties {
 
-	private String path = "";
-	private String propFileName;
-	private Properties prop;
-	
-	public ConfigProperties() {
-        propFileName = "config.properties";
-		initConfig();
-	}
+    private String path = "";
+    private String propertyFileName;
+    private Properties properties;
 
-	public String getPath() {
-		return this.path;
-	}
-	
-	private void initConfig(){
-		
-		try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);) {
-			prop = new Properties();
+    public ConfigProperties() {
+        propertyFileName = "config.properties";
+        initConfig();
+    }
 
-			if (inputStream != null) {
-				prop.load(inputStream);
-			} else {
-				createConfigFile();
-			}
+    public String getPath() {
+        return this.path;
+    }
+
+    private void initConfig() {
+
+        try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream(propertyFileName);) {
+            properties = new Properties();
+
+            if (inputStream != null) {
+                properties.load(inputStream);
+            } else {
+                createConfigFile();
+            }
 
             setPathFromProperty();
 
             if (path.equals("")) {
-				prop.setProperty("path", setHomePath());
-				path = System.getProperty("user.dir");
-			}
+                properties.setProperty("path", setHomePath());
+                path = System.getProperty("user.dir");
+            }
 
-		}catch(IOException e) {
-			createConfigFile();
-		}	
-	}
+        } catch (IOException e) {
+            createConfigFile();
+        }
+    }
 
     public void setPathFromProperty() {
-        path = prop.getProperty("path");
+        path = properties.getProperty("path");
     }
 
     public void createConfigFile() {
 
-		prop = new Properties();
-		File configFile = new File("./resources/config.properties");
-		try (FileWriter writer = new FileWriter(configFile);) {
-			prop.setProperty("path", setHomePath());
-			prop.store(writer, "RMDocs properties");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
+        properties = new Properties();
+        File configFile = new File("./resources/config.properties");
+        try (FileWriter writer = new FileWriter(configFile);) {
+            properties.setProperty("path", setHomePath());
+            properties.store(writer, "RMDocs properties");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
 
-	public String setHomePath() {
-		return System.getProperty("user.dir") + File.separator;
-	}
+    public String setHomePath() {
+        return System.getProperty("user.dir") + File.separator;
+    }
 
 
 }

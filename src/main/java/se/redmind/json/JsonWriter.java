@@ -6,27 +6,26 @@ import se.redmind.structure.Project;
 
 public class JsonWriter {
 
-	private Project proj;
+	private Project project;
 
-	public JsonWriter(Project proj) {
-		this.proj = proj;
+	public JsonWriter(Project project) {
+		this.project = project;
 	}
 
 	public String convertToJson(){
 		
-		if(proj == null){
+		if(project == null){
 			return "Project is null";
 		}
 
-		if(proj.getClassList() == null){
+		if(project.getClassObjects() == null){
 			return "";
 		}
 
 		GsonBuilder gBuilder = new GsonBuilder();
 		gBuilder.registerTypeAdapter(Project.class, new ProjectSerializer());
 		Gson gson = gBuilder.setPrettyPrinting().create();
-		String json = gson.toJson(proj);
-		
-		return json;
+
+        return gson.toJson(project);
 	}
 }

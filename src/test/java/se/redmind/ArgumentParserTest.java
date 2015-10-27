@@ -6,8 +6,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.mockito.Mockito.*;
-
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -39,48 +37,48 @@ public class ArgumentParserTest {
 	@Test
 	public void assertCorrectErrorMessageIfPathIsNull() {
 		arg.validatePath(null);
-		assertEquals("Please enter a path\n", arg.getErr());
+		assertEquals("Please enter a path\n", arg.getErrorMessage());
 	}
 
 	@Test
 	public void assertCorrectErrorMessageIfPathIsNotAPath() {
 		arg.validatePath(new File("/ahuahua/"));
-		assertEquals("Path does not exist: /ahuahua\n", arg.getErr());
+		assertEquals("Path does not exist: /ahuahua\n", arg.getErrorMessage());
 	}
 
 	@Test
 	public void assertCorrectErrorMessageIfAnnotationIsNull() {
 		String str = null;
 		arg.validateAnnotation(str);
-		assertEquals("Invalid annotation: null, add \"-a annotation\" as argument." + "\n", arg.getErr());
+		assertEquals("Invalid annotation: null, add \"-a annotation\" as argument." + "\n", arg.getErrorMessage());
 	}
 
 	@Test
 	public void assertCorrectErrorMessageIfAnnotationIsNotCorrect() {
 		String str = "@oscar";
 		arg.validateAnnotation(str);
-		assertEquals("Invalid annotation: " + str + "\n", arg.getErr());
+		assertEquals("Invalid annotation: " + str + "\n", arg.getErrorMessage());
 	}
 
 	@Test
 	public void assertCorrectErrorMessageIfReadFormatIsNull() {
 		String str = null;
 		arg.validateReadFormat(str);
-		assertEquals("Invalid read format: " + str + "\n", arg.getErr());
+		assertEquals("Invalid read format: " + str + "\n", arg.getErrorMessage());
 	}
 
 	@Test
 	public void assertCorrectErrorMessageIfReadFormatIsInvalid() {
 		String str = "@oscar";
 		arg.validateReadFormat(str);
-		assertEquals("Invalid read format: [" + str + "]. Valid formats: " + arg.getValidReadFormats() + "\n", arg.getErr());
+		assertEquals("Invalid read format: [" + str + "]. Valid formats: " + arg.getValidReadFormats() + "\n", arg.getErrorMessage());
 	}
 
 	@Test
 	public void assertCorrectErrorMessageIfOutputFormatIsNull() {
 		List<String> list = new ArrayList<>();
 		arg.validateOutputFormats(list);
-		assertEquals("No output formats given.", arg.getErr());
+		assertEquals("No output formats given.", arg.getErrorMessage());
 	}
 
 	@Test
@@ -89,7 +87,7 @@ public class ArgumentParserTest {
 		list.add(".klasse");
 		
 		arg.validateOutputFormats(list);
-		assertEquals("Invalid output format: [.klasse]. Valid formats: "+ arg.getValidOutputFormats() +"\n", arg.getErr());
+		assertEquals("Invalid output format: [.klasse]. Valid formats: "+ arg.getValidOutputFormats() +"\n", arg.getErrorMessage());
 	}
 
 	@Test

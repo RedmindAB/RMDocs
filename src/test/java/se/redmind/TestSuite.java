@@ -12,13 +12,13 @@ import org.junit.runners.Suite;
         ConditionsTest.class,
         ConfigPropertiesTest.class,
         FileFinderTest.class,
-        FormaterInitTest.class,
+        FormatterInitTest.class,
         JsonWriterTest.class,
         ProjectSerializerTest.class,
         RMFileReaderTest.class,
         RMFileWriterTest.class,
         StringCustomizerTest.class,
-        StructureFormaterTest.class,
+        StructureFormatterTest.class,
         XLSWriterTest.class
 })
 public class TestSuite {
