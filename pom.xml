@@ -72,9 +72,9 @@
 					<additionalClasspathElements>
 						<additionalClasspathElement>lib/</additionalClasspathElement>
 					</additionalClasspathElements>
-					<includes>
+					<!-- includes>
 						<include>${runSuite}</include>
-					</includes>
+					</includes-->
 					<reportNameSuffix>${timestamp}</reportNameSuffix>
 					<redirectTestOutputToFile>true</redirectTestOutputToFile>
 				</configuration>

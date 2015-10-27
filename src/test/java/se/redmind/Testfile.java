@@ -24,7 +24,7 @@ public class Testfile {
 	/**
 	 * @rmHej asdfadsf
 	 */
-	@Test(expected=NullPointerException.class)
+	@Test()
 	public void newTextDocument(){
 
 	}
