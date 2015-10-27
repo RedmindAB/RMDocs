@@ -19,7 +19,7 @@ import se.redmind.util.StringCustomizer;
  *
  * @author Victor Mattsson
  */
-public class StructureFormater {
+public class StructureFormatter {
 
     private List<ClassObject> coList = new ArrayList<>();
     private List<String> duplicateList;
@@ -29,7 +29,7 @@ public class StructureFormater {
 
     private String annotation;
 
-    public StructureFormater(String anno) {
+    public StructureFormatter(String anno) {
         annotation = anno;
     }
 

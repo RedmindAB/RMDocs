@@ -6,15 +6,15 @@ import org.junit.Before;
 import org.junit.Test;
 
 import se.redmind.file.ArgumentParser;
-import se.redmind.structure.StructureFormater;
+import se.redmind.structure.StructureFormatter;
 import se.redmind.util.Conditions;
 
 import java.io.File;
 import java.net.URISyntaxException;
 
-public class StructureFormaterTest {
+public class StructureFormatterTest {
 
-	StructureFormater sf = new StructureFormater("@rm");
+	StructureFormatter sf = new StructureFormatter("@rm");
 	ArgumentParser arg;
     File file = new File(System.getProperty("user.dir") + "/src/test/java/se/redmind/TestFile.java");
     StringBuilder sb = new StringBuilder();
