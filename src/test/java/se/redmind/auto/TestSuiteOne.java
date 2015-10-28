@@ -7,6 +7,8 @@ import se.redmind.rmtest.selenium.grid.DriverNamingWrapper;
 import se.redmind.rmtest.selenium.grid.Parallelized;
 import se.redmind.rmtest.selenium.grid.TestBase;
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * Created by victormattsson on 2015-10-28.
  */
@@ -19,7 +21,7 @@ public class TestSuiteOne extends TestBase {
 
     @BeforeClass
     public static void beforeClass(){
-        String path = System.getProperty("user.dir") + "/TestProject/Test Project/Mock Project/";
+        String path = System.getProperty("user.dir") + "/TestProject/Mock Project/";
         Main.main(new String[] {"-p", path, "-o", ".html"});
     }
 

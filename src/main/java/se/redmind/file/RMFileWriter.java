@@ -196,8 +196,11 @@ public class RMFileWriter implements Runnable {
 
 	public void writeReport(List<String> list, List<String> missingComments) {
 
+        File reportDirecrory = new File(path + "reports");
+        reportDirecrory.mkdirs();
+
 		try (PrintWriter writer = new PrintWriter(
-				new File(path, StringCustomizer.appendDateToFile(project) + "-report.txt"), "UTF-8");) {
+				new File(reportDirecrory, StringCustomizer.appendDateToFile(project) + "-report.txt"), "UTF-8");) {
 
 			if(!list.isEmpty()){
 				writer.println("--Methods with no comments--");
