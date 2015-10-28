@@ -19,7 +19,7 @@ public class TestSuiteOne extends TestBase {
 
     @BeforeClass
     public static void beforeClass(){
-        String path = System.getProperty("user.dir") + "/resources/Test Project/Mock Project/";
+        String path = System.getProperty("user.dir") + "/TestProject/Test Project/Mock Project/";
         Main.main(new String[] {"-p", path, "-o", ".html"});
     }
 

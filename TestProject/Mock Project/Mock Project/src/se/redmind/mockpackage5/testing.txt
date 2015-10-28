@@ -1,0 +1,15 @@
+
+
+    /* @rmAuthor Abumeyang Piere Saidiku
+	 * @rmDate 2015-09-09
+	 * @rmSummary Vanlig text
+	 * @rmDescription Skapa ett nytt text document
+	 * @rmPriority High
+	 * @rmStep [step] lägg till ett text document
+	 * @rmStep [step] kolla om koden hämtar text annotationer
+	 *
+	 */
+
+Hej Välkommen till Redmind här finns ett antal @rm annotationer...
+
+
