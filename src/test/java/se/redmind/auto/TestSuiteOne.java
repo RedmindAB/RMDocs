@@ -96,7 +96,7 @@ public class TestSuiteOne extends TestBase {
         object.waitForCreateXmlToLoad();
         object.clickCreateXml();
         object.clickBackToTop();
-        Assert.assertTrue(object.verifyBackToTopTitle().equals("http://localhost:4567/#top"));
+        Assert.assertTrue(object.verifyBackToTopTitle().equals("http://localhost:9090/#top"));
         Assert.assertTrue(object.verifyListHeader().equals("KLASSER"));
         Assert.assertTrue(object.verifyProjectName().equals("Mock Project"));
     }
