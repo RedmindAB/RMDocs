@@ -152,6 +152,12 @@ public class PageObjects extends DriverHandler {
         return element;
     }
 
+    public WebElement waitForTop(){
+        WebDriverWait wait = new WebDriverWait(driver, 2);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("a.back-to-top")));
+        return element;
+    }
+
     public String verifyBackToTopTitle() {
         return driver.getCurrentUrl().toString();
     }
