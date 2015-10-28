@@ -1,4 +1,4 @@
-package se.redmind;
+package se.redmind.unit;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;

@@ -112,6 +112,7 @@ public class ArgumentParser {
                 } else {
                     errorMessage.append("No output format given\n");
                 }
+                break;
             case "-s":
             	if(arguments.length > i + 1){
             		searchString = arguments[i + 1];

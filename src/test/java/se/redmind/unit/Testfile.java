@@ -1,4 +1,4 @@
-package se.redmind;
+package se.redmind.unit;
 
 import org.junit.After;
 import org.junit.Before;

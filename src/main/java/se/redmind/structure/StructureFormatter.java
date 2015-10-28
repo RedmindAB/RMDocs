@@ -45,7 +45,7 @@ public class StructureFormatter {
 	/**
 	 * Reads given file and turns it into a StringBuilder
 	 *
-	 * @param file
+	 * @param file the given file
 	 * @return the StringBuilder object
 	 */
 	public StringBuilder readFileToStringBuilder(File file) {
@@ -79,7 +79,7 @@ public class StructureFormatter {
 	 * Iterates an array of strings and creates POJOs of the project, class and
 	 * annotations
 	 *
-	 * @param classStringArray
+	 * @param classStringArray array with each element as a line in a file
 	 */
 	public void buildClassObjectFromArray(String[] classStringArray) {
 
@@ -198,7 +198,7 @@ public class StructureFormatter {
 		}
 
 		// Find the duplicate string in the new list and set it to duplicateString
-		final Set<String> hashSet = new HashSet<String>();
+		final Set<String> hashSet = new HashSet<>();
 
 		for (String str : newCommentList) {
 			if (!hashSet.add(str)) {
@@ -262,15 +262,8 @@ public class StructureFormatter {
 		return unCommentedMethods;
 	}
 
-	public void setUnCommentedMethods(List<String> unCommentedMethods) {
-		this.unCommentedMethods = unCommentedMethods;
-	}
 	public List<String> getSearchAnnotation() {
 		return searchAnnotation;
-	}
-
-	public void setSearchAnnotation(List<String> searchAnnotation) {
-		this.searchAnnotation = searchAnnotation;
 	}
 
 }
