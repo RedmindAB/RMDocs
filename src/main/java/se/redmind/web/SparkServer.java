@@ -14,6 +14,7 @@ public class SparkServer {
 
     public static void start(){
 
+        port(9090);
         externalStaticFileLocation(System.getProperty("user.dir") + "/web");
 
         get("/RMDocs", (request, response) -> "Hello World");
@@ -21,7 +22,7 @@ public class SparkServer {
         if(Desktop.isDesktopSupported())
         {
             try {
-                Desktop.getDesktop().browse(new URI("http://localhost:4567/"));
+                Desktop.getDesktop().browse(new URI("http://localhost:9090/"));
             } catch (IOException | URISyntaxException e) {
                 e.printStackTrace();
             }

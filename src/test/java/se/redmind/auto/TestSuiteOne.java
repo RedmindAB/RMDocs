@@ -29,7 +29,7 @@ public class TestSuiteOne extends TestBase {
     public void before(){
         webDriver = driverNamingWrapper.startDriver();
         webDriver.manage().window().maximize();
-        webDriver.get("http://localhost:4567/");
+        webDriver.get("http://localhost:9090/");
     }
 
     @Test
