@@ -5,6 +5,48 @@
 	<artifactId>RMDocs</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>RMDocs</name>
+    <profiles>
+        <profile>
+            <id>unit</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <version>2.18.1</version>
+                        <configuration>
+                            <includes>
+                                <include>**/se/redmind/unit/*</include>
+                            </includes>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>auto</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <version>2.18.1</version>
+                        <configuration>
+                            <includes>
+                                <include>**/se/redmind/auto/TestSuiteOne.class</include>
+                            </includes>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 	<build>
 		<plugins>
 			<plugin>
@@ -60,25 +102,6 @@
 					</execution>
 				</executions>
 			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<version>2.18.1</version>
-				<configuration>
-					<systemProperties>
-						<rmt.timestamp>${timestamp}</rmt.timestamp>
-					</systemProperties>
-					<argLine>-Dfile.encoding=UTF-8</argLine>
-					<additionalClasspathElements>
-						<additionalClasspathElement>lib/</additionalClasspathElement>
-					</additionalClasspathElements>
-					<!-- includes>
-						<include>${runSuite}</include>
-					</includes-->
-					<reportNameSuffix>${timestamp}</reportNameSuffix>
-					<redirectTestOutputToFile>true</redirectTestOutputToFile>
-				</configuration>
-			</plugin>
 		</plugins>
 		<pluginManagement>
 			<plugins>
@@ -106,11 +129,6 @@
 						</lifecycleMappingMetadata>
 					</configuration>
 				</plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-surefire-plugin</artifactId>
-                    <version>2.19</version>
-                </plugin>
 			</plugins>
 		</pluginManagement>
 	</build>

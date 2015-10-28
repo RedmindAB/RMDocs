@@ -16,7 +16,7 @@ public class StructureFormatterTest {
 
 	StructureFormatter sf = new StructureFormatter("@rm");
 	ArgumentParser arg;
-    File file = new File(System.getProperty("user.dir") + "/src/test/java/se/redmind/TestFile.java");
+    File file = new File(System.getProperty("user.dir") + "/src/test/java/se/redmind/unit/TestFile.java");
     StringBuilder sb = new StringBuilder();
 
 	@Before
