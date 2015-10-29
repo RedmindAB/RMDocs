@@ -73,4 +73,8 @@ public class StringCustomizer {
         return str.split("\\[|\\]");
     }
 
+    public static String[] splitToArrayWithDelimiter(String str, String delimiter){
+        return str.split(delimiter);
+    }
+
 }
