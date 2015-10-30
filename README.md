@@ -14,10 +14,15 @@ Step 5: Run the JAR from the Terminal/CMD with the needed arguments.
         example: java -jar ProjectName.jar -p '/Users/username/Documents/TestProject/' -o .json
         
 Mandatory arguments: 
+
 -p - Path to the project. Note that path should be inside quotation marks.
+
 -o - Output format. It is possible to choose multiple formats. Valid formats: .txt, .json, .html, .xml, .con
         
 Optional arguments: 
+
 -f - The type of file to be searched. Current valid formats: .java
+
 -a - The type of annotation to be read. Default is '@rm'
+
 -s - Search function to find methods that is missing a given comment. Search string should be the comment key without the annotation. Displays in the report file.
