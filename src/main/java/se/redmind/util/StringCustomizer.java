@@ -20,26 +20,25 @@ public class StringCustomizer {
     }
 
     public static String extractPackageName(String line) {
-
         return line.replaceFirst("package", "").replace(";", "").trim();
     }
 
     /**
      * Formats the line by replacing special signs and trims white space.
      *
-     * @param line
-     * @return the formated line
+     * @param line - string to extract name from
+     * @return the formatted line
      */
     public static String extractMethodName(String line) {
-        String formatedString = line.split("\\(")[0];
-        String[] strArr = formatedString.split("\\s");
+        String formattedString = line.split("\\(")[0];
+        String[] strArr = formattedString.split("\\s");
         return strArr[strArr.length - 1];
     }
 
     /**
      * Extract and format only the data we want for our objects
      *
-     * @param element
+     * @param element - string to extract data from
      * @return the extracted and formatted data
      */
     public static String extractAnnotationData(String element, String annotation) {

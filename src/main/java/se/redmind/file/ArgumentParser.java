@@ -20,17 +20,14 @@ public class ArgumentParser {
     private String[] arguments;
     private StringBuilder errorMessage = new StringBuilder();
     private List<String> outputFormats = new ArrayList<>();
-    private final String[] validReadFormats = {".java", ".txt", ".cs", ".js"};
+    //TODO enable read formats:  ".txt", ".cs", ".js"
+    private final String[] validReadFormats = {".java"};
     private final String[] validOutputFormats = {".json", ".txt", ".html", ".xls", ".con"};
 
     public String getSearchString() {
 		return searchString;
 	}
 
-	public void setSearchString(String searchString) {
-		this.searchString = searchString;
-	}
-	
     public String getValidReadFormats() {
         return Arrays.toString(validReadFormats);
     }
@@ -155,7 +152,7 @@ public class ArgumentParser {
     /**
      * validates the format to be read
      *
-     * @param format
+     * @param format - the format to be validated
      */
     public void validateReadFormat(String format) {
         if (format == null) {
@@ -167,16 +164,12 @@ public class ArgumentParser {
     }
 
     public void validateOutputFormats(List<String> outputFormats) {
-        if (outputFormats.isEmpty()) {
-            errorMessage.append("No output formats given.");
-        }
-        for (String format : outputFormats) {
-
-            if (!Arrays.asList(validOutputFormats).contains(format)) {
-                errorMessage.append("Invalid output format: [").append(format).append("]. Valid formats: ")
-                        .append(getValidOutputFormats()).append("\n");
-            }
-        }
+        if (outputFormats.isEmpty()) errorMessage.append("No output formats given.");
+        outputFormats.stream()
+                .filter(format -> !Arrays.asList(validOutputFormats).contains(format))
+                .forEach(format -> errorMessage
+                        .append("Invalid output format: [").append(format).append("]. Valid formats: ")
+                        .append(getValidOutputFormats()).append("\n"));
     }
 
     public void checkForErrors() {

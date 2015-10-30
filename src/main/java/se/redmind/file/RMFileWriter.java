@@ -4,9 +4,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
-import java.lang.annotation.Annotation;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.Objects;
 
 import se.redmind.json.JsonWriter;
 import se.redmind.structure.ClassObject;
@@ -146,7 +146,7 @@ public class RMFileWriter implements Runnable {
 	}
 
 	private void write(String json, File pathAndFile) {
-		try (PrintWriter writer = new PrintWriter(pathAndFile, "UTF-8");) {
+		try (PrintWriter writer = new PrintWriter(pathAndFile, "UTF-8")) {
 			writer.write(json);
 		} catch (FileNotFoundException | UnsupportedEncodingException e) {
 			e.printStackTrace();
@@ -173,13 +173,11 @@ public class RMFileWriter implements Runnable {
 
 				for (Method m : co.getMethodList()) {
 					writer.println("Method: " + m.getMethodName());
-					for (String s : m.getCommentList()) {
-						writer.println(s);
-					}
+
+                    m.getCommentList().forEach((method) -> writer.println(method));
+
 					for (Entry<String, List<String>> entry : m.getDuplicateMap().entrySet()) {
-						for (String dup : entry.getValue()) {
-							writer.println(dup);
-						}
+                        entry.getValue().forEach((dup) -> writer.println(dup));
 					}
 					writer.println();
 				}
@@ -196,17 +194,15 @@ public class RMFileWriter implements Runnable {
 
 	public void writeReport(List<String> list, List<String> missingComments) {
 
-        File reportDirecrory = new File(path + "reports");
-        reportDirecrory.mkdirs();
+        File reportDirectory = new File(path + "reports");
+        reportDirectory.mkdirs();
 
 		try (PrintWriter writer = new PrintWriter(
-				new File(reportDirecrory, StringCustomizer.appendDateToFile(project) + "-report.txt"), "UTF-8");) {
+				new File(reportDirectory, StringCustomizer.appendDateToFile(project) + "-report.txt"), "UTF-8")) {
 
 			if(!list.isEmpty()){
 				writer.println("--Methods with no comments--");
-				for (String method : list) {
-					writer.println(method);
-				}
+                list.forEach((method) -> writer.println(method));
 				writer.println();
 			}
 
@@ -215,7 +211,7 @@ public class RMFileWriter implements Runnable {
 
 				for (String method : missingComments) {
 					
-					if (method == missingComments.get(0)) continue;
+					if (Objects.equals(method, missingComments.get(0))) continue;
 					writer.println(method);
 
 				}

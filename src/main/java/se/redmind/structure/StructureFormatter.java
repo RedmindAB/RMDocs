@@ -87,7 +87,7 @@ public class StructureFormatter {
 
         for (int y = 0; y < classStringArray.length; y++) {
 
-            // If a test method does not have any comments, add it to a separate list
+            /* If a test method does not have any comments, add it to a separate list */
             if (Conditions.isAMethod(classStringArray[y])) {
 
                 if (Conditions.isATestMethod(classStringArray, y)) {
@@ -97,20 +97,17 @@ public class StructureFormatter {
                     unCommentedMethods.add(methodString);
                 }
             }
-            // If line contains an annotation
+            /* If line contains an annotation */
             else if (Conditions.containsAnnotation(classStringArray[y], annotation)) {
                 y = createObject(classStringArray, methodList, y);
-                continue;
             }
-            // If line contains a class name
+            /* If line contains a class name */
             else if (Conditions.containsClassName(classStringArray[y])) {
                 classObject.setName(StringCustomizer.extractClassName(classStringArray[y]));
-                continue;
             }
-            // If line contains a package name
+            /* If line contains a package name */
             else if (Conditions.containsPackageName(classStringArray[y])) {
                 classObject.setPackageName(StringCustomizer.extractPackageName(classStringArray[y]));
-                continue;
             }
         }
         classObject.setMethodList(methodList);
@@ -120,10 +117,10 @@ public class StructureFormatter {
     /**
      * method that creates a new Method object for each method with annotations
      *
-     * @param classStringArray
-     * @param methodList
-     * @param iteration
-     * @return current iteration
+     * @param classStringArray - string array representing a class
+     * @param methodList - list to add the Method objects
+     * @param iteration - current iteration in parent method
+     * @return current iteration when this method is done
      */
     private int createObject(String[] classStringArray, List<Method> methodList, int iteration) {
 
@@ -236,13 +233,12 @@ public class StructureFormatter {
     /**
      * Extracts the project name from the file path
      *
-     * @param file
-     * @return the extracted and formated name
+     * @param file - file to extract project name from
+     * @return the extracted and formatted name
      */
     public String getProjectName(File file) {
-        // TODO it currently checks for "src", may be needed to change it if for
-        // example it's a C# project
-        String formattedString = "";
+        // TODO it currently checks for "src", may be needed to change it if for example it's a C# project
+        String formattedString;
         int nameCount = file.toPath().getNameCount();
         int srcIndex = 0;
 

@@ -16,17 +16,11 @@ public class Conditions {
 
 
     public static boolean containsAnnotation(String line, String annotation) {
-        if (line.contains(annotation)) {
-            return true;
-        }
-        return false;
+        return line.contains(annotation);
     }
 
     public static boolean containsPackageName(String line) {
-        if (line.contains("package")) {
-            return true;
-        }
-        return false;
+        return line.contains("package");
     }
 
     public static boolean isAMethod(String line) {

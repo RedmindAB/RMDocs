@@ -75,7 +75,7 @@ public class XLSWriter {
                     }
                     y += 2;
                 }
-                i = y++;
+                i = y;
             }
 
             workbook.write();

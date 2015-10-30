@@ -12,7 +12,7 @@ import java.util.List;
  */
 public class FileFinder {
 
-    private List<File> fileList = new ArrayList<File>();
+    private List<File> fileList = new ArrayList<>();
     private String fileFormat;
 
     public FileFinder(String fileFormat) {

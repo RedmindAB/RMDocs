@@ -28,7 +28,7 @@ public class ConfigProperties {
 
     private void initConfig() {
 
-        try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream(propertyFileName);) {
+        try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream(propertyFileName)) {
             properties = new Properties();
 
             if (inputStream != null) {
@@ -57,7 +57,7 @@ public class ConfigProperties {
 
         properties = new Properties();
         File configFile = new File("./resources/config.properties");
-        try (FileWriter writer = new FileWriter(configFile);) {
+        try (FileWriter writer = new FileWriter(configFile)) {
             properties.setProperty("path", setHomePath());
             properties.store(writer, "RMDocs properties");
         } catch (IOException e) {

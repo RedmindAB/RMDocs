@@ -15,9 +15,8 @@ public class ConfigPropertiesTest {
 	ConfigProperties rc = new ConfigProperties();
 	
 	@Test
-	public void assertTheReturnedStringIfEmpty(){
-		String expected = System.getProperty("user.dir") + File.separator;
-		assertEquals(expected, rc.getPath());
+	public void assertTheReturnedStringIsNotNull(){
+        assertNotNull(rc.getPath());
 	}
 	
 }

@@ -37,7 +37,7 @@ public class RMFileReader {
 
                 while ((currLine = br.readLine()) != null) {
                     if (currLine.contains(annotation)) {
-                        separateAnnotatedFiles(file, currLine);
+                        separateAnnotatedFiles(file);
                         break;
                     }
                 }
@@ -53,10 +53,9 @@ public class RMFileReader {
      * Method that separates the annotated files to a new list and at the same
      * time checks if the filename already exists in the list
      *
-     * @param file
-     * @param currLine
+     * @param file - file to be added to separate list
      */
-    private void separateAnnotatedFiles(File file, String currLine) {
+    private void separateAnnotatedFiles(File file) {
 
         if (annotatedFiles.isEmpty()) {
             annotatedFiles.add(file);
