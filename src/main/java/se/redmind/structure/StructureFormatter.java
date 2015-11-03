@@ -11,11 +11,12 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.commons.lang3.StringUtils;
 import se.redmind.util.Conditions;
 import se.redmind.util.StringCustomizer;
 
 /**
- * Class that structures the input to a readable format
+ * Structures the input to a readable format
  *
  * @author Victor Mattsson
  */
@@ -23,22 +24,21 @@ public class StructureFormatter {
 
     private List<ClassObject> classObjects = new ArrayList<>();
     private LinkedHashMap<String, List<String>> duplicateMap;
-    private List<String> searchAnnotation = new ArrayList<>();
+    private LinkedHashMap<String, String> methodsMissingAnnotations = new LinkedHashMap<>();
 
     private List<String> unCommentedMethods = new ArrayList<>();
     private boolean duplicates = true;
 
-    private String searchString;
+    private String[] searchString;
     private String annotation;
 
     public StructureFormatter(String anno) {
         annotation = anno;
     }
 
-    public StructureFormatter(String anno, String searchString) {
+    public StructureFormatter(String anno, String[] searchString) {
         annotation = anno;
         this.searchString = searchString;
-        searchAnnotation.add(searchString);
     }
 
     /**
@@ -129,8 +129,7 @@ public class StructureFormatter {
         duplicateMap = new LinkedHashMap<>();
 
         for (int i = iteration; i < classStringArray.length; i++) {
-            // TODO look at another option or modify this option to make sure
-            // that next line is a method and nothing else
+            // TODO look at another option or modify this option to make sure that next line is a method and nothing else
             if (classStringArray[i].contains("@Test")) {
                 int x;
                 for (x = i; x < classStringArray.length; x++) {
@@ -142,7 +141,7 @@ public class StructureFormatter {
                     }
                 }
 
-                if (searchString.length() > 0) {
+                if (searchString != null) {
                     checkForMissingComment(comments, method);
                 }
 
@@ -166,14 +165,25 @@ public class StructureFormatter {
 
 
     private void checkForMissingComment(List<String> comments, Method method) {
-        boolean missing = true;
-        for (String comment : comments) {
-            String[] splitArray = StringCustomizer.splitToArrayWithDelimiter(comment, ":");
-            if (splitArray[0].equalsIgnoreCase(searchString)) {
-                missing = false;
+        String methodName = method.getMethodName();
+        for (String search : searchString) {
+            boolean missing = true;
+            for (String comment : comments) {
+                String[] splitArray = StringCustomizer.splitToArrayWithDelimiter(comment, ":");
+                if (splitArray[0].equalsIgnoreCase(search)) {
+                    missing = false;
+                    break;
+                }
+            }
+            if (missing) {
+                if(methodsMissingAnnotations.get(methodName) != null){
+                    String oldVal = methodsMissingAnnotations.get(methodName);
+                    if(!oldVal.equalsIgnoreCase(search))
+                      methodsMissingAnnotations.replace(methodName, oldVal + ", " + StringUtils.capitalize(search));
+                }else
+                  methodsMissingAnnotations.put(methodName, StringUtils.capitalize(search));
             }
         }
-        if (missing) searchAnnotation.add(method.getMethodName());
     }
 
     private void addAnnotationToList(String comment, List<String> comments) {
@@ -260,8 +270,8 @@ public class StructureFormatter {
         return unCommentedMethods;
     }
 
-    public List<String> getSearchAnnotation() {
-        return searchAnnotation;
+    public LinkedHashMap<String, String> getMethodsMissingAnnotations() {
+        return methodsMissingAnnotations;
     }
 
 }

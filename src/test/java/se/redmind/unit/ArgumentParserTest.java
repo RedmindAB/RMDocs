@@ -140,4 +140,33 @@ public class ArgumentParserTest {
         assertNull(arg.getPath());
     }
 
+    @Test
+    public void testReturnedSearchStringIsCorrect(){
+        String[] args = { "-p", path, "-o", ".txt", "-s", "Author"};
+        arg = new ArgumentParser(args);
+        arg.parse();
+        String[] str = arg.getSearchStringArray();
+        assertEquals("Author", str[0]);
+    }
+
+    @Test
+    public void testReturnedSearchStringIsCorrect2(){
+        String[] args = { "-p", path, "-o", ".txt", "-s", "Author Step H"};
+        arg = new ArgumentParser(args);
+        arg.parse();
+        String[] str = arg.getSearchStringArray();
+        assertEquals("Author", str[0]);
+        assertEquals("Step", str[1]);
+        assertEquals("H", str[2]);
+    }
+
+    @Test
+    public void testValidateSearchStringMethod(){
+        String[] args = { "-p", path, "-o", ".txt", "-s", " "};
+        arg = new ArgumentParser(args);
+        exit.expectSystemExitWithStatus(1);
+        arg.parse();
+    }
+
+
 }

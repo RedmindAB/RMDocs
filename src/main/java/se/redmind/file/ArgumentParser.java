@@ -16,7 +16,7 @@ public class ArgumentParser {
     private File path;
     private String annotation = "@rm";
     private String readFormat = ".java";
-    private String searchString = "";
+    private String[] searchStringArray;
     private String[] arguments;
     private StringBuilder errorMessage = new StringBuilder();
     private List<String> outputFormats = new ArrayList<>();
@@ -24,8 +24,8 @@ public class ArgumentParser {
     private final String[] validReadFormats = {".java"};
     private final String[] validOutputFormats = {".json", ".txt", ".html", ".xls", ".con"};
 
-    public String getSearchString() {
-		return searchString;
+    public String[] getSearchStringArray() {
+		return searchStringArray;
 	}
 
     public String getValidReadFormats() {
@@ -67,6 +67,7 @@ public class ArgumentParser {
         validateAnnotation(annotation);
         validateReadFormat(readFormat);
         validateOutputFormats(outputFormats);
+        validateSearchString(searchStringArray);
 
         checkForErrors();
     }
@@ -112,7 +113,9 @@ public class ArgumentParser {
                 break;
             case "-s":
             	if(arguments.length > i + 1){
-            		searchString = arguments[i + 1];
+//                    if(!arguments[i + 1].trim().equals("")) {
+                        searchStringArray = arguments[i + 1].split("\\s+");
+//                    }
             	  } else {
                       errorMessage.append("No search string given\n");
             	}
@@ -170,6 +173,15 @@ public class ArgumentParser {
                 .forEach(format -> errorMessage
                         .append("Invalid output format: [").append(format).append("]. Valid formats: ")
                         .append(getValidOutputFormats()).append("\n"));
+    }
+
+    private void validateSearchString(String[] searchString) {
+        if(searchString != null){
+            if(searchString.length == 0) errorMessage.append("Search string is empty");
+            for (String search : searchString) {
+                if(((search != null) && search.equals("")) || search.equals(" ")) errorMessage.append("Search string is empty");
+            }
+        }
     }
 
     public void checkForErrors() {

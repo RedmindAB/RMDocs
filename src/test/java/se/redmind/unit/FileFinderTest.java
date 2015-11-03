@@ -40,11 +40,11 @@ public class FileFinderTest {
 		assertEquals(".java", ff.getFileFormat());
 	}
 
-//	@Test
-//	public void assertRecursiveMethodCallsIfFileIsADir() throws IOException {
-//		File tempFile = testFolder.newFile("file.txt");
-//		File tempFolder = testFolder.newFolder("folder");
-//		ff.pathWalker(tempFolder);
-//		System.out.println(tempFile.getAbsolutePath());
-//	}
+
+    @Test
+    public void testAddToFileList(){
+        String str = System.getProperty("user.dir") + "/TestProject";
+        ff.pathWalker(new File(str));
+        assertEquals(8, ff.getFileList().size());
+    }
 }

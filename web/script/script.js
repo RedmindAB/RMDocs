@@ -51,6 +51,10 @@ function iterateMethods(val, cnt, listId){
 		var method = "#method" + cnt;
 		var table = "tbody" + tableCnt;
 
+		if($("#" + methodName).length){
+			methodName += '1';
+		}
+		
 		console.log(listId);
 		//Append a new list item for each method
 		$("#" + listId).append('<li><a href="#'+ methodName +'">' + methodName +'</a></li>');

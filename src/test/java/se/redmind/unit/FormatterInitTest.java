@@ -12,7 +12,7 @@ import java.util.List;
 import static org.junit.Assert.*;
 
 /**
- * Created by victormattsson on 2015-10-23.
+ * Created by Victor Mattsson on 2015-10-23.
  */
 public class FormatterInitTest {
 

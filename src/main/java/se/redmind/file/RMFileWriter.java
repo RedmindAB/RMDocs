@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Objects;
@@ -192,7 +193,7 @@ public class RMFileWriter implements Runnable {
 		printAndWrite();
 	}
 
-	public void writeReport(List<String> list, List<String> missingComments) {
+	public void writeReport(List<String> unCommentedMethods, LinkedHashMap<String, String> missingComments) {
 
         File reportDirectory = new File(path + "reports");
         reportDirectory.mkdirs();
@@ -200,23 +201,20 @@ public class RMFileWriter implements Runnable {
 		try (PrintWriter writer = new PrintWriter(
 				new File(reportDirectory, StringCustomizer.appendDateToFile(project) + "-report.txt"), "UTF-8")) {
 
-			if(!list.isEmpty()){
+			if(!unCommentedMethods.isEmpty()){
 				writer.println("--Methods with no comments--");
-                list.forEach((method) -> writer.println(method));
+                unCommentedMethods.forEach((method) -> writer.println(method));
 				writer.println();
 			}
 
 			if(!missingComments.isEmpty()){
-				writer.println("--Methods with missing annotation: "+ missingComments.get(0) +"--");
+				writer.println("--Methods with missing annotations--");
 
-				for (String method : missingComments) {
-					
-					if (Objects.equals(method, missingComments.get(0))) continue;
-					writer.println(method);
 
-				}
+                for (Entry<String, String> entry : missingComments.entrySet()) {
+                    writer.println(entry.getKey() + " is missing: " + entry.getValue());
+                }
 			}
-
 
 		} catch (FileNotFoundException | UnsupportedEncodingException e) {
 			e.printStackTrace();

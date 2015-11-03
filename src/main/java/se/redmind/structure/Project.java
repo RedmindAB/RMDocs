@@ -1,5 +1,6 @@
 package se.redmind.structure;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 
 
@@ -8,14 +9,14 @@ public class Project {
     private String projectName;
     private List<ClassObject> classObjects;
     private List<String> unCommentedMethods;
-    private List<String> searchAnnotation;
+    private LinkedHashMap<String, String> methodsMissingAnnotation;
 
-    public List<String> getSearchAnnotation() {
-		return searchAnnotation;
+    public LinkedHashMap<String, String>getMethodsMissingAnnotation() {
+		return methodsMissingAnnotation;
 	}
 
-	public void setSearchAnnotation(List<String> searchAnnotation) {
-		this.searchAnnotation = searchAnnotation;
+	public void setMethodsMissingAnnotation(LinkedHashMap<String, String> methodsMissingAnnotation) {
+		this.methodsMissingAnnotation = methodsMissingAnnotation;
 	}
 
 	public List<String> getUnCommentedMethods() {
