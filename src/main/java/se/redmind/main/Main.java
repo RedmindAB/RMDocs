@@ -21,10 +21,10 @@ public class Main {
             System.exit(0);
         }
 
-        // Initializes and reads the config-file
+        /* Initializes and reads the config-file */
         ConfigProperties properties = new ConfigProperties();
 
-        // Section to read the files
+        /* Section to read the files */
         List<File> fileList;
         ArgumentParser arg = new ArgumentParser(args);
         arg.parse();
@@ -33,7 +33,7 @@ public class Main {
         finder.pathWalker(arg.getPath());
         fileList = reader.readAndSeparateFiles(finder.getFileList(), arg.getAnnotation());
 
-        // Section to structure the file list to POJO
+        /* Section to structure the file list to POJO */
         StructureFormatter formatter = new StructureFormatter(arg.getAnnotation(), arg.getSearchStringArray());
         Project project = new Project();
         formatter = new FormatterInit(project, formatter, fileList).format();
@@ -41,11 +41,12 @@ public class Main {
         project.setUnCommentedMethods(formatter.getUnCommentedMethods());
         project.setMethodsMissingAnnotation(formatter.getMethodsMissingAnnotations());
 
-        // Section to write the POJOs to specified format
+        /* Section to write the POJOs to specified format */
         for (String format : arg.getOutFormats()) {
             new Thread(new RMFileWriter(format, properties.getPath(), project)).start();
         }
 
+        /* Write report file */
         new RMFileWriter(properties.getPath(), project).writeReport(project.getUnCommentedMethods(),
                 project.getMethodsMissingAnnotation());
 

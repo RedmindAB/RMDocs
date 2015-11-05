@@ -113,9 +113,7 @@ public class ArgumentParser {
                 break;
             case "-s":
             	if(arguments.length > i + 1){
-//                    if(!arguments[i + 1].trim().equals("")) {
                         searchStringArray = arguments[i + 1].split("\\s+");
-//                    }
             	  } else {
                       errorMessage.append("No search string given\n");
             	}
@@ -142,7 +140,6 @@ public class ArgumentParser {
      *
      * @param annotation A string containing command line argument for annotation
      */
-
     public void validateAnnotation(String annotation) {
         // TODO - validate annotations other than @rm
         if (annotation == null){

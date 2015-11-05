@@ -164,7 +164,7 @@ public class StructureFormatter {
     }
 
 
-    private void checkForMissingComment(List<String> comments, Method method) {
+    public void checkForMissingComment(List<String> comments, Method method) {
         String methodName = method.getMethodName();
         for (String search : searchString) {
             boolean missing = true;
@@ -178,7 +178,7 @@ public class StructureFormatter {
             if (missing) {
                 if(methodsMissingAnnotations.get(methodName) != null){
                     String oldVal = methodsMissingAnnotations.get(methodName);
-                    if(!oldVal.equalsIgnoreCase(search))
+                    if(!oldVal.equalsIgnoreCase(search) && !oldVal.contains(search))
                       methodsMissingAnnotations.replace(methodName, oldVal + ", " + StringUtils.capitalize(search));
                 }else
                   methodsMissingAnnotations.put(methodName, StringUtils.capitalize(search));
