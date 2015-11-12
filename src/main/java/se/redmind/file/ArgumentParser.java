@@ -1,5 +1,7 @@
 package se.redmind.file;
 
+import se.redmind.util.Configuration;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -14,6 +16,8 @@ import java.util.List;
 public class ArgumentParser {
 
     private File path;
+    private boolean filter = false;
+    private File filterFile;
     private String annotation = "@rm";
     private String readFormat = ".java";
     private String[] searchStringArray;
@@ -68,8 +72,17 @@ public class ArgumentParser {
         validateReadFormat(readFormat);
         validateOutputFormats(outputFormats);
         validateSearchString(searchStringArray);
+        validateFilterPath(filterFile);
 
         checkForErrors();
+
+        if(filter){
+            Configuration.setFilterPath(filterFile);
+            Configuration.setFilterBoolean(true);
+        }else{
+            Configuration.setFilterBoolean(false);
+        }
+
     }
 
     /**
@@ -117,6 +130,14 @@ public class ArgumentParser {
             	  } else {
                       errorMessage.append("No search string given\n");
             	}
+                break;
+            case "-filter":
+                if(arguments.length > i + 1){
+                    filter = true;
+                    filterFile = new File(arguments[i + 1]);
+                } else {
+                    errorMessage.append("No filter path given\n");
+                }
                 break;
         }
     }
@@ -177,6 +198,14 @@ public class ArgumentParser {
             if(searchString.length == 0) errorMessage.append("Search string is empty");
             for (String search : searchString) {
                 if(((search != null) && search.equals("")) || search.equals(" ")) errorMessage.append("Search string is empty");
+            }
+        }
+    }
+
+    private void validateFilterPath(File path) {
+        if(path != null){
+            if(!path.isFile()){
+                errorMessage.append("Files does not exist: ").append(path).append("\n");
             }
         }
     }

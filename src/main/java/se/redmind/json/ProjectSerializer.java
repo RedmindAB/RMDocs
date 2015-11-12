@@ -36,7 +36,6 @@ public class ProjectSerializer implements JsonSerializer<Project> {
                 jsonArrayMethods.add(jsonObjectMethod); // add method item to method item list
                 jsonObjectMethod.addProperty("MethodName", method.getMethodName()); // sets name for this method item
 
-
                 if (method.getCommentList() != null) {
                     addPropertyToMethod(method, jsonObjectMethod);
                 }

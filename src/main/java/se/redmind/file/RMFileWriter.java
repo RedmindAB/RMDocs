@@ -3,14 +3,12 @@ package se.redmind.file;
 import java.io.*;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map.Entry;
-import java.util.Objects;
 
+import com.google.gson.JsonObject;
 import org.apache.commons.io.FileUtils;
 import se.redmind.json.JsonWriter;
-import se.redmind.structure.ClassObject;
-import se.redmind.structure.Method;
 import se.redmind.structure.Project;
+import se.redmind.util.Configuration;
 import se.redmind.util.RMStringBuilder;
 import se.redmind.util.StringCustomizer;
 import se.redmind.web.SparkServer;
@@ -79,16 +77,30 @@ public class RMFileWriter implements Runnable {
             e.printStackTrace();
         }
     }
+//    private void writeToXLS() {
+//
+//        JsonWriter writer = new JsonWriter();
+//        JsonObject obj = writer.convertToJsonObject(project);
+//
+//        XLSWriter xls = new XLSWriter(path);
+//        xls.write(obj);
+//    }
 
     private void writeToXLS() {
 
-        XLSWriter xls = new XLSWriter(path, project);
-        xls.write();
+        JsonWriter writer = new JsonWriter();
+        JsonObject obj = writer.convertToJsonObject(project);
+
+        if(Configuration.getFilterBoolean()){
+            obj = writer.filter(obj, Configuration.getFilterPath());
+        }
+
+        XLSWriter xls = new XLSWriter(path);
+        xls.write(obj);
     }
 
     private void writeToJson() {
-        jsonWriter = new JsonWriter(project);
-        String jsonString = jsonWriter.convertToJson();
+        String jsonString = new JsonWriter().convertToJson(project);
 
         File txtDirectory = new File(path + "json");
         txtDirectory.mkdirs();
@@ -98,8 +110,7 @@ public class RMFileWriter implements Runnable {
 
     private void writeToHTML() {
 
-        jsonWriter = new JsonWriter(project);
-        String jsonString = jsonWriter.convertToJson();
+        String jsonString = new JsonWriter().convertToJson(project);
 
         write(jsonString, new File("./web/MyProject.json"));
 
