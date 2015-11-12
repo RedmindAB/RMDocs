@@ -30,7 +30,7 @@
 **-filter** - Takes a path that leads to a file with a list of methods to filter the output to .xls.
 
 ## Filter Function
-With the help of the -filter* argument, one is able to filter the output to .xls. The filter is written in a text file and it's path is given as the argument.
+With the help of the -filter argument, one is able to filter the output to .xls. The filter is written in a text file and it's path is given as the argument.
 Each line in the textfile represents a method with the full package name.
 
 **Example:** `com.package.name.ClassName#methodName`
