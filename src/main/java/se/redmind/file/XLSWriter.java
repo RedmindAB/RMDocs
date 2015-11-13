@@ -26,7 +26,7 @@ public class XLSWriter {
         this.path = path;
     }
 
-    public void write(JsonObject jsonObject){
+    public void write(JsonObject jsonObject) {
 
         File xlsDirectory = new File(path + "xls");
         xlsDirectory.mkdirs();
@@ -84,64 +84,61 @@ public class XLSWriter {
 
                     String methodName = "";
 
-                        for (Entry<String, JsonElement> methodArray : methods.getAsJsonObject().entrySet()) {
+                    for (Entry<String, JsonElement> methodArray : methods.getAsJsonObject().entrySet()) {
 
-                            if(methodArray.getKey().equals("MethodName")){
-                                methodName =  methodArray.getValue().getAsString();
-                                sheet.addCell(new Label(0, y, methodName, methodNameFormat));
-                                y++;
-                            }
-                            if(methodArray.getValue().isJsonArray()) {
-
-                                sheet.addCell(new Label(0, y, methodArray.getKey(), multipleKeyFormat));
-                                y++;
-                                sheet.addCell(new Label(0, y, "ID"));
-                                int ID = 1;
-                                int startIndex = y;
-                                List<String> keyList = new ArrayList<>();
-                                y++;
-
-                                for (JsonElement dupArray : methodArray.getValue().getAsJsonArray()) {
-
-                                    for(Entry<String, JsonElement> dup : dupArray.getAsJsonObject().entrySet()){
-
-                                        if(!keyList.contains(dup.getKey())) keyList.add(dup.getKey());
-
-                                    }
-                                    //get the values based by key and add new cell
-                                    for (int x = 0; x <= keyList.size(); x++) {
-                                        String key;
-                                        try{
-                                            key = dupArray.getAsJsonObject().get(keyList.get(x)).getAsString();
-                                        }catch(IndexOutOfBoundsException | NullPointerException e){
-                                            key = "";
-                                        }
-                                        sheet.addCell(new Label(x+1, y, key, stepCellFormat));
-                                    }
-
-                                    sheet.addCell(new Number(0, y, ID, stepCellFormat));
-                                    y++;
-                                    ID++;
-                                }
-                                //Add the labels for duplicate keys
-                                for (int j = 0; j < keyList.size(); j++) {
-                                    sheet.addCell(new Label(j+1, startIndex, keyList.get(j), methodNameFormat));
-                                }
-
-                                if (jsonObject.get(methodName) != null){
-                                    String[] browsers = jsonObject.get(methodName).getAsString().split("\\s+");
-                                    int index = keyList.size() +1;
-                                    for (int j = 0; j < browsers.length; j++) {
-                                        sheet.addCell(new Label(index+j, startIndex, browsers[j], methodNameFormat));
-                                    }
-                                }
-
-                            }else{
-                                sheet.addCell(new Label(0, y, methodArray.getKey(), commentCellFormat));
-                                sheet.addCell(new Label(1, y, methodArray.getValue().getAsString(), commentCellFormat));
-                                y++;
-                            }
+                        if (methodArray.getKey().equals("MethodName")) {
+                            methodName = methodArray.getValue().getAsString();
+                            sheet.addCell(new Label(0, y, methodName, methodNameFormat));
+                            y++;
                         }
+                        if (methodArray.getValue().isJsonArray()) {
+
+                            sheet.addCell(new Label(0, y, methodArray.getKey(), multipleKeyFormat));
+                            y++;
+                            sheet.addCell(new Label(0, y, "ID"));
+                            int ID = 1;
+                            int startIndex = y;
+                            List<String> keyList = new ArrayList<>();
+                            y++;
+
+                            for (JsonElement dupArray : methodArray.getValue().getAsJsonArray()) {
+                                for (Entry<String, JsonElement> dup : dupArray.getAsJsonObject().entrySet()) {
+                                    if (!keyList.contains(dup.getKey())) keyList.add(dup.getKey());
+                                }
+                                //get the values based by key and add new cell
+                                for (int x = 0; x <= keyList.size(); x++) {
+                                    String key;
+                                    try {
+                                        key = dupArray.getAsJsonObject().get(keyList.get(x)).getAsString();
+                                    } catch (IndexOutOfBoundsException | NullPointerException e) {
+                                        key = "";
+                                    }
+                                    sheet.addCell(new Label(x + 1, y, key, stepCellFormat));
+                                }
+
+                                sheet.addCell(new Number(0, y, ID, stepCellFormat));
+                                y++;
+                                ID++;
+                            }
+                            //Add the labels for duplicate keys
+                            for (int j = 0; j < keyList.size(); j++) {
+                                sheet.addCell(new Label(j + 1, startIndex, keyList.get(j), methodNameFormat));
+                            }
+
+                            if (jsonObject.get(methodName) != null) {
+                                String[] browsers = jsonObject.get(methodName).getAsString().split("\\s+");
+                                int index = keyList.size() + 1;
+                                for (int j = 0; j < browsers.length; j++) {
+                                    sheet.addCell(new Label(index + j, startIndex, browsers[j], methodNameFormat));
+                                }
+                            }
+
+                        } else {
+                            sheet.addCell(new Label(0, y, methodArray.getKey(), commentCellFormat));
+                            sheet.addCell(new Label(1, y, methodArray.getValue().getAsString(), commentCellFormat));
+                            y++;
+                        }
+                    }
                     y += 2;
                 }
                 i = y;
@@ -149,7 +146,7 @@ public class XLSWriter {
             workbook.write();
             workbook.close();
 
-        }catch (IOException | WriteException e) {
+        } catch (IOException | WriteException e) {
             e.printStackTrace();
         }
     }

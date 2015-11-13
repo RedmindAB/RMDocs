@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.google.api.client.repackaged.com.google.common.base.Strings;
 import se.redmind.structure.Project;
 
 public class StringCustomizer {
@@ -42,22 +43,15 @@ public class StringCustomizer {
      * @return the extracted and formatted data
      */
     public static String extractAnnotationData(String element, String annotation) {
+        StringBuilder sb = new StringBuilder();
+        Pattern Patter = Pattern.compile(".*" + annotation + "(\\w+)(?:\\s+(.+))?");
+        Matcher mat = Patter.matcher(element.trim());
 
-        Pattern pat = Pattern.compile("@rm(.*?)\\s");
-        Matcher mat = pat.matcher(element);
-        String newString;
-        String secondString;
-        String thirdString;
-        String finalString = "";
-
-        while (mat.find()) {
-            newString = mat.group(1);
-            secondString = element.replace(newString, "");
-            thirdString = secondString.replaceAll("[\\*\\/]", "");
-            if (thirdString.equals("")) thirdString = " ";
-            finalString = newString + ": " + thirdString.replace(annotation, "").trim();
-        }
-        return finalString;
+       if (mat.matches()) {
+           if (mat.group(1) != null) sb.append(mat.group(1)).append(": ");
+           if (mat.group(2) != null) sb.append(mat.group(2));
+       }
+        return sb.toString();
     }
 
     public static String appendDateToFile(Project proj) {
@@ -70,10 +64,6 @@ public class StringCustomizer {
 
     public static String[] splitStringToArray(String str) {
         return str.split("\\[|\\]");
-    }
-
-    public static String[] splitToArrayWithDelimiter(String str, String delimiter){
-        return str.split(delimiter);
     }
 
 }

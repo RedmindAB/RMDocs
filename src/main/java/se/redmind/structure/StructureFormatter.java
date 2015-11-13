@@ -45,7 +45,7 @@ public class StructureFormatter {
      * Reads given file and turns it into a StringBuilder
      *
      * @param file the given file
-     * @return the StringBuilder object
+     * @return the created StringBuilder object
      */
     public StringBuilder readFileToStringBuilder(File file) {
 
@@ -67,7 +67,7 @@ public class StructureFormatter {
      * Converts a StringBuilder object to an array of Strings
      *
      * @param stringBuilder the StringBuilder to convert
-     * @return the String array
+     * @return the created String array
      */
     public String[] toArray(StringBuilder stringBuilder) {
 
@@ -120,7 +120,7 @@ public class StructureFormatter {
      * @param classStringArray - string array representing a class
      * @param methodList - list to add the Method objects
      * @param iteration - current iteration in parent method
-     * @return current iteration when this method is done
+     * @return current iteration where parent iterator should continue
      */
     private int createObject(String[] classStringArray, List<Method> methodList, int iteration) {
 
@@ -129,7 +129,6 @@ public class StructureFormatter {
         duplicateMap = new LinkedHashMap<>();
 
         for (int i = iteration; i < classStringArray.length; i++) {
-            // TODO look at another option or modify this option to make sure that next line is a method and nothing else
             if (classStringArray[i].contains("@Test")) {
                 int x;
                 for (x = i; x < classStringArray.length; x++) {
@@ -169,7 +168,7 @@ public class StructureFormatter {
         for (String search : searchString) {
             boolean missing = true;
             for (String comment : comments) {
-                String[] splitArray = StringCustomizer.splitToArrayWithDelimiter(comment, ":");
+                String[] splitArray = comment.split(":");
                 if (splitArray[0].equalsIgnoreCase(search)) {
                     missing = false;
                     break;
@@ -222,7 +221,7 @@ public class StructureFormatter {
             return;
         }
 
-        // if rmList contains the duplicate string, add the item in duplicateList
+        // if list contains the duplicate string, add the item in duplicateList
         for (String str : comments) {
             if (str.startsWith(duplicateString)) {
                 duplicateList.add(str);

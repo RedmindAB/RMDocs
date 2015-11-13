@@ -14,7 +14,7 @@ import se.redmind.util.StringCustomizer;
 import se.redmind.web.SparkServer;
 
 /**
- * Handles the writing to the specific format
+ * Handles the writing to the specific output formats
  *
  * @author Victor Mattsson
  */
@@ -23,17 +23,16 @@ public class RMFileWriter implements Runnable {
     private String format;
     private String path;
     private Project project;
-    private JsonWriter jsonWriter;
     private RMStringBuilder builder = new RMStringBuilder();
 
-    public RMFileWriter(String format, String path, Project project) {
+    public RMFileWriter(String format, Project project) {
         this.format = format;
-        this.path = path;
+        this.path = Configuration.getOutputPath();
         this.project = project;
     }
 
-    public RMFileWriter(String path, Project project) {
-        this.path = path;
+    public RMFileWriter(Project project) {
+        this.path = Configuration.getOutputPath();
         this.project = project;
     }
 
@@ -77,14 +76,6 @@ public class RMFileWriter implements Runnable {
             e.printStackTrace();
         }
     }
-//    private void writeToXLS() {
-//
-//        JsonWriter writer = new JsonWriter();
-//        JsonObject obj = writer.convertToJsonObject(project);
-//
-//        XLSWriter xls = new XLSWriter(path);
-//        xls.write(obj);
-//    }
 
     private void writeToXLS() {
 

@@ -36,6 +36,9 @@ public class StringCustomizerTest {
 	@Test
 	public void assertThatReturnedAnnotationDataIsCorrect(){
 		assertEquals("Author: Yokomito Pak-Sun", StringCustomizer.extractAnnotationData("/*@rmAuthor Yokomito Pak-Sun", "@rm"));
+        assertEquals("Author: [step] A step [expected] Expected", StringCustomizer.extractAnnotationData("/*@rmAuthor [step] A step [expected] Expected", "@rm"));
+        assertEquals("Author: [step]", StringCustomizer.extractAnnotationData("/*@rmAuthor [step] ", "@rm"));
+        assertEquals("Author: ", StringCustomizer.extractAnnotationData("/*@rmAuthor", "@rm"));
 	}
 
     @Test

@@ -31,7 +31,7 @@ public class RMFileWriterTest {
 
 	@Test
 	public void expectSystemExitIfFormatIsIncorrect(){
-        writer = new RMFileWriter(".asdf", path, proj);
+        writer = new RMFileWriter(".asdf", proj);
         exit.expectSystemExitWithStatus(1);
         writer.printAndWrite();
 

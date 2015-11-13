@@ -53,7 +53,8 @@ public class RMStringBuilder {
                 sb.append("||" + m.getMethodName() + "|| ||").append("\n");
                 for (String s : m.getCommentList()) {
                     String[] rmArray = s.split(":");
-                    sb.append("|" + rmArray[0] + "|" + rmArray[1] + "|").append("\n");
+                    if(rmArray.length > 1) sb.append("|" + rmArray[0] + "|" + rmArray[1] + "|").append("\n");
+                    else sb.append("|" + rmArray[0] + "|");
                 }
                 for (Map.Entry<String, List<String>> entry : m.getDuplicateMap().entrySet()) {
                     String entryKey = entry.getKey();

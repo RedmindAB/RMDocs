@@ -63,7 +63,6 @@ public class RMFileReader {
         }
         for (File annFile : annotatedFiles) {
             if (annFile.getName().equals(file.getName())) {
-                continue;
             } else {
                 annotatedFiles.add(file);
                 break;

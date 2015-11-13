@@ -86,7 +86,8 @@ public class JsonWriterTest {
         proj.setProjectName("RMCustomerExample");
         proj.setClassObjects(classList);
         JsonObject obj = jw.convertToJsonObject(proj);
-        obj = jw.filter(obj, new File("/Users/victormattsson/Documents/fileWithTestMethods.txt"));
+        obj = jw.filter(obj, new File(System.getProperty("user.dir") + File.separator
+                + "TestProject" + File.separator + "fileWithTestMethods.txt"));
 
     }
 

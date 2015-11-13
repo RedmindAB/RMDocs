@@ -1,0 +1,5 @@
+se.atlan.webdoc.tests.installningar.Installningar#nyttBesokFormular IE
+se.atlan.webdoc.tests.installningar.Installningar#nyttObjektTextruta IE Firefox Chrome
+se.atlan.webdoc.tests.installningar.Installningar#nyttObjektUndergrupp IE Firefox
+se.atlan.webdoc.tests.journaler.NyttBesok#skapaNyttBesok
+se.atlan.webdoc.tests.journaler.NyttBesok#stepThreeButtonsLocked

@@ -1,5 +1,7 @@
 package se.redmind.file;
 
+import se.redmind.util.Configuration;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -14,11 +16,10 @@ import java.util.Properties;
 public class ConfigProperties {
 
     private String path = "";
-    private String propertyFileName;
+    private final String PROPERTY_FILE = "config.properties";
     private Properties properties;
 
     public ConfigProperties() {
-        propertyFileName = "config.properties";
         initConfig();
     }
 
@@ -26,9 +27,9 @@ public class ConfigProperties {
         return this.path;
     }
 
-    private void initConfig() {
+    private final void initConfig() {
 
-        try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream(propertyFileName)) {
+        try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream(PROPERTY_FILE)) {
             properties = new Properties();
 
             if (inputStream != null) {
@@ -51,6 +52,7 @@ public class ConfigProperties {
 
     public void setPathFromProperty() {
         path = properties.getProperty("path");
+        Configuration.setOutputPath(properties.getProperty("path"));
     }
 
     public void createConfigFile() {
@@ -65,10 +67,7 @@ public class ConfigProperties {
         }
     }
 
-
     public String setHomePath() {
         return System.getProperty("user.dir") + File.separator;
     }
-
-
 }

@@ -71,7 +71,7 @@ public class JsonWriter {
                     for (JsonElement method : methodArray) {
                         String jsonMethodName = method.getAsJsonObject().get("MethodName").getAsString();
                         for (MethodDescription methodDescription : methods) {
-                            if (methodDescription.name.equals(jsonMethodName)){
+                            if (methodDescription.name.equals(jsonMethodName)) {
                                 outputMethods.add(method);
                             }
                             if (!methodDescription.browsers.isEmpty()) {

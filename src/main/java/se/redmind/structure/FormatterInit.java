@@ -5,26 +5,24 @@ import java.util.List;
 
 public class FormatterInit {
 
-    StringBuilder stringBuilder;
-    String[] strArray;
-    Project project;
-    StructureFormatter formatter;
-    List<File> list;
+    private Project project;
+    private StructureFormatter formatter;
+    private List<File> files;
 
     public FormatterInit(Project project, StructureFormatter formatter, List<File> list) {
         this.project = project;
         this.formatter = formatter;
-        this.list = list;
+        this.files = list;
     }
 
     public StructureFormatter format() {
 
-        for (File file : list) {
+        for (File file : files) {
             if (project.getProjectName().equals("")) {
                 project.setProjectName(formatter.getProjectName(file));
             }
-            stringBuilder = formatter.readFileToStringBuilder(file);
-            strArray = formatter.toArray(stringBuilder);
+            StringBuilder stringBuilder = formatter.readFileToStringBuilder(file);
+            String[] strArray = formatter.toArray(stringBuilder);
             formatter.buildClassObjectFromArray(strArray);
         }
         return formatter;
