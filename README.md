@@ -25,9 +25,18 @@
 
 **-a** - The type of annotation to be read. Default is *@rm*.
 
-**-s** - Search function to find methods that is missing a given comment. Search string should be the comment key without the annotation. Displays in the report file.
+**-s** - Search function to find methods that is missing a given comment. 
 
 **-filter** - Takes a path that leads to a file with a list of methods to filter the output to .xls.
+
+## Search Function
+Search string should be the comment key without the annotation. It is not case sensitive. Displays in the report file.
+
+**Example:** To find all methods missing @rmAuthor, type: `-s Author`
+
+It is also possible to search for multiple comments.
+
+**Example:** `-s 'Author Date Priority'`
 
 ## Filter Function
 With the help of the -filter argument, one is able to filter the output to .xls. The filter is written in a text file and it's path is given as the argument.
