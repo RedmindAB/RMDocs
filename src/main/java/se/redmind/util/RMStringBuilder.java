@@ -42,34 +42,34 @@ public class RMStringBuilder {
 
         sb = new StringBuilder();
 
-        sb.append("h1." + project.getProjectName()).append("\n");
+        sb.append("h1.").append(project.getProjectName()).append("\n");
         for (ClassObject co : project.getClassObjects()) {
-            sb.append("h2." + co.getPackageName()).append("\n");
+            sb.append("h2.").append(co.getPackageName()).append("\n");
             sb.append("\n");
-            sb.append("h3." + co.getName()).append("\n");
+            sb.append("h3.").append(co.getName()).append("\n");
             sb.append("\n");
 
             for (Method m : co.getMethodList()) {
-                sb.append("||" + m.getMethodName() + "|| ||").append("\n");
+                sb.append("||").append(m.getMethodName()).append("|| ||").append("\n");
                 for (String s : m.getCommentList()) {
                     String[] rmArray = s.split(":");
-                    if(rmArray.length > 1) sb.append("|" + rmArray[0] + "|" + rmArray[1] + "|").append("\n");
-                    else sb.append("|" + rmArray[0] + "|");
+                    if(rmArray.length > 1) sb.append("|").append(rmArray[0]).append("|").append(rmArray[1]).append("|").append("\n");
+                    else sb.append("|").append(rmArray[0]).append("|");
                 }
                 for (Map.Entry<String, List<String>> entry : m.getDuplicateMap().entrySet()) {
                     String entryKey = entry.getKey();
-                    sb.append("|*" + entryKey + ":*| |").append("\n");
+                    sb.append("|*").append(entryKey).append(":*| |").append("\n");
                     for (String dup : entry.getValue()) {
                         String[] dupArray = StringCustomizer.splitStringToArray(dup);
                         if (dupArray.length == 3) {
-                            sb.append("||" + dupArray[1] + "||" + " " + "||").append("\n");
-                            sb.append("|" + dupArray[2] + "|" + " " + "|").append("\n");
+                            sb.append("||").append(dupArray[1]).append("||").append(" ").append("||").append("\n");
+                            sb.append("|").append(dupArray[2]).append("|").append(" ").append("|").append("\n");
                         } else if (dupArray.length == 1 || dupArray.length < 4) {
                             String[] splitArray = dup.split(":");
-                            sb.append("||" + dupArray[1] + "||" + " " + "||").append("\n");
-                            sb.append("|" + splitArray[1] + "|" + " " + "|").append("\n");
+                            sb.append("||").append(dupArray[1]).append("||").append(" ").append("||").append("\n");
+                            sb.append("|").append(splitArray[1]).append("|").append(" ").append("|").append("\n");
                         } else {
-                            sb.append("||" + dupArray[1] + "||" + dupArray[3] + "||").append("\n");
+                            sb.append("||").append(dupArray[1]).append("||").append(dupArray[3]).append("||").append("\n");
                             String key = " ";
                             String value;
                             try {
@@ -78,7 +78,7 @@ public class RMStringBuilder {
                             } catch (ArrayIndexOutOfBoundsException e) {
                                 value = " ";
                             }
-                            sb.append("|" + key + "|" + value + "|").append("\n");
+                            sb.append("|").append(key).append("|").append(value).append("|").append("\n");
                         }
                     }
                 }

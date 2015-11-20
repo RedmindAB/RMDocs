@@ -43,7 +43,7 @@ public class Main {
 
         /* Section to write the POJOs to specified format */
         for (String format : arg.getOutFormats()) {
-            new Thread(new RMFileWriter(format, project)).start();
+            new Thread(new RMFileWriter(format,  project)).start();
         }
 
         /* Write report file */

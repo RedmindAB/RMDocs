@@ -46,12 +46,19 @@ public class JsonWriter {
         return convertToJsonElement(project).getAsJsonObject();
     }
 
-    public JsonObject filter(JsonObject obj, File file) {
+    public JsonObject filter(JsonObject obj, List<String> filterLines){
+        return filter(obj, fromLines(filterLines));
+    }
+
+    public JsonObject filter(JsonObject obj, File filterFile){
+        return filter(obj, fromFile(filterFile));
+    }
+
+    public JsonObject filter(JsonObject obj, Map<String, Map<String, List<MethodDescription>>> packageMap) {
         JsonObject output = new JsonObject();
         output.addProperty("ProjectName", obj.get("ProjectName").getAsString());
         JsonArray outputClasses = new JsonArray();
         output.add("Classes", outputClasses);
-        Map<String, Map<String, List<MethodDescription>>> packageMap = fromFile(file);
 
         for (JsonElement classes : obj.get("Classes").getAsJsonArray()) {
             String jsonPackageName = classes.getAsJsonObject().get("PackageName").getAsString();

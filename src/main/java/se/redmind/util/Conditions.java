@@ -14,7 +14,6 @@ public class Conditions {
         return false;
     }
 
-
     public static boolean containsAnnotation(String line, String annotation) {
         return line.contains(annotation);
     }

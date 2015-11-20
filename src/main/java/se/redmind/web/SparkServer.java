@@ -12,15 +12,14 @@ import static spark.Spark.*;
  */
 public class SparkServer {
 
-    public static void start(){
+    public static void start() {
 
         port(9090);
         externalStaticFileLocation(System.getProperty("user.dir") + "/web");
 
         get("/RMDocs", (request, response) -> "Hello World");
 
-        if(Desktop.isDesktopSupported())
-        {
+        if (Desktop.isDesktopSupported()) {
             try {
                 Desktop.getDesktop().browse(new URI("http://localhost:9090/"));
             } catch (IOException | URISyntaxException e) {

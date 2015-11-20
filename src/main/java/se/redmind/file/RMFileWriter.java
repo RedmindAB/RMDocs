@@ -52,7 +52,8 @@ public class RMFileWriter implements Runnable {
                 writeToJson();
                 break;
             case ".xls":
-                writeToXLS();
+//                writeToXLS();
+                XLS2();
                 break;
             case ".con":
                 writeToConfluence();
@@ -88,6 +89,23 @@ public class RMFileWriter implements Runnable {
 
         XLSWriter xls = new XLSWriter(path);
         xls.write(obj);
+    }
+
+    private void XLS2(){
+        JsonWriter writer = new JsonWriter();
+        JsonObject obj = writer.convertToJsonObject(project);
+
+        if(Configuration.getFilterBoolean()){
+            obj = writer.filter(obj, Configuration.getFilterPath());
+        }
+
+        XLSWriter xls = new XLSWriter(path);
+        xls.write(xls.format(obj));
+        File file = xls.getAsFile(xls.format(obj));
+        if (file.exists()) {
+            System.out.println(file.length());
+            System.out.println(file.getAbsolutePath());
+        }
     }
 
     private void writeToJson() {

@@ -20,7 +20,7 @@ public class ConfigProperties {
     private Properties properties;
 
     public ConfigProperties() {
-        initConfig();
+        initConfig();       
     }
 
     public String getPath() {

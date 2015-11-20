@@ -11,7 +11,7 @@ public final class Configuration {
     private Configuration(){
     }
 
-    private final static ConcurrentHashMap map = new ConcurrentHashMap<>();
+    private final static ConcurrentHashMap<String, Object> map = new ConcurrentHashMap<>();
 
     public static void setFilterPath(File path){
         map.put("filterfile", path);

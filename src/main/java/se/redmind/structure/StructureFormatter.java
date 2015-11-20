@@ -10,6 +10,8 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
 import se.redmind.util.Conditions;
@@ -196,12 +198,15 @@ public class StructureFormatter {
         List<String> newCommentList = new ArrayList<>();
         List<String> duplicateList = new ArrayList<>();
 
-        // iterates the rmList and adds the "key" to the new list
+        // iterates the comments and adds the "key" to the new list
+        Pattern pattern = Pattern.compile("(\\S+):.*");
+        Matcher mat;
         for (String str : comments) {
-            try {
-                newCommentList.add(str.substring(0, str.indexOf(":")));
-            } catch (StringIndexOutOfBoundsException e) {
-                newCommentList.add("null");
+            mat = pattern.matcher(str);
+            if(mat.matches()) {
+                newCommentList.add(mat.group(1));
+            }else {
+                newCommentList.add(null);
             }
         }
 
