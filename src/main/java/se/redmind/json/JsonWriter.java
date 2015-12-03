@@ -3,8 +3,9 @@ package se.redmind.json;
 import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
 import com.google.gson.*;
+
 import org.apache.commons.io.FileUtils;
-import se.redmind.structure.Method;
+
 import se.redmind.structure.Project;
 
 import java.io.File;
@@ -46,11 +47,11 @@ public class JsonWriter {
         return convertToJsonElement(project).getAsJsonObject();
     }
 
-    public JsonObject filter(JsonObject obj, List<String> filterLines){
+    public JsonObject filter(JsonObject obj, List<String> filterLines) {
         return filter(obj, fromLines(filterLines));
     }
 
-    public JsonObject filter(JsonObject obj, File filterFile){
+    public JsonObject filter(JsonObject obj, File filterFile) {
         return filter(obj, fromFile(filterFile));
     }
 

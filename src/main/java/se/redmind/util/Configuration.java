@@ -8,24 +8,24 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public final class Configuration {
 
-    private Configuration(){
+    private Configuration() {
     }
 
     private final static ConcurrentHashMap<String, Object> map = new ConcurrentHashMap<>();
 
-    public static void setFilterPath(File path){
+    public static void setFilterPath(File path) {
         map.put("filterfile", path);
     }
 
-    public static File getFilterPath(){
-       return (File) map.get("filterfile");
+    public static File getFilterPath() {
+        return (File) map.get("filterfile");
     }
 
-    public static void setFilterBoolean(boolean filter){
+    public static void setFilterBoolean(boolean filter) {
         map.put("filterbool", filter);
     }
 
-    public static boolean getFilterBoolean(){
+    public static boolean getFilterBoolean() {
         return (boolean) map.get("filterbool");
     }
 
@@ -33,7 +33,7 @@ public final class Configuration {
         map.put("outputpath", path);
     }
 
-    public static String getOutputPath(){
+    public static String getOutputPath() {
         return String.valueOf(map.get("outputpath"));
     }
 }

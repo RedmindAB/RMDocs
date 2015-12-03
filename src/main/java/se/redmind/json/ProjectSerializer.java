@@ -10,7 +10,6 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 
-
 import se.redmind.structure.ClassObject;
 import se.redmind.structure.Method;
 import se.redmind.structure.Project;
@@ -78,7 +77,9 @@ public class ProjectSerializer implements JsonSerializer<Project> {
 
     private void addPropertyToMethod(Method method, JsonObject jsonObjectMethod) {
         for (String item : method.getCommentList()) {
-            if (item.equals("")) continue;
+            if (item.equals("")) {
+                continue;
+            }
             String[] itemArray = item.split(":");
             jsonObjectMethod.addProperty(itemArray[0], itemArray[1].trim());
         }

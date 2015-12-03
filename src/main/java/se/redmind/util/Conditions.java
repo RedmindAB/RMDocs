@@ -15,7 +15,7 @@ public class Conditions {
     }
 
     public static boolean containsAnnotation(String line, String annotation) {
-        return line.contains(annotation);
+        return line.matches("\\s*\\*\\s*" + annotation + ".*");
     }
 
     public static boolean containsPackageName(String line) {
@@ -23,36 +23,36 @@ public class Conditions {
     }
 
     public static boolean isAMethod(String line) {
-
-        if (line.contains("public void"))
+        if (line.contains("public void")) {
             return true;
-        else if (line.contains("private void"))
+        } else if (line.contains("private void")) {
             return true;
-        else if (line.contains("public final void"))
+        } else if (line.contains("public final void")) {
             return true;
-        else if (line.contains("private final void"))
+        } else if (line.contains("private final void")) {
             return true;
-        else if (line.contains("public static void"))
+        } else if (line.contains("public static void")) {
             return true;
-        else if (line.contains("private static void"))
+        } else if (line.contains("private static void")) {
             return true;
-        else if (line.contains("public static final void"))
+        } else if (line.contains("public static final void")) {
             return true;
-        else if (line.contains("private static final void"))
+        } else if (line.contains("private static final void")) {
             return true;
+        }
         return false;
     }
 
     public static boolean containsClassName(String line) {
-
-        if (line.contains("public class"))
+        if (line.contains("public class")) {
             return true;
-        else if (line.contains("public abstract class"))
+        } else if (line.contains("public abstract class")) {
             return true;
-        else if (line.contains("public final class"))
+        } else if (line.contains("public final class")) {
             return true;
-        else if (line.contains("private class"))
+        } else if (line.contains("private class")) {
             return true;
+        }
 
         return false;
     }

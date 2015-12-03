@@ -15,7 +15,7 @@ public class RMStringBuilder {
 
     private StringBuilder sb;
 
-    public String toTextFileString(Project project){
+    public String toTextFileString(Project project) {
 
         sb = new StringBuilder();
 
@@ -38,7 +38,7 @@ public class RMStringBuilder {
         return sb.toString();
     }
 
-    public String toConfluenceTextString(Project project){
+    public String toConfluenceTextString(Project project) {
 
         sb = new StringBuilder();
 
@@ -53,8 +53,11 @@ public class RMStringBuilder {
                 sb.append("||").append(m.getMethodName()).append("|| ||").append("\n");
                 for (String s : m.getCommentList()) {
                     String[] rmArray = s.split(":");
-                    if(rmArray.length > 1) sb.append("|").append(rmArray[0]).append("|").append(rmArray[1]).append("|").append("\n");
-                    else sb.append("|").append(rmArray[0]).append("|");
+                    if (rmArray.length > 1) {
+                        sb.append("|").append(rmArray[0]).append("|").append(rmArray[1]).append("|").append("\n");
+                    } else {
+                        sb.append("|").append(rmArray[0]).append("|");
+                    }
                 }
                 for (Map.Entry<String, List<String>> entry : m.getDuplicateMap().entrySet()) {
                     String entryKey = entry.getKey();
@@ -88,7 +91,7 @@ public class RMStringBuilder {
         return sb.toString();
     }
 
-    public String toUncommentedReportString(List<String> unCommentedMethods){
+    public String toUncommentedReportString(List<String> unCommentedMethods) {
         sb = new StringBuilder();
 
         sb.append("--Methods with no comments--").append("\n");
@@ -98,7 +101,7 @@ public class RMStringBuilder {
         return sb.toString();
     }
 
-    public String toMissingCommentReportString(LinkedHashMap<String, String> missingComments){
+    public String toMissingCommentReportString(LinkedHashMap<String, String> missingComments) {
         sb = new StringBuilder();
 
         sb.append("--Methods with missing annotations--").append("\n");

@@ -5,7 +5,6 @@ import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.google.api.client.repackaged.com.google.common.base.Strings;
 import se.redmind.structure.Project;
 
 public class StringCustomizer {
@@ -47,10 +46,14 @@ public class StringCustomizer {
         Pattern Patter = Pattern.compile(".*" + annotation + "(\\w+)(?:\\s+(.+))?");
         Matcher mat = Patter.matcher(element.trim());
 
-       if (mat.matches()) {
-           if (mat.group(1) != null) sb.append(mat.group(1)).append(": ");
-           if (mat.group(2) != null) sb.append(mat.group(2));
-       }
+        if (mat.matches()) {
+            if (mat.group(1) != null) {
+                sb.append(mat.group(1)).append(": ");
+            }
+            if (mat.group(2) != null) {
+                sb.append(mat.group(2));
+            }
+        }
         return sb.toString();
     }
 

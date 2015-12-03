@@ -6,7 +6,8 @@ import org.junit.Test;
 
 public class Testfile {
 
-	/* @rmAuthor Yokomito Park-Sun
+	/**
+     * @rmAuthor Yokomito Park-Sun
 	 * @rmDate 2015-09-09
 	 * @rmSummary Skapa ett nytt text document
 	 * @rmDescription Skapa ett nytt text document
@@ -19,8 +20,6 @@ public class Testfile {
 
 	@Before
 	@After
-	/*hejhej*/
-	//@rmHEJHEJ hehe
 	/**
 	 * @rmHej asdfadsf
 	 */
@@ -29,8 +28,9 @@ public class Testfile {
 
 	}
 
-	/*@rmAuthor Zvedanja Mehic
-	 *@rmDate 2015-09-01 
+	/**
+     * @rmAuthor Zvedanja Mehic
+	 * @rmDate 2015-09-01
 	 * @rmSummary skapa en metod
 	 * @rmDescription Skapa en klass som innehåller 2 metoder
 	 * @rmPriority Medium
@@ -40,7 +40,6 @@ public class Testfile {
 	 * @rmBaaaa jasjld [eh] jaj
 	 * @rmBaaaa heheh [eh] ashd
 	 */
-
 	@Test
 	public void newClass(){
 

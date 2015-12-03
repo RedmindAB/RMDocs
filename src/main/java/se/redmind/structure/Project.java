@@ -3,7 +3,6 @@ package se.redmind.structure;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-
 public class Project {
 
     private String projectName;
@@ -11,15 +10,15 @@ public class Project {
     private List<String> unCommentedMethods;
     private LinkedHashMap<String, String> methodsMissingAnnotation;
 
-    public LinkedHashMap<String, String>getMethodsMissingAnnotation() {
-		return methodsMissingAnnotation;
-	}
+    public LinkedHashMap<String, String> getMethodsMissingAnnotation() {
+        return methodsMissingAnnotation;
+    }
 
-	public void setMethodsMissingAnnotation(LinkedHashMap<String, String> methodsMissingAnnotation) {
-		this.methodsMissingAnnotation = methodsMissingAnnotation;
-	}
+    public void setMethodsMissingAnnotation(LinkedHashMap<String, String> methodsMissingAnnotation) {
+        this.methodsMissingAnnotation = methodsMissingAnnotation;
+    }
 
-	public List<String> getUnCommentedMethods() {
+    public List<String> getUnCommentedMethods() {
         return unCommentedMethods;
     }
 
@@ -46,6 +45,5 @@ public class Project {
     public void setProjectName(String projectName) {
         this.projectName = projectName;
     }
-
 
 }
