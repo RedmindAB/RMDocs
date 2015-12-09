@@ -4,6 +4,7 @@ import org.junit.*;
 import org.junit.runner.RunWith;
 import se.redmind.main.Main;
 import se.redmind.rmtest.selenium.grid.DriverNamingWrapper;
+import se.redmind.rmtest.selenium.grid.DriverProvider;
 import se.redmind.rmtest.selenium.grid.Parallelized;
 import se.redmind.rmtest.selenium.grid.TestBase;
 
@@ -24,7 +25,13 @@ public class TestSuiteOne extends TestBase {
         String path = System.getProperty("user.dir") + "/TestProject/Mock Project/";
         Main.main(new String[] {"-p", path, "-o", ".html"});
     }
+    
+    @AfterClass
+    public static void afterclass(){
+    	DriverProvider.stopDrivers();
+    }
 
+    
     @Before
     public void before(){
         webDriver = driverNamingWrapper.startDriver();

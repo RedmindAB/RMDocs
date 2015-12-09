@@ -92,10 +92,13 @@ public class RMFileWriter implements Runnable {
     }
 
     private void XLS2(){
+    	System.out.println("Writing to XLS");
+    	System.out.println("Path: "+path);
         JsonWriter writer = new JsonWriter();
         JsonObject obj = writer.convertToJsonObject(project);
 
         if(Configuration.getFilterBoolean()){
+        	System.out.println("The XLS is filtered");
             obj = writer.filter(obj, Configuration.getFilterPath());
         }
 
