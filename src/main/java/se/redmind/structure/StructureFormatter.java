@@ -77,8 +77,7 @@ public class StructureFormatter {
     }
 
     /**
-     * Iterates an array of strings and creates POJOs of the project, class and
-     * annotations
+     * Iterates an array of strings and creates POJOs of the project, class and annotations
      *
      * @param classStringArray array with each element as a line in a file
      */
@@ -98,17 +97,11 @@ public class StructureFormatter {
 
                     unCommentedMethods.add(methodString);
                 }
-            }
-            /* If line contains an annotation */
-            else if (Conditions.containsAnnotation(classStringArray[y], annotation)) {
+            } /* If line contains an annotation */ else if (Conditions.containsAnnotation(classStringArray[y], annotation)) {
                 y = createObject(classStringArray, methodList, y);
-            }
-            /* If line contains a class name */
-            else if (Conditions.containsClassName(classStringArray[y])) {
+            } /* If line contains a class name */ else if (Conditions.containsClassName(classStringArray[y])) {
                 classObject.setName(StringCustomizer.extractClassName(classStringArray[y]));
-            }
-            /* If line contains a package name */
-            else if (Conditions.containsPackageName(classStringArray[y])) {
+            } /* If line contains a package name */ else if (Conditions.containsPackageName(classStringArray[y])) {
                 classObject.setPackageName(StringCustomizer.extractPackageName(classStringArray[y]));
             }
         }
@@ -164,7 +157,6 @@ public class StructureFormatter {
         return iteration;
     }
 
-
     public void checkForMissingComment(List<String> comments, Method method) {
         String methodName = method.getMethodName();
         for (String search : searchString) {
@@ -177,12 +169,14 @@ public class StructureFormatter {
                 }
             }
             if (missing) {
-                if(methodsMissingAnnotations.get(methodName) != null){
+                if (methodsMissingAnnotations.get(methodName) != null) {
                     String oldVal = methodsMissingAnnotations.get(methodName);
-                    if(!oldVal.equalsIgnoreCase(search) && !oldVal.contains(search))
-                      methodsMissingAnnotations.replace(methodName, oldVal + ", " + StringUtils.capitalize(search));
-                }else
-                  methodsMissingAnnotations.put(methodName, StringUtils.capitalize(search));
+                    if (!oldVal.equalsIgnoreCase(search) && !oldVal.contains(search)) {
+                        methodsMissingAnnotations.replace(methodName, oldVal + ", " + StringUtils.capitalize(search));
+                    }
+                } else {
+                    methodsMissingAnnotations.put(methodName, StringUtils.capitalize(search));
+                }
             }
         }
     }
@@ -203,10 +197,10 @@ public class StructureFormatter {
         Matcher mat;
         for (String str : comments) {
             mat = pattern.matcher(str);
-            if(mat.matches()) {
+            if (mat.matches()) {
                 newCommentList.add(mat.group(1));
-            }else {
-                newCommentList.add(null);
+            } else {
+                throw new IllegalArgumentException("string: '" + str + "' doesn't match " + pattern.pattern());
             }
         }
 
@@ -235,7 +229,7 @@ public class StructureFormatter {
         duplicateMap.put(duplicateString, duplicateList);
 
         for (String string : duplicateList) {
-            for (Iterator<String> iterator = comments.iterator(); iterator.hasNext(); ) {
+            for (Iterator<String> iterator = comments.iterator(); iterator.hasNext();) {
                 String str = iterator.next();
                 if (string.equals(str)) {
                     iterator.remove();
@@ -258,7 +252,7 @@ public class StructureFormatter {
 
         for (int i = 0; i < nameCount; i++) {
             if (file.toPath().getName(i).toString().equals("src")
-                    || file.toPath().getName(i).toString().equals("bin")) {
+                || file.toPath().getName(i).toString().equals("bin")) {
                 srcIndex = i;
             }
         }

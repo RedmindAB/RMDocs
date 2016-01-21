@@ -20,7 +20,8 @@ public class ConfigProperties {
     private Properties properties;
 
     public ConfigProperties() {
-        initConfig();       
+    	this.properties = new Properties();
+        initConfig();
     }
 
     public String getPath() {
@@ -28,32 +29,10 @@ public class ConfigProperties {
     }
 
     private final void initConfig() {
-
-        try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream(PROPERTY_FILE)) {
-            properties = new Properties();
-
-            if (inputStream != null) {
-                properties.load(inputStream);
-            } else {
-                createConfigFile();
-            }
-
-            setPathFromProperty();
-
-            if (path.equals("")) {
-                properties.setProperty("path", setHomePath());
-                path = System.getProperty("user.dir");
-            }
-
-        } catch (IOException e) {
-            createConfigFile();
-        }
+        properties.setProperty("path", setHomePath());
+        path = System.getProperty("user.dir");
     }
 
-    public void setPathFromProperty() {
-        path = properties.getProperty("path");
-        Configuration.setOutputPath(properties.getProperty("path"));
-    }
 
     public void createConfigFile() {
 

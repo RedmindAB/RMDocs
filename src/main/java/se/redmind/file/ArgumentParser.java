@@ -8,8 +8,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * ArgumentParser --- Sets the given in-arguments to local variables validates
- * and gives error messages if arguments are invalid
+ * ArgumentParser --- Sets the given in-arguments to local variables validates and gives error messages if arguments are invalid
  *
  * @author Victor Mattsson
  */
@@ -29,8 +28,8 @@ public class ArgumentParser {
     private final String[] validOutputFormats = {".json", ".txt", ".html", ".xls", ".con"};
 
     public String[] getSearchStringArray() {
-		return searchStringArray;
-	}
+        return searchStringArray;
+    }
 
     public String getValidReadFormats() {
         return Arrays.toString(validReadFormats);
@@ -76,19 +75,18 @@ public class ArgumentParser {
 
         checkForErrors();
 
-        if(filter){
+        if (filter) {
             Configuration.setFilterPath(filterFile);
             Configuration.setFilterBoolean(true);
-        }else{
+        } else {
             Configuration.setFilterBoolean(false);
         }
 
     }
 
     /**
-     * Checks the in-arguments and search for flags and sets the local variables
-     * depending on the flag. If the flag combined with the argument is invalid
-     * an error message is printed and program shuts down
+     * Checks the in-arguments and search for flags and sets the local variables depending on the flag. If the flag combined with the argument is invalid an
+     * error message is printed and program shuts down
      *
      * @param i current iteration in the array
      */
@@ -125,14 +123,14 @@ public class ArgumentParser {
                 }
                 break;
             case "-s":
-            	if(arguments.length > i + 1){
-                        searchStringArray = arguments[i + 1].split("\\s+");
-            	  } else {
-                      errorMessage.append("No search string given\n");
-            	}
+                if (arguments.length > i + 1) {
+                    searchStringArray = arguments[i + 1].split("\\s+");
+                } else {
+                    errorMessage.append("No search string given\n");
+                }
                 break;
             case "-filter":
-                if(arguments.length > i + 1){
+                if (arguments.length > i + 1) {
                     filter = true;
                     filterFile = new File(arguments[i + 1]);
                 } else {
@@ -142,8 +140,7 @@ public class ArgumentParser {
         }
     }
 
-
-	/**
+    /**
      * Validates the File path
      *
      * @param path A File containing the command line argument for the path
@@ -163,7 +160,7 @@ public class ArgumentParser {
      */
     public void validateAnnotation(String annotation) {
         // TODO - validate annotations other than @rm
-        if (annotation == null){
+        if (annotation == null) {
             errorMessage.append("Invalid annotation: " + "null" + ", add \"-a annotation\" as argument." + "\n");
         } else if (!annotation.equals("@rm")) {
             errorMessage.append("Invalid annotation: ").append(annotation).append("\n");
@@ -180,31 +177,37 @@ public class ArgumentParser {
             errorMessage.append("Invalid read format: ").append("null").append("\n");
         } else if (!Arrays.asList(validReadFormats).contains(format)) {
             errorMessage.append("Invalid read format: [").append(format).append("]. Valid formats: ")
-                    .append(getValidReadFormats()).append("\n");
+                .append(getValidReadFormats()).append("\n");
         }
     }
 
     public void validateOutputFormats(List<String> outputFormats) {
-        if (outputFormats.isEmpty()) errorMessage.append("No output formats given.");
+        if (outputFormats.isEmpty()) {
+            errorMessage.append("No output formats given.");
+        }
         outputFormats.stream()
-                .filter(format -> !Arrays.asList(validOutputFormats).contains(format))
-                .forEach(format -> errorMessage
-                        .append("Invalid output format: [").append(format).append("]. Valid formats: ")
-                        .append(getValidOutputFormats()).append("\n"));
+            .filter(format -> !Arrays.asList(validOutputFormats).contains(format))
+            .forEach(format -> errorMessage
+                .append("Invalid output format: [").append(format).append("]. Valid formats: ")
+                .append(getValidOutputFormats()).append("\n"));
     }
 
     private void validateSearchString(String[] searchString) {
-        if(searchString != null){
-            if(searchString.length == 0) errorMessage.append("Search string is empty");
+        if (searchString != null) {
+            if (searchString.length == 0) {
+                errorMessage.append("Search string is empty");
+            }
             for (String search : searchString) {
-                if(((search != null) && search.equals("")) || search.equals(" ")) errorMessage.append("Search string is empty");
+                if (((search != null) && search.equals("")) || search.equals(" ")) {
+                    errorMessage.append("Search string is empty");
+                }
             }
         }
     }
 
     private void validateFilterPath(File path) {
-        if(path != null){
-            if(!path.isFile()){
+        if (path != null) {
+            if (!path.isFile()) {
                 errorMessage.append("Files does not exist: ").append(path).append("\n");
             }
         }

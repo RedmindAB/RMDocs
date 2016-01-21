@@ -16,7 +16,6 @@ public class FormatterInit {
     }
 
     public StructureFormatter format() {
-
         for (File file : files) {
             if (project.getProjectName().equals("")) {
                 project.setProjectName(formatter.getProjectName(file));

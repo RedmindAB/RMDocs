@@ -24,11 +24,10 @@ public class ConditionsTest {
     @Test
     public void testContainsAnnotationMethod(){
 
-        assertTrue(Conditions.containsAnnotation("This is a string with @rm annotation", "@rm"));
-        assertTrue(Conditions.containsAnnotation("This is a string with @RM annotation", "@RM"));
+        assertTrue(Conditions.containsAnnotation("* @rmSomething annotation", "@rm"));
 
         assertFalse(Conditions.containsAnnotation("This is a string without annotation", "@rm"));
-        assertFalse(Conditions.containsAnnotation("This is a string with @RM annotation", "@rm"));
+        assertFalse(Conditions.containsAnnotation("* @author: someone", "@rm"));
     }
 
     @Test

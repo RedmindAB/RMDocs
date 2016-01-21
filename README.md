@@ -30,7 +30,7 @@
 **-filter** - Takes a path that leads to a file with a list of methods to filter the output to .xls.
 
 ## Search Function
-Search string should be the comment key without the annotation. It is not case sensitive. Displays in the report file.
+Search string should be the comment key without the annotation. It is not case sensitive. Displays in the report file in the "/reports" from your working directory.
 
 **Example:** To find all methods missing @rmAuthor, type: `-s Author`
 

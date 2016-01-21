@@ -5,3 +5,5 @@
 .clover
 config.properties
 /target/
+/reports/
+/web/
