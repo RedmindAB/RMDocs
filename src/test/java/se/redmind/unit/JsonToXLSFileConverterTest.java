@@ -1,6 +1,7 @@
 package se.redmind.unit;
 
 import com.google.gson.JsonObject;
+import jxl.Cell;
 import jxl.Sheet;
 import jxl.Workbook;
 import org.apache.commons.io.FileUtils;
